@@ -40,6 +40,11 @@ const userSchema = new Schema({
         district : String,
         state : String,
         pincode : Number 
+    },
+    maritalStatus :{
+        type : String,
+        enum : ['married', 'single'],
+        required : false
     } 
 }, {timestamps : true })
 
