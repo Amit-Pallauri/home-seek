@@ -1,6 +1,5 @@
 const { connect } = require('mongoose')
 const { mongoDbUri, mongoDbPassword} = process.env
-
 connect(mongoDbUri.replace('<password>', mongoDbPassword), {
     useNewUrlParser: true,
     useUnifiedTopology: true,

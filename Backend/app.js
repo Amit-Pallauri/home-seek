@@ -1,9 +1,9 @@
 const express = require('express')
-const app = express()
 const { config } = require('dotenv')
 config()
 require('./db')
 
+const app = express()
 app.use(express.json())
 
 const userRoutes = require('./routes/userRoutes') 

@@ -9,6 +9,6 @@ module.exports = async (req, res, next) => {
         if(!isVerified) return res.status(400).json({'message' : 'invalid credentials'})
         next()
     } catch (error) {
-        res.json({'error' : error.message})
+        console.log(error.message)
     }
 }
