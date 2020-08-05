@@ -34,7 +34,7 @@ module.exports = {
             });
             console.log(`Message sent to ${newUser.name}`);
         } catch (error) {
-            console.log(error.message)
+            return res.status(201).json({ 'error' : error.message})
         }
     },
     signIn : async (req, res)=>{

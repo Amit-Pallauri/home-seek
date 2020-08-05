@@ -1,22 +1,39 @@
 const { Schema, model } = require('mongoose')
 const { hash, compare } = require('bcrypt')
+const  validator = require('validator')
 
 const userSchema = new Schema({
-    name : {
+    firstName : {
         type : String,
         required : true,
-        trim : true   
+        trim : true,
+        minlength : 3,
+        maxlength : 8
+    },
+    lastName : {
+        type : String,
+        required : true,
+        trim : true,
+        minlength : 3,
+        maxlength : 10   
     },
     email:{
         type : String,
         required : true,
         trim : true,
-        unique : true
+        unique : true,
+        validate : {
+            validator : (data)=>{
+                return validator.isEmail(data)
+            },
+            message : props => `${props.value} is not a valid mail id ` 
+        }
     },
     password : {
         type : String,
         required : true,
-        trim : true
+        trim : true,
+        minlength : 5
     },
     accessToken : {
         type: String,
