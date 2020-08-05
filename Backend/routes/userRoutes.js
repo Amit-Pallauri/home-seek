@@ -10,6 +10,6 @@ router.get('/', (_, res)=> res.send('basic response'));
 router.post('/signUp', signUp)
 router.post('/signIn', signIn)
 router.delete('/signOut', authenticate, signOut)
-router.post('/verify', verifyUser)
+router.get('/verify/:token', verifyUser)
 
 module.exports = router

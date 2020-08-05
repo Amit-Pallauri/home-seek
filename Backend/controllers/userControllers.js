@@ -30,7 +30,7 @@ module.exports = {
                 from: `"Home Seek Team" <${email}>`,
                 to: newUser.email, 
                 subject: "credentials verification", 
-                html: `<p>Hello mr/mrs <b>${newUser.name}</b> to Home Seek. your token  is <b>${newUser.accessToken}</b></p>`,
+                html: `<p>Hello mr/mrs <b>${newUser.name}</b> to Home Seek. click <b> <a href="http://localhost:3000/verify/${newUser.accessToken}"> here</a></b></p>`,
             });
             console.log(`Message sent to ${newUser.name}`);
         } catch (error) {
@@ -87,7 +87,7 @@ module.exports = {
     },
     verifyUser : async (req, res)=>{
         try {
-            const token = req.headers.authorization
+            const token = req.params.token
             const foundUser = await User.findOneAndUpdate({ accessToken : token }, { verified : true })
             if(!foundUser.accessToken) return res.status(400).json({"message" : "Invalid credentials"})
             return res.status(200).json({
