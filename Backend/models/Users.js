@@ -66,7 +66,11 @@ const userSchema = new Schema({
         type : String,
         enum : ['married', 'single'],
         required : false
-    } 
+    },
+    listings: [
+        { type: Schema.Types.ObjectId,
+        ref: "posts"
+    }]
 }, {timestamps : true })
 
 userSchema.statics.findByEmailAndPassword = async (email, password) =>{

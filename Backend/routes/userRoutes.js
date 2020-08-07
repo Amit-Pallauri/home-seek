@@ -26,4 +26,7 @@ router.delete('/signOut', verifyToken, signOut)
 router.post('/addProfile', verifyToken, upload.single('uploadImage'), addProfile)
 router.post('/forgotPassword', forgotPassword)
 router.post('/revivePassword/:token', revivePassword )
+
+
+
 module.exports = router
