@@ -3,27 +3,51 @@ const Schema = mongoose.Schema;
 
 const postsSchema = new Schema(
     {
-        Title: {
-            type: String,
-            required: true
-        },
-        Description: {
-            type: String,
-            required: true
-        },
-        Price: {
+        noOfProperty: {
             type: Number,
             required: true
         },
-        Images: {
+        location: {
             type: String,
             required: true
         },
-        Location: {
+        ownerShip: {
             type: String,
             required: true
         },
-        Details: {
+        societyName: {
+            type: String,
+            required: true
+        },
+        bedRooms: {
+            type: String,
+            required: true
+        },
+        vacant: {
+            type: Boolean,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        phoneNumber: {
+            type: String,
+            required: true
+        },
+        confirmPhoneNumber: {
+            type: String,
+            required: true
+        },
+        verified: {
+            type: Boolean,
+            default: false
+        },
+        owner : {
+            type: Schema.Types.ObjectId,
+            ref: "user"
+        },
+        details: {
             type: Schema.Types.ObjectId,
             ref: "details"
         }

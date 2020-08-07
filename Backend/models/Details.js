@@ -3,53 +3,84 @@ const Schema = mongoose.Schema;
 
 const detailsSchema = new Schema(
     {
-        Type: {
+        rent: {
+            type: Number,
+            required: true
+        },
+        deposit: {
             type: String,
             required: true
         },
-        Bedrooms: {
+        bedrooms: {
+            type: Number
+        },
+        bathRooms: {
+            type: Number
+        },
+        furnishing: {
+            sofa:{
+                type: Boolean,
+                default: false
+            },
+            tv : {
+                type: Boolean,
+                default: false
+            },
+            dish: {
+                type: Boolean,
+                default: false
+            },
+            wifi: {
+                type: Boolean,
+                default: false
+            },
+            fridge: {
+                type: Boolean,
+                default: false
+            },
+            oven: {
+                type: Boolean,
+                default: false
+            },
+            beds: {
+                type: Boolean,
+                default: false
+            },
+            noOfBeds: {
+                type: Number
+            }
+        },
+        listedBy: {
             type: String
         },
-        BathRooms: {
-            type: String
-        },
-        Furnishing: {
-            type: String
-        },
-        ListedBy: {
-            type: String
-        },
-        SuperBuiltUpArea: {
+        superBuiltUpArea: {
             type: String,
             required: true
         },
-        CarpetArea: {
+        carpetArea: {
             type: String,
             required: true
         },
-        BachelorsAllowed: {
+        bachelorsAllowed: {
             type: String,
             required: true
         },
-        Maintenance: {
+        totalFloors: {
+            type: Number
+        },
+        floorNumber: {
             type: String
         },
-        TotalFloors: {
+        carParking: {
             type: String
         },
-        FloorNumber: {
+        facing: {
             type: String
         },
-        CarParking: {
+        projectName: {
             type: String
         },
-        Facing: {
-            type: String
-        },
-        ProjectName: {
-            type: String
-        }
-
+        images: [String]
     }
 )
 
