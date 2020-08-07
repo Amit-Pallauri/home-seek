@@ -1,15 +1,29 @@
 const { Router } = require('express')
 const router = Router()
-const { signUp, signIn, signOut, verifyUser } = require('../controllers/userControllers')
-const authenticate = require('../middlewares/authenticate')
+const {
+    signUp,
+    signIn,
+    signOut,
+    verify,
+    addProfile,
+    forgotPassword,
+    revivePassword
+} = require('../controllers/userControllers')
+const {
+    verifyToken,
+    verifyUser
+} = require('../middlewares/authenticate');
+const upload = require('../utils/multer');
 
 // basic response
-router.get('/', (_, res)=> res.send('basic response'));
+router.get('/', (_, res) => res.send('basic response'));
 
 // user requests
 router.post('/signUp', signUp)
-router.post('/signIn', signIn)
-router.delete('/signOut', authenticate, signOut)
-router.post('/verify', verifyUser)
-
+router.get('/verify/:token', verify)
+router.post('/signIn',verifyUser, signIn)
+router.delete('/signOut', verifyToken, signOut)
+router.post('/addProfile', verifyToken, upload.single('uploadImage'), addProfile)
+router.post('/forgotPassword', forgotPassword)
+router.post('/revivePassword/:token', revivePassword )
 module.exports = router
