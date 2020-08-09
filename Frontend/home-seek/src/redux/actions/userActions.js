@@ -1,5 +1,6 @@
 import {REGISTER_USER,TOGGLE_AUTH_STATE,LOGIN_USER,LOGOUT_USER} from '../actionTypes/userActionTypes';
 import axios from 'axios';
+// const { base_url } = process.env
 
 export const registerUser = (user) => async dispatch =>  {
     try {
@@ -46,8 +47,19 @@ export const loginUser = user => async (dispatch, getState) =>  {
 
 }
 
-export const logoutUser = () => {
-    return {
-      type: LOGOUT_USER
-    };
+export const logoutUser = ()  => async dispatch => {
+    try {
+        const token = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'authorization' : token.token
+        }
+        const { data } = await axios.delete(`http://localhost:3000/signOut`, { headers : headers })
+        console.log(data)
+        dispatch({
+            type : LOGOUT_USER
+        })
+    } catch (error) {
+        console.log(error)
+    }
   };
