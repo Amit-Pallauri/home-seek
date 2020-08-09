@@ -16,52 +16,56 @@ class RegisterPage extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.registerUser(this.state)
-    }
+		this.props.registerUser(this.state)
+		this.props.history.push('/signIn')
+	}
+	
 	render() {
 		return (
-            //<Redirect to="/register" /> 
-            
-		//) : (
-			<form onSubmit={this.handleSubmit}>
+		<div className='register-form'>
+			<form  onSubmit={this.handleSubmit}>
+				<h1>Sign Up</h1>
 				<input
 					type="text"
 					name="firstName"
 					onChange={this.handleChange}
 					value={this.state.firstName}
-					placeholder="firstName"
+					placeholder="FirstName"
 					required
 				/>
-                <br/>
+                {/* <br/> */}
 				<input
 					type="text"
 					name="lastName"
 					onChange={this.handleChange}
 					value={this.state.lastName}
-					placeholder="lastName"
+					placeholder="LastName"
 					required
 				/>
-                <br/>
+                {/* <br/> */}
 				<input
 					type="email"
 					name="email"
 					onChange={this.handleChange}
 					value={this.state.email}
-					placeholder="Email"
+					placeholder="Enter your email"
 					required
 				/>
-                <br/>
+                {/* <br/> */}
 				<input
 					type="password"
 					name="password"
 					onChange={this.handleChange}
 					value={this.state.password}
-					placeholder="password"
+					placeholder="Enter password"
 					required
 				/>
-                <br/>
+                {/* <br/> */}
                 <input type="submit" value="Register"/>
+				<a className='google-login' href='http://localhost:3000/google'><img alt='google' src="https://img.icons8.com/material-sharp/24/000000/google-logo.png"/></a>
+				<a className='google-login' href='http://localhost:3000/fb'><img alt='facebook' src="https://img.icons8.com/material-sharp/24/000000/facebook-f.png"/></a>
 			</form>
+		</div>
 		);
 	}
 }
