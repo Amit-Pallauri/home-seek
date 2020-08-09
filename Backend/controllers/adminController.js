@@ -2,6 +2,7 @@ const Admin = require("../models/Admin");
 const {sign, verify} = require("jsonwebtoken");
 const { privatekey, email, apppassword } = process.env
 
+
 module.exports = {
     
     adminRegister: async (req, res) => {

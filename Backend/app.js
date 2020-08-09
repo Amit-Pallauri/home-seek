@@ -1,4 +1,5 @@
 const express = require('express')
+const instance = require("./utils/razorpay")
 const { config } = require('dotenv')
 const cors = require('cors')
 // const bodyParser = require('body-parser')

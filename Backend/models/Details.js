@@ -80,7 +80,9 @@ const detailsSchema = new Schema(
         projectName: {
             type: String
         },
-        images: [String]
+        images: [{
+            type: String
+        }]
     }
 )
 
