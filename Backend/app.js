@@ -1,4 +1,5 @@
 const express = require('express')
+const instance = require("./utils/razorpay")
 const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const { config } = require('dotenv')

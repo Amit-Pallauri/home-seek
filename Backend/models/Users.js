@@ -74,6 +74,27 @@ const userSchema = new Schema({
         enum : ['married', 'single'],
         required : false
     },
+    owner: {
+        type: Boolean,
+        default: false
+    },
+    tentRent: {
+        type: Number
+    },
+    ownerRent: {
+        type: Number
+    },
+    totalRent: {
+        type: Number
+    },
+    normalRequests: {
+        type: Schema.Types.ObjectId,
+        ref: "normalRequest"
+    },
+    userRequests: {
+        type: Schema.Types.ObjectId,
+        ref: "userRequest"
+    },
     listings: [
         { type: Schema.Types.ObjectId,
         ref: "posts"
