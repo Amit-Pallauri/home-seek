@@ -31,9 +31,16 @@ const userSchema = new Schema({
     },
     password : {
         type : String,
-        required : true,
+        required : function(){
+            return !this.isThirdPartyUser
+        },
         trim : true,
         minlength : 5
+    },
+    isThirdPartyUser : {
+        type : Boolean,
+        required: false,
+        default: false
     },
     accessToken : {
         type: String,
