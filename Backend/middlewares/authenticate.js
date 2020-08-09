@@ -8,7 +8,7 @@ module.exports = {
         try {
             token = req.headers.authorization
             if(!token) return res.status(400).json({'message' : 'token needed'})
-            const foundUser = await User.findOne({accessToken : token})
+            const foundUser = await Users.findOne({accessToken : token})
             if(!foundUser) return res.status(400).json({'message' : 'invalid credentials'})
             else if(foundUser.verified === false) return res.status(400).json({'message' : 'user is not verified'})
             verify(token, privatekey, (err, _)=>{
@@ -24,7 +24,7 @@ module.exports = {
     verifyUser : async(req, res, next) => {
         try {
             const {email, password} = req.body
-            const foundUser = await User.findByEmailAndPassword(email, password)
+            const foundUser = await Users.findByEmailAndPassword(email, password)
             if(foundUser.verified === false) return res.status(200).json({ 'message' : 'verify your mail id please'})
             next()
         } catch (error) {

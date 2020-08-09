@@ -1,0 +1,72 @@
+/* navbar */
+.navbar {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    background: rgba(130, 185, 119, 0.575);
+}
+.brand{ 
+    padding-left: 20px;
+}
+.user-regd button{
+    padding: 5px 30px;
+    color: white;
+    margin :3px;
+    background : black;
+    border-radius: 15px;
+    outline : none;
+}
+/* home page */
+.home-page-logo p{
+    font-size: 80px;
+    position: absolute;
+    left: 25%;
+    top: 30%;
+    color: rgba(29, 71, 29, 0.233);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+/* register and login forms */
+.register-form, .login-form{
+    position: absolute;
+    left: 15%;
+    top: 30%;
+    height: 400px;
+    width: 300px;
+    border: 2px solid red;
+    border-radius: 10px;
+}
+.register-form form, .login-form form{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.register-form form h1, .login-form form h1{
+   text-align: center;
+   color: rgba(179, 83, 49, 0.678);
+}
+.register-form form input{
+    border-radius: 10px;
+    padding: 6px 20px;
+    /* text-align: center; */
+    margin: 5px;
+    outline: none;
+    border: 1px solid rgba(184, 184, 6, 0.644);
+}
+
+.login-form form input{
+    border-radius: 10px;
+    padding: 6px 20px;
+    /* text-align: center; */
+    margin: 5px;
+    outline: none;
+    border: 1px solid rgba(184, 184, 6, 0.644);
+}
+
+/* google login */
+.google-login{
+    text-decoration: none;
+    padding: 3px;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.384);
+    border-radius: 15px;
+}

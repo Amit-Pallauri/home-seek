@@ -7,13 +7,16 @@ const {
     verify,
     addProfile,
     forgotPassword,
-    revivePassword
+    revivePassword,
+    logInViaGoogle,
+    logInViaFacebook
 } = require('../controllers/userControllers')
 const {
     verifyToken,
     verifyUser
 } = require('../middlewares/authenticate');
 const upload = require('../utils/multer');
+const passport = require('passport');
 
 // basic response
 router.get('/', (_, res) => res.send('basic response'));
@@ -27,6 +30,10 @@ router.post('/addProfile', verifyToken, upload.single('uploadImage'), addProfile
 router.post('/forgotPassword', forgotPassword)
 router.post('/revivePassword/:token', revivePassword )
 
+router.get('/google', passport.authenticate('google', { session: false, scope : ['profile', 'email']}))
+router.get('/google/redirect', passport.authenticate('google', { session: false, failureRedirect : 'http://localhost/3001/signIn'}), logInViaGoogle)
 
+router.get('/fb', passport.authenticate('facebook', { session : false, scope : ['email']}))
+router.get('/fb/redirect', passport.authenticate('facebook', { session: false, failureRedirect : 'http://localhost/3001/signIn'}), logInViaFacebook)
 
 module.exports = router

@@ -111,5 +111,41 @@ module.exports = {
             console.log(error.message)
             res.status(404).json({'error' : 'server error'})
         }
+    },
+    logInViaGoogle : async(req, res)=>{
+        try {
+            const user = req.user
+            const accessToken = createToken(user)
+            await user.save()
+            // send the token as cookie
+            res.cookie("accessToken", accessToken, {
+                expires: new Date(Date.now() + 1000 * 60* 60* 12 ),
+                httpOnly: true,
+                sameSite :'none'
+            })
+            // redirect to the client route
+            res.redirect('http://localhost:3001/')
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({'error' : error.message})
+        }
+    },
+    logInViaFacebook : async(req, res)=>{
+        try {
+            const user = req.user
+            const accessToken = createToken(user)
+            await user.save()
+            // send the token as cookie
+            res.cookie("accessToken", accessToken, {
+                expires: new Date(Date.now() + 1000 * 60* 60* 12 ),
+                httpOnly: true,
+                sameSite :'none'
+            })
+            // redirect to the client route
+            res.redirect('http://localhost:3001/')
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({'error' : error.message})
+        }
     }
 } 
