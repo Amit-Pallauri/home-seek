@@ -27,7 +27,7 @@ module.exports = {
             const {email, password} = req.body
             const foundUser = await User.findByEmailAndPassword(email, password)
             if(!foundUser) return res.status(400).send('inavlid credentials')
-            const token = await sign({ foundUser }, privatekey, { expiresIn : 60*60*1 })
+            const token = createToken(foundUser)
             if(!token) return res.status(404).json({ "message" : "server error" })
             else{
                 foundUser.accessToken = token
@@ -67,7 +67,7 @@ module.exports = {
             res.status(404).json({'error' : 'server error'})
         }
     },
-    addProfile : async (req, res)=>{
+    uploadProfilePic : async (req, res)=>{
         try {
             const accessToken = req.headers.authorization
             const { originalname, buffer } = req.file
@@ -81,6 +81,16 @@ module.exports = {
         } catch (error) {
             console.log(error.message)
             res.status(404).json({'error' : 'server error'})
+        }
+    },
+    addDetails : async (req, res) => {
+        try {
+            const { DOB , Address } = req.body
+            const foundUser = await User.findOneAndUpdate({ accessToken : req.headers.authorization }, { DOB : DOB, Address })
+            if(!foundUser) return res.send('invalid type')
+            res.status(200).json({"message" : 'data saved'})
+        } catch (error) {
+            console.log(error)
         }
     },
     forgotPassword : async (req, res)=>{

@@ -5,11 +5,12 @@ const {
     signIn,
     signOut,
     verify,
-    addProfile,
     forgotPassword,
     revivePassword,
     logInViaGoogle,
-    logInViaFacebook
+    logInViaFacebook,
+    uploadProfilePic,
+    addDetails
 } = require('../controllers/userControllers')
 const {
     verifyToken,
@@ -26,7 +27,8 @@ router.post('/signUp', signUp)
 router.get('/verify/:token', verify)
 router.post('/signIn',verifyUser, signIn)
 router.delete('/signOut', verifyToken, signOut)
-router.post('/addProfile', verifyToken, upload.single('uploadImage'), addProfile)
+router.post('/uploadPic', verifyToken, upload.single('uploadImage'), uploadProfilePic)
+router.post('/addDetails', verifyToken, addDetails)
 router.post('/forgotPassword', forgotPassword)
 router.post('/revivePassword/:token', revivePassword )
 

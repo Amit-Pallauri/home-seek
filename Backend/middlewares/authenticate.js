@@ -1,5 +1,5 @@
 const { verify } = require('jsonwebtoken');
-const User = require("../models/Users");
+const Users = require("../models/Users");
 const Admins = require("../models/Admin");
 const privatekey = 'AmitPallauri'
 
