@@ -27,7 +27,7 @@ module.exports = {
             const {email, password} = req.body
             const foundUser = await User.findByEmailAndPassword(email, password)
             if(!foundUser) return res.status(400).send('inavlid credentials')
-            const token = await sign({ foundUser }, privatekey, { expiresIn : 60*60*1 })
+            const token = await sign({ id: foundUser._id }, privatekey, { expiresIn : "24h" })
             if(!token) return res.status(404).json({ "message" : "server error" })
             else{
                 foundUser.accessToken = token

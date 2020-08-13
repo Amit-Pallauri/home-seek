@@ -8,7 +8,7 @@ module.exports = {
     adminRegister: async (req, res) => {
         try {
             const newAdmin = await Admin.create({...req.body});
-            const token = sign({ newAdmin }, privatekey , { expiresIn : "24h" })
+            const token = sign({ id: newAdmin._id }, privatekey , { expiresIn : "24h" })
             newAdmin.accessToken = token
             await newAdmin.save()
             res.status(200).json({
@@ -25,7 +25,7 @@ module.exports = {
         try {
             const {email, password} = req.body
             const foundAdmin = await Admin.findByEmailAndPassword(email, password)
-            const token = await sign({ foundAdmin }, privatekey, { expiresIn : "24h" })
+            const token = await sign({ id: foundAdmin._id }, privatekey, { expiresIn : "24h" })
             foundAdmin.accessToken = token
             await foundAdmin.save()
             return res.status(200).json({

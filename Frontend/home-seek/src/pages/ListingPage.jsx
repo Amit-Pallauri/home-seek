@@ -1,0 +1,358 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { listingHouse, createOTP, verifyOTP } from '../redux/actions/listingActions';
+import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import Geocode from 'react-geocode';
+import Autocomplete from 'react-google-autocomplete';
+
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+
+class ListingPage extends Component {
+	state = {
+		noOfProperty: '',
+		location: '',
+		ownerShip: '',
+		societyName: '',
+		bedRooms: '',
+		vacant: '',
+		name: '',
+		phoneNumber: '',
+		confirmPhoneNumber: '',
+		code: '',
+		address: '',
+		city: '',
+		area: '',
+		state: '',
+		zoom: 15,
+		height: 400,
+		mapPosition: {
+			lat: 0,
+			lng: 0
+		},
+		markerPosition: {
+			lat: 0,
+			lng: 0
+		}
+	};
+
+	componentDidMount() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition((position) => {
+				this.setState(
+					{
+						mapPosition: {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						},
+						markerPosition: {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						}
+					},
+					() => {
+						Geocode.fromLatLng(position.coords.latitude, position.coords.longitude).then(
+							(response) => {
+								console.log(response);
+								const address = response.results[0].formatted_address,
+									addressArray = response.results[0].address_components,
+									city = this.getCity(addressArray),
+									area = this.getArea(addressArray),
+									state = this.getState(addressArray);
+								console.log('city', city, area, state);
+								this.setState({
+									address: address ? address : '',
+									area: area ? area : '',
+									city: city ? city : '',
+									state: state ? state : ''
+								});
+							},
+							(error) => {
+								console.error(error);
+							}
+						);
+					}
+				);
+			});
+		} else {
+			console.error('Geolocation is not supported by this browser!');
+		}
+	}
+
+	getCity = (addressArray) => {
+		let city = '';
+		for (let i = 0; i < addressArray.length; i++) {
+			if (addressArray[i].types[0] && 'administrative_area_level_2' === addressArray[i].types[0]) {
+				city = addressArray[i].long_name;
+				return city;
+			}
+		}
+	};
+
+	getArea = (addressArray) => {
+		let area = '';
+		for (let i = 0; i < addressArray.length; i++) {
+			if (addressArray[i].types[0]) {
+				for (let j = 0; j < addressArray[i].types.length; j++) {
+					if ('sublocality_level_1' === addressArray[i].types[j] || 'locality' === addressArray[i].types[j]) {
+						area = addressArray[i].long_name;
+						return area;
+					}
+				}
+			}
+		}
+	};
+
+	getState = (addressArray) => {
+		let state = '';
+		for (let i = 0; i < addressArray.length; i++) {
+			for (let i = 0; i < addressArray.length; i++) {
+				if (addressArray[i].types[0] && 'administrative_area_level_1' === addressArray[i].types[0]) {
+					state = addressArray[i].long_name;
+					return state;
+				}
+			}
+		}
+	};
+
+	handleChange = (e) => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		const data = {
+			noOfProperty: this.state.noOfProperty,
+			location: {
+				type: "Point",
+				coordinates: [this.state.mapPosition.lat, this.state.mapPosition.lng],
+				formattedAddress: this.state.address
+			},
+			ownerShip: this.state.ownerShip,
+			societyName: this.state.societyName,
+			bedRooms: this.state.bedRooms,
+			vacant: this.state.vacant,
+			name: this.state.name,
+			phoneNumber: this.state.phoneNumber,
+			confirmPhoneNumber: this.state.confirmPhoneNumber
+		}
+		this.props.listingHouse(data);
+	};
+
+	handleGetOTP = () => {
+		const data = {
+			phoneNumber: this.state.phoneNumber
+		};
+		this.props.createOTP(data);
+	};
+
+	handleSubmit1 = () => {
+		const data = {
+			phoneNumber: this.state.phoneNumber,
+			code: this.state.code
+		};
+		this.props.verifyOTP(data);
+	};
+
+	onMarkerDragEnd = (event) => {
+		let newLat = event.latLng.lat(),
+			newLng = event.latLng.lng();
+
+		Geocode.fromLatLng(newLat, newLng).then(
+			(response) => {
+				const address = response.results[0].formatted_address,
+					addressArray = response.results[0].address_components,
+					city = this.getCity(addressArray),
+					area = this.getArea(addressArray),
+					state = this.getState(addressArray);
+				this.setState({
+					address: address ? address : '',
+					area: area ? area : '',
+					city: city ? city : '',
+					state: state ? state : '',
+					markerPosition: {
+						lat: newLat,
+						lng: newLng
+					},
+					mapPosition: {
+						lat: newLat,
+						lng: newLng
+					}
+				});
+			},
+			(error) => {
+				console.error(error);
+			}
+		);
+	};
+
+	onPlaceSelected = (place) => {
+		console.log('plc', place);
+		const address = place.formatted_address,
+			addressArray = place.address_components,
+			city = this.getCity(addressArray),
+			area = this.getArea(addressArray),
+			state = this.getState(addressArray),
+			latValue = place.geometry.location.lat(),
+			lngValue = place.geometry.location.lng();
+
+		console.log('latvalue', latValue);
+		console.log('lngValue', lngValue);
+
+		// Set these values in the state.
+		this.setState({
+			address: address ? address : '',
+			area: area ? area : '',
+			city: city ? city : '',
+			state: state ? state : '',
+			markerPosition: {
+				lat: latValue,
+				lng: lngValue
+			},
+			mapPosition: {
+				lat: latValue,
+				lng: lngValue
+			}
+		});
+	};
+
+	render() {
+		const MapWithAMarker = withScriptjs(
+			withGoogleMap((props) => (
+				<GoogleMap
+					defaultZoom={this.state.zoom}
+					defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+				>
+					<Marker
+						draggable={true}
+						onDragEnd={this.onMarkerDragEnd}
+						position={{ lat: this.state.markerPosition.lat + 0.0018, lng: this.state.markerPosition.lng }}
+					>
+						<InfoWindow>
+							<div>
+								<span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
+							</div>
+						</InfoWindow>
+					</Marker>
+				</GoogleMap>
+			))
+		);
+		return (
+			<div>
+				<form onSubmit={this.handleSubmit}>
+					<h1>ListingPage</h1>
+					<input
+						type="text"
+						name="noOfProperty"
+						onChange={this.handleChange}
+						value={this.state.noOfProperty}
+						placeholder="noOfProperty"
+						required
+					/>
+					{/* <br/> */}
+					<div style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
+						<h3>City: {this.state.city}</h3>
+						<h3>Area:{this.state.area}</h3>
+						<h3>State: {this.state.state}</h3>
+						<h3>Address:{this.state.address}</h3>
+						<MapWithAMarker
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+							loadingElement={<div style={{ height: `100%` }} />}
+							containerElement={<div style={{ height: `400px` }} />}
+							mapElement={<div style={{ height: `100%` }} />}
+						/>
+						<Autocomplete
+							style={{
+								width: '100%',
+								height: '40px',
+								paddingLeft: '16px',
+								marginTop: '2px',
+								marginBottom: '2rem'
+							}}
+							onPlaceSelected={this.onPlaceSelected}
+							types={[ '(regions)' ]}
+						/>
+					</div>
+					<input
+						type="text"
+						name="location"
+						onChange={this.handleChange}
+						value={this.state.location}
+						placeholder="LastName"
+						required
+					/>
+					{/* <br/> */}
+					<input
+						type="text"
+						name="ownerShip"
+						onChange={this.handleChange}
+						value={this.state.ownerShip}
+						placeholder="Enter your ownerShip"
+						required
+					/>
+					{/* <br/> */}
+					<input
+						type="text"
+						name="societyName"
+						onChange={this.handleChange}
+						value={this.state.societyName}
+						placeholder="Enter societyName"
+						required
+					/>
+					<input
+						type="text"
+						name="bedRooms"
+						onChange={this.handleChange}
+						value={this.state.bedRooms}
+						placeholder="Enter bedRooms"
+						required
+					/>{' '}
+					<input
+						type="text"
+						name="vacant"
+						onChange={this.handleChange}
+						value={this.state.vacant}
+						placeholder="Enter vacant"
+						required
+					/>{' '}
+					<input
+						type="text"
+						name="name"
+						onChange={this.handleChange}
+						value={this.state.name}
+						placeholder="Enter name"
+						required
+					/>{' '}
+					<input
+						type="tel"
+						name="phoneNumber"
+						onChange={this.handleChange}
+						value={this.state.phoneNumber}
+						placeholder="Enter phoneNumber"
+						required
+					/>{' '}
+					<input
+						type="tel"
+						name="confirmPhoneNumber"
+						onChange={this.handleChange}
+						value={this.state.confirmPhoneNumber}
+						placeholder="Enter confirmPhoneNumber"
+						required
+					/>
+					{/* <br/> */}
+					<input type="submit" value="List the House" />
+				</form>
+				<input
+					type="number"
+					name="code"
+					placeholder="Enter OTP"
+					onChange={this.handleChange}
+					value={this.state.code}
+				/>
+				<button onClick={this.handleGetOTP}>Get OTP</button>
+				<button onClick={this.handleSubmit1}>Submit</button>
+			</div>
+		);
+	}
+}
+
+export default connect(null, { listingHouse, createOTP, verifyOTP })(ListingPage);
