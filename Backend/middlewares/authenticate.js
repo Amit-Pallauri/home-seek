@@ -37,17 +37,11 @@ module.exports = {
             token = req.headers.authorization
             if(!token) return res.status(400).json({'message' : 'token needed'})
             const isVerified = await verify(token, privatekey)
-            if(isVerified.newAdmin) {
-                const admin = await Admins.findOne({_id: isVerified.newAdmin._id})
+                const admin = await Admins.findOne({_id: isVerified.id})
                 req.admin = admin
-            } else if(isVerified.foundAdmin) {
-                const admin = await Admins.findOne({_id: isVerified.foundAdmin._id})
-                req.admin = admin
-            }
-             else {
-                const user = await User.findOne({_id: isVerified.foundUser._id})
+                const user = await Users.findOne({_id: isVerified.id})
                 req.user = user
-            }
+
             if(!isVerified) return res.status(400).json({'message' : 'invalid credentials'})
            next()
         } catch (error) {

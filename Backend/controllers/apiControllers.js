@@ -3,8 +3,14 @@ const Users = require("../models/Users");
 const Details = require("../models/Details");
 const NormalRequests = require("../models/NormalRequests");
 const UserRequests = require("../models/UserRequest");
+const AmountPay = require("../models/AmountPay");
+const createSignature = require("../utils/createSignature");
 const bufferToString = require('../utils/bufferToString');
 const cloudinary = require('../utils/cloudinary');
+const instance = require("../utils/razorpay");
+const {v4 : uuid } = require("uuid");
+const {TWILIO_SERVICE_ID,TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN} = process.env
+const client = require("twilio")(TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN)
 
 module.exports = {
     //Owner Posts
@@ -170,7 +176,6 @@ module.exports = {
             res.status(400).json({err : err.message}) 
         }
     },
-
     async filterSearch (req, res) {
         try {
             let filteredData = []
@@ -183,6 +188,78 @@ module.exports = {
             res.status(200).json({'filteredData' : filteredData})
         } catch (error) {
             console.log(error)
+        }
+    },
+    async amountpaycreate (req, res) {
+        try {
+            const user = req.user;
+            const {amountInPaise, currency} = req.body;
+            const transactionId = uuid()
+            const orderOptions = {
+                currency,
+                amount : amountInPaise,
+                receipt: transactionId,
+                payment_capture: 0
+            }
+            const order = await instance.orders.create(orderOptions);
+            const transactions = await AmountPay.create({user: user._id, transactionId: transactionId, orderValue: `${amountInPaise / 100} INR`, razorpayOrderId: order.id })
+            res.status(201).json({message: "payment successfull", orderId: order.id})
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
+
+    async verifyAmountPayment (req, res) {
+        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature} = req.body;
+        try {
+            const createdSignature = createSignature(razorpay_order_id, razorpay_payment_id);
+            if(createdSignature !== razorpay_signature) {
+                return res.status(401).send({ message: "Invalid payment request"})
+            }
+            const captureResponse = await instance.payments.capture(razorpay_payment_id, amount, currency)
+            const foundPayment = await AmountPay.find({razorpayOrderId: razorpay_order_id})
+            if(!foundPayment) {
+                return res.status(401).send({ message: "Invalid payment request"})
+            }
+            foundPayment[0].razorpayTransactionId = razorpay_payment_id
+            foundPayment[0].razorpaySignature = razorpay_signature
+            foundPayment[0].isPending = false
+            foundPayment[0].save()
+            res.status(201).json(foundPayment)
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
+
+    async createOTP (req, res) {
+        const {phoneNumber} = req.body
+        try {
+            const sendOTP = await client.verify.services(TWILIO_SERVICE_ID).verifications.create({
+                to: `+${phoneNumber}`,
+                channel: "sms"
+            })
+            res.status(200).json({message: "message Sent Successfully", data: sendOTP})
+            
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
+
+    async verifyOTP (req, res) {
+        const {phoneNumber, code} = req.body
+        try {
+            const verifyOTP = await client.verify.services(TWILIO_SERVICE_ID).verificationChecks.create({
+                to: `+${phoneNumber}`,
+                code: code
+            })
+            res.status(200).json({message: "verified Successfully", data: verifyOTP})
+
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
         }
     }
 }

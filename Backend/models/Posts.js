@@ -7,6 +7,17 @@ const postsSchema = new Schema(
             type: Number,
             required: true
         },
+        location: {
+            type: {
+              type: String,
+              enum: ['Point']
+            },
+            coordinates: {
+              type: [Number],
+              index: '2dsphere'
+            },
+            formattedAddress: String
+          },
         ownerShip: {
             type: String,
             required: true

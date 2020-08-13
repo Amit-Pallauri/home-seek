@@ -1,0 +1,2 @@
+export const CREATE_PAYMENT = "CREATE_PAYMENT"
+export const TOGGLE_GET_STATE = "TOGGLE_GET_STATE"
