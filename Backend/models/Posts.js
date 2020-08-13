@@ -7,10 +7,6 @@ const postsSchema = new Schema(
             type: Number,
             required: true
         },
-        location: {
-            type: String,
-            required: true
-        },
         ownerShip: {
             type: String,
             required: true

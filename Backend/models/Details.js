@@ -7,6 +7,14 @@ const detailsSchema = new Schema(
             type: Number,
             required: true
         },
+        type : {
+            type : String,
+            enum : ['bachelor', 'family']
+        },
+        location: {
+            type: String,
+            required: true
+        },
         deposit: {
             type: String,
             required: true
@@ -58,10 +66,6 @@ const detailsSchema = new Schema(
             required: true
         },
         carpetArea: {
-            type: String,
-            required: true
-        },
-        bachelorsAllowed: {
             type: String,
             required: true
         },
