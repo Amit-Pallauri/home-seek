@@ -176,7 +176,20 @@ module.exports = {
             res.status(400).json({err : err.message}) 
         }
     },
-
+    async filterSearch (req, res) {
+        try {
+            let filteredData = []
+            const {location, type, maxRent, minRent } = req.query
+            console.log(maxRent, minRent)
+            const locationeWise = await Details.find({ location })
+            const typeWise = await Details.find({ type })
+            const rentWise = await Details.find({ rent : { $gte : minRent, $lte : maxRent}})
+            filteredData.push(rentWise)
+            res.status(200).json({'filteredData' : filteredData})
+        } catch (error) {
+            console.log(error)
+        }
+    },
     async amountpaycreate (req, res) {
         try {
             const user = req.user;

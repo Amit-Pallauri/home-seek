@@ -60,7 +60,13 @@ const userSchema = new Schema({
         required : false
     },
     DOB : {
-        type : String,
+        type : Date,
+        validate : {
+            validator : (data) => {
+                return data.toLocaleDateString()
+            },
+            message : props => `${props.value} is not a valid date format`
+        },
         required : false
     },
     Address : {

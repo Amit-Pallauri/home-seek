@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const router = Router()
 const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
-,createNormalRequest,getNormalRequests,deleteNormalRequests,amountpaycreate,verifyAmountPayment,createOTP,verifyOTP} = require("../controllers/apiControllers");
+,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch} = require("../controllers/apiControllers");
 const {verifyAdmin} = require("../middlewares/authenticate")
 const upload = require('../utils/multer');
 
@@ -27,6 +27,8 @@ router.get('/admin/normalrequests', verifyAdmin, getNormalRequests);
 
 router.delete('/admin/delete/normalrequests/:requestId', verifyAdmin, deleteNormalRequests);
 
+router.get('/filter', filterSearch)
+
 router.post('/user/pay', verifyAdmin, amountpaycreate);
 
 router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
@@ -34,6 +36,5 @@ router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
 router.post('/owner/listing', verifyAdmin, createOTP);
 
 router.post('/owner/listing/verify', verifyAdmin, verifyOTP);
-
 
 module.exports = router
