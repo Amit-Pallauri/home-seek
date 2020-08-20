@@ -48,4 +48,13 @@ module.exports = {
             res.json({'error' : error.message})
         }
     },
+
+    adminProfile: async (req, res) => {
+        try {
+            const admin = req.admin
+            return res.json({adminProfile: admin})
+        } catch (error) {
+            res.json({'error' : error.message})
+        }
+    }
 }

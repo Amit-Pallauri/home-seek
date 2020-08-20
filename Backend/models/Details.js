@@ -12,8 +12,15 @@ const detailsSchema = new Schema(
             enum : ['bachelor', 'family']
         },
         location: {
-            type: String,
-            required: true
+            type: {
+              type: String,
+              enum: ['Point']
+            },
+            coordinates: {
+              type: [Number],
+              index: '2dsphere'
+            },
+            formattedAddress: String
         },
         deposit: {
             type: String,

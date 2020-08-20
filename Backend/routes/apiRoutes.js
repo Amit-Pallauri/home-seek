@@ -1,21 +1,7 @@
 const {Router} = require('express');
 const router = Router()
-const {
-    PostsCreate,
-    GetPost,
-    detailsCreate,
-    detailsUpdate,
-    postDelete,
-    createUserRequest,
-    getUserRequests,
-    deleteUserRequests,
-    createNormalRequest,
-    getNormalRequests,
-    deleteNormalRequests,
-    filterSearch,
-    createOTP,
-    verifyOTP
-} = require("../controllers/apiControllers");
+const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
+,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete} = require("../controllers/apiControllers");
 const {
     verifyAdmin
 } = require("../middlewares/authenticate")
@@ -27,9 +13,11 @@ router.get('/owner/listings', verifyAdmin, GetPost)
 
 router.post('/owner/listing/home/:homeId', upload.array('images', 10), verifyAdmin, detailsCreate)
 
-router.patch('/owner/listing/home/update/:homeId', verifyAdmin, detailsUpdate)
+router.patch('/owner/listing/home/update/:homeId',upload.array('images', 10) , verifyAdmin, detailsUpdate)
 
-router.delete('/owner/listing/home/delete/:homeId', verifyAdmin, postDelete)
+router.delete('/owner/listing/delete/:postId', verifyAdmin, postDelete)
+
+router.delete('/owner/listing/home/delete/:homeId', verifyAdmin, postAndDetailsDelete)
 
 router.post('/user/request', verifyAdmin, createUserRequest);
 
@@ -52,5 +40,7 @@ router.get('/filter', filterSearch)
 router.post('/owner/listing', verifyAdmin, createOTP);
 
 router.post('/owner/listing/verify', verifyAdmin, verifyOTP);
+
+router.get('/owner/home/:homeId', verifyAdmin, GetParticularPost)
 
 module.exports = router
