@@ -4,8 +4,19 @@ import { listingHouse, createOTP, verifyOTP } from '../redux/actions/listingActi
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
+import {
+	Form,
+	Input,
+	Button,
+	Typography
+  } from 'antd';
+import '../styles/listing-styles.css'
+const { Title } = Typography
 
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+
+const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4'
+
+Geocode.setApiKey(apiKey);
 
 class ListingPage extends Component {
 	state = {
@@ -32,7 +43,8 @@ class ListingPage extends Component {
 		markerPosition: {
 			lat: 0,
 			lng: 0
-		}
+		},
+		componentSize : 'default'
 	};
 
 	componentDidMount() {
@@ -214,48 +226,113 @@ class ListingPage extends Component {
 			}
 		});
 	};
-
-	render() {
-		const MapWithAMarker = withScriptjs(
-			withGoogleMap((props) => (
-				<GoogleMap
-					defaultZoom={this.state.zoom}
-					defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+	MapWithAMarker = withScriptjs(
+		withGoogleMap((props) => (
+			<GoogleMap
+				defaultZoom={this.state.zoom}
+				defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+			>
+				<Marker
+					draggable={true}
+					onDragEnd={this.onMarkerDragEnd}
+					position={{ lat: this.state.markerPosition.lat + 0.0018, lng: this.state.markerPosition.lng }}
 				>
-					<Marker
-						draggable={true}
-						onDragEnd={this.onMarkerDragEnd}
-						position={{ lat: this.state.markerPosition.lat + 0.0018, lng: this.state.markerPosition.lng }}
-					>
-						<InfoWindow>
-							<div>
-								<span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
-							</div>
-						</InfoWindow>
-					</Marker>
-				</GoogleMap>
-			))
-		);
+					<InfoWindow>
+						<div>
+							<span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
+						</div>
+					</InfoWindow>
+				</Marker>
+			</GoogleMap>
+		))
+	);
+	
+	onFormLayoutChange = ({ size }) => {
+		this.setState({componentSize : size});
+	};
+	render() {
 		return (
-			<div>
-				<form onSubmit={this.handleSubmit}>
-					<h1>ListingPage</h1>
-					<input
-						type="text"
+			<div className='listing-form-conatiner'>
+            <Title id='heading' level={2}>List your property</Title>
+            <Form 
+                className="listing-form"
+                onSubmitCapture={this.handleSubmit}
+                labelCol={{
+                span: 4,
+                }}
+                wrapperCol={{
+                span: 14,
+                }}
+                layout="horizontal"
+                initialValues={{
+                size: this.state.componentSize,
+                }}
+                onValuesChange={this.onFormLayoutChange}
+                size={this.state.componentSize}
+            >
+                <Form.Item label="Name">
+                    <Input 
+                        type="text"
+						name="name"
+						onChange={this.handleChange}
+						value={this.state.name}
+						placeholder="Enter name"
+						required
+                    />
+                </Form.Item>
+                <Form.Item label="No oF Properties">
+                    <Input 
+                        type="number"
 						name="noOfProperty"
 						onChange={this.handleChange}
 						value={this.state.noOfProperty}
-						placeholder="noOfProperty"
+						placeholder="No Of Properties"
 						required
-					/>
-					{/* <br/> */}
-					<div style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
-						<h3>City: {this.state.city}</h3>
-						<h3>Area:{this.state.area}</h3>
-						<h3>State: {this.state.state}</h3>
-						<h3>Address:{this.state.address}</h3>
-						<MapWithAMarker
-							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+                    />
+                </Form.Item>
+                <Form.Item label="OwnerShip">
+                    <Input 
+                        type="text"
+						name="ownerShip"
+						onChange={this.handleChange}
+						value={this.state.ownerShip}
+						placeholder="(e.g., manager/owner)"
+						required
+                    />
+                </Form.Item>
+                <Form.Item label="Society Name">
+                    <Input 
+                        type="text"
+						name="societyName"
+						onChange={this.handleChange}
+						value={this.state.societyName}
+						placeholder="Enter societyName"
+						required
+                    />
+                </Form.Item>
+                <Form.Item label="Rooms">
+                    <Input 
+                        type="number"
+						name="rooms"
+						onChange={this.handleChange}
+						value={this.state.rooms}
+						placeholder="Enter bedRooms"
+						required
+                    />
+                </Form.Item>
+                <Form.Item label="Vacancy">
+                    <Input 
+                        type="checkbox"
+						name="vacant"
+						onChange={e => this.setState({vacant : e.target.checked})}
+						value={this.state.vacant}
+						placeholder="Enter vacant"
+						required
+                    />
+                </Form.Item>
+                <div className="geoLocation" style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
+						<this.MapWithAMarker
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.exp&libraries=geometry,drawing,places`}
 							loadingElement={<div style={{ height: `100%` }} />}
 							containerElement={<div style={{ height: `400px` }} />}
 							mapElement={<div style={{ height: `100%` }} />}
@@ -271,86 +348,88 @@ class ListingPage extends Component {
 							onPlaceSelected={this.onPlaceSelected}
 							types={[ '(regions)' ]}
 						/>
+						<Form.Item label="city">
+                            <Input 
+                                type="text"
+                                name="city"
+                                value={this.state.city}
+                                placeholder="Enter your city name"
+                                readOnly
+                            />
+                        </Form.Item>
+                        <Form.Item label="Area">
+                            <Input 
+                                type="text"
+                                name="area"
+                                value={this.state.area}
+                                placeholder="Enter your Area name"
+                                readOnly
+                            />
+                        </Form.Item>
+                        <Form.Item label="state">
+                            <Input 
+                                type="text"
+                                name="state"
+                                value={this.state.state}
+                                placeholder="Enter your State name"
+                                readOnly
+                            />
+                        </Form.Item>
+                        <Form.Item label="Address">
+                            <Input 
+                                type="text"
+                                name="address"
+                                value={this.state.address}
+                                placeholder="Enter your address"
+                                readOnly
+                            />
+                        </Form.Item>
 					</div>
-					<input
-						type="text"
-						name="location"
-						onChange={this.handleChange}
-						value={this.state.location}
-						placeholder="LastName"
-						required
-					/>
-					{/* <br/> */}
-					<input
-						type="text"
-						name="ownerShip"
-						onChange={this.handleChange}
-						value={this.state.ownerShip}
-						placeholder="Enter your ownerShip"
-						required
-					/>
-					{/* <br/> */}
-					<input
-						type="text"
-						name="societyName"
-						onChange={this.handleChange}
-						value={this.state.societyName}
-						placeholder="Enter societyName"
-						required
-					/>
-					<input
-						type="text"
-						name="bedRooms"
-						onChange={this.handleChange}
-						value={this.state.bedRooms}
-						placeholder="Enter bedRooms"
-						required
-					/>{' '}
-					<input
-						type="text"
-						name="vacant"
-						onChange={this.handleChange}
-						value={this.state.vacant}
-						placeholder="Enter vacant"
-						required
-					/>{' '}
-					<input
-						type="text"
-						name="name"
-						onChange={this.handleChange}
-						value={this.state.name}
-						placeholder="Enter name"
-						required
-					/>{' '}
-					<input
-						type="tel"
+                <Form.Item>
+                    <Button type='submit'>Create</Button>
+                </Form.Item>
+            </Form>
+				
+            <Form className='otp-form'>
+				<Form.Item label="Phone no">
+                    <Input 
+                        type="tel"
 						name="phoneNumber"
 						onChange={this.handleChange}
 						value={this.state.phoneNumber}
 						placeholder="Enter phoneNumber"
 						required
-					/>{' '}
-					<input
-						type="tel"
+                    />
+                </Form.Item>
+                <Form.Item label="Confirm">
+                    <Input 
+                        type="tel"
 						name="confirmPhoneNumber"
 						onChange={this.handleChange}
 						value={this.state.confirmPhoneNumber}
 						placeholder="Enter confirmPhoneNumber"
 						required
-					/>
-					{/* <br/> */}
-					<input type="submit" value="List the House" />
-				</form>
-				<input
-					type="number"
-					name="code"
-					placeholder="Enter OTP"
-					onChange={this.handleChange}
-					value={this.state.code}
-				/>
-				<button onClick={this.handleGetOTP}>Get OTP</button>
-				<button onClick={this.handleSubmit1}>Submit</button>
-			</div>
+                    />
+                </Form.Item>
+                    <Form.Item>
+                        <Button onClick={this.handleGetOTP} type='submit'>send otp</Button>
+                    </Form.Item>
+					<div style={{ display : "flex", justifyContent : 'space-around' }}>
+						<Form.Item>
+							<Input
+								type="number"
+								name="code"
+								placeholder="Enter OTP"
+								onChange={this.handleChange}
+								value={this.state.code}
+							/>
+						</Form.Item>
+						<Form.Item>
+							<Button style={{ width : '200px'}} onClick={this.handleSubmit1} type='submit'>submit otp</Button>
+						</Form.Item>
+					</div>
+                </Form>
+        </div>
 		);
 	}
 }

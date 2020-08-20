@@ -17,11 +17,13 @@ module.exports = {
     async PostsCreate (req, res)  {
         try {
             const user = req.user
-            const {phoneNumber,confirmPhoneNumber,noOfProperty,location,ownerShip,societyName,bedRooms,vacant, name} = req.body;
-            if(phoneNumber !== confirmPhoneNumber) {
+            if(req.body.phoneNumber !== req.body.confirmPhoneNumber) {
                 return res.status(404).json({ message: "Phone Number must be same"})
             }
-            const createHouse = await Posts.create({phoneNumber,confirmPhoneNumber,noOfProperty,location,ownerShip,societyName,bedRooms,vacant, name, owner: user._id} );
+            const createHouse = await Posts.create({
+                ...req.body,
+                owner: user._id
+            });
             user.listings.push(createHouse._id)
             user.owner = true
             await user.save()

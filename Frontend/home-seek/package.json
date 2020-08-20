@@ -6,7 +6,11 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "antd": "^4.5.4",
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "http": "0.0.1-security",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-geocode": "^0.2.1",
@@ -17,7 +21,9 @@
     "react-scripts": "^3.4.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "validator": "^13.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

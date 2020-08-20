@@ -1,0 +1,32 @@
+.login-form .forgot-pass-btn {
+    text-decoration: none;
+    margin: 0 10px 5px 10px;
+    width: 125px;
+    text-align: center;
+    color: rgba(7, 24, 11, 0.582);
+    font-weight: 600;
+}
+.forgot-pass-container{
+    position: absolute;
+    left: 30%;
+    top: 30%;
+    width: 600px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(47, 79, 79);
+}
+
+.forgot-pass-form  input[type='email']{
+    border: none;
+    height: 30px;
+    width: 200px;
+    padding: 5px 10px;
+} 
+
+.forgot-pass-form  input[type='submit']{
+    border: none;
+    padding: 11px 25px;
+    border: 1px solid rgba(53, 37, 37, 0.158);
+} 

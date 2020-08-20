@@ -8,7 +8,7 @@ passport.use(new GoogleStrategy({
     clientID : GOOGLE_CLIENT_ID,
     clientSecret : GOOGLE_CLIENT_SECRET,
     callbackURL : "http://localhost:3000/google/redirect",
-
+    proxy: true
 },
     async (_, _1, profile, done) => {
         try {

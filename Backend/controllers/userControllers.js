@@ -10,16 +10,15 @@ module.exports = {
     signUp : async ( req, res )=>{
         try {
             const newUser = await User.create({...req.body})
-            createToken(newUser, 'confirm')
-            await newUser.save()
             res.status(201).json({
                 "message" : "user saved. Please verify your account",
                 "data" : newUser
             })
             sendMail(newUser, 'verify', 'confirm')
         } catch (error) {
-            console.log(error.message)
-            res.status(404).json({'error' : 'server error'})
+            error.name == 'MongoError'
+            ? res.status(401).json({message : 'this mail is already registered'})
+            : res.status(404).json({code : error.code, message : error.message })
         }
     },
     signIn : async (req, res)=>{
@@ -135,6 +134,7 @@ module.exports = {
             })
             // redirect to the client route
             res.redirect('http://localhost:3001/')
+            // res.send(user)
         } catch (error) {
             console.log(error)
             res.status(400).json({'error' : error.message})

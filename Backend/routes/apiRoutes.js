@@ -2,14 +2,16 @@ const {Router} = require('express');
 const router = Router()
 const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
 ,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete} = require("../controllers/apiControllers");
-const {verifyAdmin} = require("../middlewares/authenticate")
+const {
+    verifyAdmin
+} = require("../middlewares/authenticate")
 const upload = require('../utils/multer');
 
 router.post('/owner/listing/create', verifyAdmin, PostsCreate)
 
 router.get('/owner/listings', verifyAdmin, GetPost)
 
-router.post('/owner/listing/home/:homeId', upload.array('images', 10) ,verifyAdmin, detailsCreate)
+router.post('/owner/listing/home/:homeId', upload.array('images', 10), verifyAdmin, detailsCreate)
 
 router.patch('/owner/listing/home/update/:homeId',upload.array('images', 10) , verifyAdmin, detailsUpdate)
 
@@ -31,9 +33,9 @@ router.delete('/admin/delete/normalrequests/:requestId', verifyAdmin, deleteNorm
 
 router.get('/filter', filterSearch)
 
-router.post('/user/pay', verifyAdmin, amountpaycreate);
+// router.post('/user/pay', verifyAdmin, amountpaycreate);
 
-router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
+// router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
 
 router.post('/owner/listing', verifyAdmin, createOTP);
 

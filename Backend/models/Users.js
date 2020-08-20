@@ -115,6 +115,7 @@ userSchema.statics.findByEmailAndPassword = async (email, password) =>{
         if(!isMatched) throw new Error('incorrect credentials');
         return foundUser;
     } catch (error) {
+        
         error.name = 'AuthError';
         throw error;
     } 
