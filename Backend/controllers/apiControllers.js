@@ -43,6 +43,18 @@ module.exports = {
         }
     },
 
+    async GetParticularPost (req, res) {
+        try {
+            const id = req.params.homeId
+            const foundPost = await Posts.findById({ _id: id }).populate('details')
+            res.status(200).json({ particuarPost: foundPost})
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+
+    },
+
     //Admin creating the details
     async detailsCreate (req, res) {
         try {
@@ -77,7 +89,17 @@ module.exports = {
         try {
             const id = req.params.homeId
             const foundPost = await Posts.findById({ _id: id })
-            const updateHouse = await Details.findByIdAndUpdate({_id: foundPost.details},{...req.body})
+            const body = JSON.parse(req.body.data)
+            let images = req.files;
+            const updateHouse = await Details.findByIdAndUpdate({_id: foundPost.details},{...body})
+            images.forEach(async element => {
+                if(element.originalname !== undefined){
+                    const imageContent = bufferToString( element.originalname, element.buffer)
+                    const { secure_url } = await cloudinary.uploader.upload(imageContent)
+                    updateHouse.images.push(secure_url)
+                    updateHouse.save()
+                }
+            });
             updateHouse.save()
             return res.status(200).json({ message: "updated Successfully", updated: updateHouse})
         } catch (err) {
@@ -89,10 +111,21 @@ module.exports = {
     //Admin deleting the details
     async postDelete (req, res) {
         try {
+            const id = req.params.postId
+            const foundPost = await Posts.findByIdAndDelete({ _id: id })
+            return res.status(200).json({ message: "the post deleted Successfully"})            
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
+
+    async postAndDetailsDelete (req, res) {
+        try {
             const id = req.params.homeId
             const foundPost = await Posts.findByIdAndDelete({ _id: id })
             const updateHouse = await Details.deleteOne({_id: foundPost.details})
-            return res.status(200).json({ message: "deleted Successfully"})            
+            return res.status(200).json({ message: "the post and details deleted Successfully"})            
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -116,7 +149,10 @@ module.exports = {
 
     async getUserRequests (req, res) {
         try {
-            const requests = await UserRequests.find({}).populate('user', "owner")
+            const requests = await UserRequests.find({}).populate({ path: 'user', model: 'user', populate: {
+                path: 'listings',
+                model: 'posts'
+            }});
             res.status(200).json({UserRequests: requests})
         } catch (err) {
             console.error(err)

@@ -1,13 +1,13 @@
 const express = require('express')
-const instance = require("./utils/razorpay")
+const { config } = require('dotenv')
 const passport = require('passport')
 const cookieParser = require('cookie-parser')
-const { config } = require('dotenv')
 const cors = require('cors')
 // const bodyParser = require('body-parser')
 config()
 require('./db')
 require('./utils/passport')
+require("./utils/razorpay")
 
 const app = express()
 app.use(cookieParser());
@@ -22,5 +22,6 @@ const adminRoutes = require("./routes/adminRoute");
 app.use(userRoutes)
 app.use(apiRoutes)
 app.use(adminRoutes)
+
 
 module.exports  = app
