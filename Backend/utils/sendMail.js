@@ -27,8 +27,8 @@ module.exports = {
             : ( tokenStatus === 'temp' ? 
                 `<p>
                     Hello mr/mrs <b>${foundUser.firstName +" "+ foundUser.lastName}</b>
-                    welcome to Home Seek. copy this to your postman with a post request
-                    <b>http://localhost:3000/${routeName}/${foundUser.tempToken}</b>
+                    welcome to Home Seek. click
+                    <a href=http://localhost:3001/${routeName}/${foundUser.tempToken}>here</a>
                 </p>` : null
             )
             

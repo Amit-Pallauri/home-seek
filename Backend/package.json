@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "bcrypt": "^5.0.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
   }
 }
