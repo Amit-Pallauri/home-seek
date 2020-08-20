@@ -17,7 +17,7 @@ const postsSchema = new Schema(
               index: '2dsphere'
             },
             formattedAddress: String
-          },
+        },
         ownerShip: {
             type: String,
             required: true
@@ -26,8 +26,8 @@ const postsSchema = new Schema(
             type: String,
             required: true
         },
-        bedRooms: {
-            type: String,
+        rooms: {
+            type: Number,
             required: true
         },
         vacant: {
