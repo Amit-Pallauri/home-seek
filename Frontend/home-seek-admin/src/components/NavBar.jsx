@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { Layout, Menu, Button } from 'antd';
 import {
 	MenuUnfoldOutlined,
@@ -10,20 +10,21 @@ import {
 	UploadOutlined
 } from '@ant-design/icons';
 
-import '../styles/navbar.css';
-import RegisterPage from '../pages/RegisterPage';
-import Loginpage from '../pages/Loginpage';
-import Homepage from '../pages/Homepage';
-// import DetailPage from './pages/DetailPage';
-import ListingPage from '../pages/ListingPage';
-import ChatPage from '../pages/ChatPage';
-import ForgotPassword from '../pages/ForgotPassword';
-import RevivePassword from '../pages/RevivePassword';
-import {logoutUser} from '../redux/actions/userActions';
+import RegisterationPage from '../pages/RegisterationPage';
+import LoginPage from '../pages/LoginPage';
+import '../styles/NavBar.css';
+import HomePage from '../pages/HomePage';
+import UnVerifiedHomesPage from '../pages/UnVerifiedHomesPage';
+import VerifyHomesPage from '../pages/VerifyHomesPage';
+import UserRequestPage from '../pages/UserRequestPage';
+import UpdateHome from './UpdateHome';
+import {logOut} from '../store/adminReducer';
+import NormalRequestPage from '../pages/NormalRequestPage';
+import ProfilePage from '../pages/ProfilePage';
 
 const { Header, Sider, Content } = Layout;
 
-class Navbar extends Component {
+class NavBar extends Component {
 	state = {
 		collapsed: false
 	};
@@ -35,8 +36,8 @@ class Navbar extends Component {
 	};
 
 	handleClick = () => {
-		this.props.logoutUser();
-	};
+		this.props.logOut()
+	}
 	render() {
 		return (
 			<div>
@@ -58,16 +59,16 @@ class Navbar extends Component {
 								<Link to="/">Home</Link>
 							</Menu.Item>
 							<Menu.Item key="2" icon={<VideoCameraOutlined />}>
-								<Link to="/owner/listing/create">Listings</Link>
+                                <Link to="/ownerhouses">Owner homes</Link>
 							</Menu.Item>
 							<Menu.Item key="3" icon={<UploadOutlined />}>
-								<Link to="/userrequests">User Request</Link>
+                                <Link to="/userrequests">User Request</Link>
 							</Menu.Item>
 							<Menu.Item key="4" icon={<UploadOutlined />}>
-								<Link to="/normalrequests">Normal Request</Link>
+                                <Link to="/normalrequests">Normal Request</Link>
 							</Menu.Item>
 							<Menu.Item key="5" icon={<UploadOutlined />}>
-								<Link to="/profile">Profile</Link>
+                                <Link to="/profile">Profile</Link>
 							</Menu.Item>
 						</Menu>
 					</Sider>
@@ -77,23 +78,18 @@ class Navbar extends Component {
 								className: 'trigger',
 								onClick: this.toggle
 							})}
-							{!this.props.user ? (
+							{!this.props.admin ? (
 								<>
-									<Link to="/signUp">
+									<Link to="/register">
 										<Button style={{ marginLeft: 1350, marginRight: 15 }}>Register</Button>
 									</Link>
-									<Link to="/signIn">
+									<Link to="/login">
 										<Button style={{ marginLeft: 25 }}>Login</Button>
 									</Link>
 								</>
 							) : (
 								<>
-									<Button style={{ marginLeft: 1350, marginRight: 15 }} onClick={this.handleClick}>
-										Logout
-									</Button>
-                                    <Link to="/chat">
-										<Button style={{ marginLeft: 25 }}>chat</Button>
-									</Link>
+								<Button style={{ marginLeft: 1350, marginRight: 15 }} onClick={this.handleClick} >Logout</Button>
 								</>
 							)}
 						</Header>
@@ -106,14 +102,16 @@ class Navbar extends Component {
 							}}
 						>
 							<Switch>
-								<Route exact path="/" component={Homepage} />
-								<Route exact path="/signUp" component={RegisterPage} />
-								<Route exact path="/signIn" component={Loginpage} />
-								<Route exact path="/forgotPassword" component={ForgotPassword} />
-								<Route exact path="/revivePassword/:token" component={RevivePassword} />
-								<Route exact path="/chat" component={ChatPage} />
-								<Route exact path="/owner/listing/create" component={ListingPage} />
-								<Redirect to="/" />
+								<Route exact path="/" component={HomePage} />
+								<Route exact path="/register" component={RegisterationPage} />
+								<Route exact path="/login" component={LoginPage} />
+                                <Route exact path="/ownerhouses" component={UnVerifiedHomesPage} />
+                                <Route exact path="/ownerhouses/create/:homeId" component={VerifyHomesPage} />
+                                <Route exact path="/userrequests" component={UserRequestPage} />
+								<Route exact path="/ownerhouses/update/:homeId" component={UpdateHome}/>
+								<Route exact path="/normalrequests" component={NormalRequestPage} />
+								<Route exact path="/profile" component={ProfilePage} />
+                                <Redirect to="/" />
 							</Switch>
 						</Content>
 					</Layout>
@@ -124,7 +122,7 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (storeState) => {
-	return { user: storeState.userState.user };
+	return { admin: storeState.features.admin.admin };
 };
 
-export default connect(mapStateToProps,{logoutUser})(Navbar);
+export default connect(mapStateToProps, {logOut})(NavBar);
