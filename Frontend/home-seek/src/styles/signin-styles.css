@@ -1,5 +1,5 @@
 .login-form{
-    position: absolute;
+    /* position: absolute; */
     left: 15%;
     top: 30%;
     height: 400px;
@@ -30,7 +30,7 @@
 
 .signin-image{
     width: 600px;
-    position: absolute;
+    /* position: absolute; */
     left: 48%;
     top: 20%
 }
