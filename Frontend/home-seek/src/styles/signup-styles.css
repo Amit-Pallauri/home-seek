@@ -1,5 +1,5 @@
 .register-form{
-    position: absolute;
+    /* position: absolute; */
     left: 15%;
     top: 30%;
     height: 400px;
@@ -28,7 +28,7 @@
 .signup-image{
     width: 600px;
     height: 600px;
-    position: absolute;
+    /* position: absolute; */
     left: 48%;
     top: 15%;
     

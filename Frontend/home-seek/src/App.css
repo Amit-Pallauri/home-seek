@@ -20,7 +20,7 @@
 /* home page */
 .home-page-logo p{
     font-size: 80px;
-    position: absolute;
+    /* position: absolute; */
     left: 25%;
     top: 30%;
     color: rgba(29, 71, 29, 0.233);
