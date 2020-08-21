@@ -8,6 +8,7 @@ import {
     REVIVE_PASS,
     ERROR
 } from '../actionTypes/userActionTypes';
+import cookie from 'js-cookie'
 import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
 
@@ -81,8 +82,9 @@ export const logoutUser = ()  => async dispatch => {
 
 export const loginViaThirdParty = () => async dispatch => {
     try {
-        const { data } = await axios(`${SERVER_BASE_URL}/google`)
+        const { data } = await axios(`${SERVER_BASE_URL}/google`, {withCredentials: true, credentials: 'include'})
         console.log(data)
+        console.log('token', cookie.get('accessToken'))
         dispatch({
             type : LOGIN_VIA_THIRDPARTY
         })

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { registerUser } from '../redux/actions/userActions';
+import { registerUser, loginViaThirdParty } from '../redux/actions/userActions';
 import { userValidation } from '.././helpers/errorHanlder'
 import '../styles/signup-styles.css'
 
@@ -15,7 +15,11 @@ const RegisterPage = (props) => {
     
     const handleChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value })
-    }
+	}
+	
+	const handleClick = e => {
+		loginViaThirdParty()
+	}
 
     const handleSubmit = (e) => {
 			e.preventDefault();
@@ -82,7 +86,7 @@ const RegisterPage = (props) => {
 					}
 					<input type="submit" value="Register"/>
 					<div className='thirdPartyAuth'>
-						<a className='google-login' href='http://localhost:3000/google'><img alt='google' src="https://img.icons8.com/material-sharp/24/000000/google-logo.png"/></a>
+						<a onClick={handleClick} className='google-login' href='http://localhost:3000/google'><img alt='google' src="https://img.icons8.com/material-sharp/24/000000/google-logo.png"/></a>
 						<a className='google-login' href='http://localhost:3000/fb'><img alt='facebook' src="https://img.icons8.com/material-sharp/24/000000/facebook-f.png"/></a>
 					</div>
 				</form>

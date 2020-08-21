@@ -6,9 +6,9 @@ import '../styles/forgotpass-styles.css'
 
 const ForgotPassword = (props) => {
     const [data, setEmail] = useState({
-        email : null,
-        error : null,
-        message : null
+        email : '',
+        error : '',
+        message : ''
     })
 
     const handleChange = e => {
@@ -32,18 +32,10 @@ const ForgotPassword = (props) => {
                     <input type="submit"/>
                 </div>
                 <div>
-                    {/* <p style={{
-                        margin: 0,
-                        color: 'red'
-                    }}>
-                        {
-                            data.error ? data.error : data.message
-                        }
-                    </p> */}
                     {
                         data.error 
-                    ? <p style={{ margin: 0, color: 'red' }}>{data.error}</p> 
-                    : <p style={{ margin: 0, color: 'lightgreen' }}>{data.message}</p>
+                        ? <p style={{ margin: 0, color: 'red' }}>{data.error}</p> 
+                        : <p style={{ margin: 0, color: 'lightgreen' }}>{data.message}</p>
                     }
                 </div>
             </form>

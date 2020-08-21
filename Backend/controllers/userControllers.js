@@ -128,9 +128,7 @@ module.exports = {
             await user.save()
             // send the token as cookie
             res.cookie("accessToken", accessToken, {
-                expires: new Date(Date.now() + 1000 * 60* 60* 12 ),
-                httpOnly: true,
-                sameSite :'none'
+                expires: new Date(Date.now() + 1000 * 60* 60* 12 )
             })
             // redirect to the client route
             res.redirect('http://localhost:3001/')
