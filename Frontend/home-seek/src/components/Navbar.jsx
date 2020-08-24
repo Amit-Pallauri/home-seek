@@ -80,7 +80,7 @@ class Navbar extends Component {
 								className: 'trigger',
 								onClick: this.toggle
 							})}
-							{!this.props.user.token ? (
+							{!this.props.user ? (
 								<>
 									<Link to="/signUp">
 										<Button style={{ marginLeft : !this.state.collapsed ? 1050 : 1200 }}>Register</Button>
@@ -120,7 +120,7 @@ class Navbar extends Component {
 								<Route exact path='/requests' component={protectedRoute(Requests)} />
 								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
 								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
-								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
+								<Route exact path="/home/details/:homeId" component={DetailPage}/>
 							</Switch>
 						</Content>
 					</Layout>

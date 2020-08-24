@@ -79,8 +79,8 @@ class ProfilePage extends Component {
               <Card style={{ width: 300, marginTop: 16 }}>
                 <Meta
                   avatar={
-                    this.props.user.data.image  
-                    ? <Avatar src={this.props.user.data.image} />
+                    this.props.user.user.data.image  
+                    ? <Avatar src={this.props.user.user.data.image } />
                     : <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                   }
                   title={`${firstName} ${lastName}`}

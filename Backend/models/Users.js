@@ -148,7 +148,7 @@ const userSchema = new Schema({
             value : { 
                 type : Number
             },
-            on : {
+            onDate : {
                 type : Date
             }
         },
@@ -156,7 +156,7 @@ const userSchema = new Schema({
             value : { 
                 type : Number
             },
-            on : {
+            onDate : {
                 type : Date
             } 
         }]
