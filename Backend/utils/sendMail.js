@@ -12,7 +12,6 @@ module.exports = {
                 pass: apppassword,
             },
         });
-
         await transporter.sendMail({
             from: `"Home Seek Team" <${email}>`,
             to: foundUser.email, 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import { listingHouse, createOTP, verifyOTP } from '../redux/actions/listingActions';
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
@@ -20,11 +21,9 @@ Geocode.setApiKey(apiKey);
 
 class ListingPage extends Component {
 	state = {
-		noOfProperty: '',
 		location: '',
 		ownerShip: '',
 		societyName: '',
-		bedRooms: '',
 		vacant: '',
 		name: '',
 		phoneNumber: '',
@@ -133,7 +132,6 @@ class ListingPage extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		const data = {
-			noOfProperty: this.state.noOfProperty,
 			location: {
 				type: "Point",
 				coordinates: [this.state.mapPosition.lat, this.state.mapPosition.lng],
@@ -141,25 +139,28 @@ class ListingPage extends Component {
 			},
 			ownerShip: this.state.ownerShip,
 			societyName: this.state.societyName,
-			bedRooms: this.state.bedRooms,
 			vacant: this.state.vacant,
 			name: this.state.name,
-			phoneNumber: this.state.phoneNumber,
-			confirmPhoneNumber: this.state.confirmPhoneNumber
+			phoneNumber: this.state.phoneNumber
 		}
 		this.props.listingHouse(data);
 	};
 
 	handleGetOTP = () => {
-		const data = {
-			phoneNumber: this.state.phoneNumber
-		};
-		this.props.createOTP(data);
+		if(this.state.phoneNumber === this.state.confirmPhoneNumber) {
+			const data = {
+				phoneNumber: `91${this.state.phoneNumber}`
+			};
+			this.props.createOTP(data);
+		}
+		else {
+			alert("PhoneNumber must be Same")
+		}
 	};
 
 	handleSubmit1 = () => {
 		const data = {
-			phoneNumber: this.state.phoneNumber,
+			phoneNumber: `91${this.state.phoneNumber}`,
 			code: this.state.code
 		};
 		this.props.verifyOTP(data);
@@ -207,8 +208,8 @@ class ListingPage extends Component {
 			latValue = place.geometry.location.lat(),
 			lngValue = place.geometry.location.lng();
 
-		console.log('latvalue', latValue);
-		console.log('lngValue', lngValue);
+		//console.log('latvalue', latValue);
+		//console.log('lngValue', lngValue);
 
 		// Set these values in the state.
 		this.setState({
@@ -251,12 +252,11 @@ class ListingPage extends Component {
 		this.setState({componentSize : size});
 	};
 	render() {
-		return (
+		return this.props.user ? (
 			<div className='listing-form-conatiner'>
             <Title id='heading' level={2}>List your property</Title>
             <Form 
                 className="listing-form"
-                onSubmitCapture={this.handleSubmit}
                 labelCol={{
                 span: 4,
                 }}
@@ -280,16 +280,6 @@ class ListingPage extends Component {
 						required
                     />
                 </Form.Item>
-                <Form.Item label="No oF Properties">
-                    <Input 
-                        type="number"
-						name="noOfProperty"
-						onChange={this.handleChange}
-						value={this.state.noOfProperty}
-						placeholder="No Of Properties"
-						required
-                    />
-                </Form.Item>
                 <Form.Item label="OwnerShip">
                     <Input 
                         type="text"
@@ -307,16 +297,6 @@ class ListingPage extends Component {
 						onChange={this.handleChange}
 						value={this.state.societyName}
 						placeholder="Enter societyName"
-						required
-                    />
-                </Form.Item>
-                <Form.Item label="Rooms">
-                    <Input 
-                        type="number"
-						name="rooms"
-						onChange={this.handleChange}
-						value={this.state.rooms}
-						placeholder="Enter bedRooms"
 						required
                     />
                 </Form.Item>
@@ -385,9 +365,10 @@ class ListingPage extends Component {
                             />
                         </Form.Item>
 					</div>
-                <Form.Item>
-                    <Button type='submit'>Create</Button>
-                </Form.Item>
+			{this.props.user.user.isVerifiedPhoneNumber === true ? 
+			<Form.Item>
+                    <Button type='submit' onClick={this.handleSubmit}>Create</Button>
+			</Form.Item> : null}
             </Form>
 				
             <Form className='otp-form'>
@@ -398,6 +379,7 @@ class ListingPage extends Component {
 						onChange={this.handleChange}
 						value={this.state.phoneNumber}
 						placeholder="Enter phoneNumber"
+						addonBefore="+91"
 						required
                     />
                 </Form.Item>
@@ -408,6 +390,7 @@ class ListingPage extends Component {
 						onChange={this.handleChange}
 						value={this.state.confirmPhoneNumber}
 						placeholder="Enter confirmPhoneNumber"
+						addonBefore="+91"
 						required
                     />
                 </Form.Item>
@@ -430,8 +413,14 @@ class ListingPage extends Component {
 					</div>
                 </Form>
         </div>
-		);
+		) : (
+			<Redirect to="/signIn" />
+		)
 	}
 }
 
-export default connect(null, { listingHouse, createOTP, verifyOTP })(ListingPage);
+const mapStateToProps = (storeState) => {
+	return { user: storeState.userState.user };
+};
+
+export default connect(mapStateToProps, { listingHouse, createOTP, verifyOTP })(ListingPage);

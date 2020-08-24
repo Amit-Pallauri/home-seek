@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateHomes } from '../store/ownerReducer';
+import {createHomes} from '../store/ownerReducer';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
@@ -227,7 +227,7 @@ class VerifyHomesPage extends Component {
 		}
 		formData.append("data", JSON.stringify(data));
 		const homeId = this.props.match.params.homeId
-		this.props.updateHomes({homeId: homeId, data:formData})
+		this.props.createHomes({homeId: homeId, data:formData})
     }
 
 	onInfoWindowClose = (event) => {};
@@ -618,4 +618,4 @@ const mapStateToProps = (storeState) => {
 	};
 };
 
-export default connect(mapStateToProps, { updateHomes })(VerifyHomesPage);
+export default connect(mapStateToProps, { createHomes })(VerifyHomesPage);

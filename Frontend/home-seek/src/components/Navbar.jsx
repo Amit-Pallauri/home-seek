@@ -14,12 +14,13 @@ import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
 import Loginpage from '../pages/Loginpage';
 import Homepage from '../pages/Homepage';
-// import DetailPage from './pages/DetailPage';
+import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';
 import ChatPage from '../pages/ChatPage';
 import ForgotPassword from '../pages/ForgotPassword';
 import RevivePassword from '../pages/RevivePassword';
 import {logoutUser} from '../redux/actions/userActions';
+import HomeListPage from '../pages/HomeListPage';
 
 const { Header, Sider, Content } = Layout;
 
@@ -58,10 +59,10 @@ class Navbar extends Component {
 								<Link to="/">Home</Link>
 							</Menu.Item>
 							<Menu.Item key="2" icon={<VideoCameraOutlined />}>
-								<Link to="/owner/listing/create">Listings</Link>
+								<Link to="/owner/listing/create">Listing Your Home</Link>
 							</Menu.Item>
 							<Menu.Item key="3" icon={<UploadOutlined />}>
-								<Link to="/userrequests">User Request</Link>
+								<Link to="/homes">Search Home</Link>
 							</Menu.Item>
 							<Menu.Item key="4" icon={<UploadOutlined />}>
 								<Link to="/normalrequests">Normal Request</Link>
@@ -113,6 +114,8 @@ class Navbar extends Component {
 								<Route exact path="/revivePassword/:token" component={RevivePassword} />
 								<Route exact path="/chat" component={ChatPage} />
 								<Route exact path="/owner/listing/create" component={ListingPage} />
+								<Route exact path="/homes" component={HomeListPage} />
+								<Route exact path="/home/details/:homeId" component={DetailPage}/>
 								<Redirect to="/" />
 							</Switch>
 						</Content>

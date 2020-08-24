@@ -33,7 +33,8 @@ module.exports = {
                 await foundUser.save()
                 return res.status(200).json({
                     "message" : "logged in successfully",
-                    "token" : token
+                    "token" : token,
+                    "user": foundUser
                 })
             }        
         } catch (error) {
