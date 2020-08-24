@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 const withProtected = (ProtectedComponent) => {
   const user = JSON.parse(localStorage.getItem('user'))
   return (args) => {
-    return !user.token ? <Redirect to="/signIn" /> : <ProtectedComponent {...args}/>;
+    return !user || !user.token ? <Redirect to="/signIn" /> : <ProtectedComponent {...args}/>;
   };
 };
 

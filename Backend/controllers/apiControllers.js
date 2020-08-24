@@ -9,6 +9,7 @@ const bufferToString = require('../utils/bufferToString');
 const cloudinary = require('../utils/cloudinary');
 const instance = require("../utils/razorpay");
 const {v4 : uuid } = require("uuid");
+const User = require("../models/Users");
 const {TWILIO_SERVICE_ID,TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN} = process.env
 const client = require("twilio")(TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN)
 
@@ -302,10 +303,28 @@ module.exports = {
             user.isVerifiedPhoneNumber = true;
             user.phoneNumber = phoneNumber
             user.save()
-            res.status(200).json({message: "verified Successfully", token: user.accessToken, user: user})
+            res.status(200).json({message: "verified Successfully", token: user.accessToken, data: user})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
+        }
+    },
+
+    async userSpecificPosts (req, res) {
+        try {
+            const accessToken = req.headers.authorization
+            const foundUser = await User.findOne({ accessToken : accessToken }).populate('listings')
+            if(!foundUser) return res.status(400).json({error : 'invalid credentials'})
+            else return res.status(200).json({
+                message : 'listings created',
+                token : accessToken,
+                data : foundUser.listings
+            })
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                error : error
+            })
         }
     }
 }

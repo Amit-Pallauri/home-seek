@@ -10,9 +10,9 @@ class Requests extends React.Component {
     return (
       <div>
         <Tabs tabPosition={'top'}>
-          <TabPane tab="User" key="1">
+          {/* <TabPane tab="User" key="1">
             <UserRequests/>
-          </TabPane>
+          </TabPane> */}
           <TabPane tab="Owner" key="2">
             <OwnerRequests/>
           </TabPane>

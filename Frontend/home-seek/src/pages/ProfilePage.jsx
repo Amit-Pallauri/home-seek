@@ -51,7 +51,7 @@ class ProfilePage extends Component {
     handleSubmit = e => {
       e.preventDefault()
       this.setState({ edit : false})
-      // this.props.addProfilepic(this.state)
+      this.props.addProfilepic(this.state)
       this.props.updateProfile(this.state)
     }
     handleMaritalStatusChange = e => {

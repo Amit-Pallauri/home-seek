@@ -207,11 +207,6 @@ class ListingPage extends Component {
 			state = this.getState(addressArray),
 			latValue = place.geometry.location.lat(),
 			lngValue = place.geometry.location.lng();
-
-		//console.log('latvalue', latValue);
-		//console.log('lngValue', lngValue);
-
-		// Set these values in the state.
 		this.setState({
 			address: address ? address : '',
 			area: area ? area : '',
@@ -365,13 +360,14 @@ class ListingPage extends Component {
                             />
                         </Form.Item>
 					</div>
-			{this.props.user.data.isVerifiedPhoneNumber === true ? 
-			<Form.Item>
-                    <Button type='submit' onClick={this.handleSubmit}>Create</Button>
-			</Form.Item> : null}
-            </Form>
-				
-            <Form className='otp-form'>
+				{
+					this.props.user.data.isVerifiedPhoneNumber === true 
+						? 
+							<Form.Item>
+									<Button type='submit' onClick={this.handleSubmit}>Create</Button>
+							</Form.Item> 
+						: 
+				<Form className='otp-form'>
 				<Form.Item >
                     <Input 
                         type="tel"
@@ -411,7 +407,9 @@ class ListingPage extends Component {
 							<Button style={{ width : '200px'}} onClick={this.handleSubmit1} type='submit'>submit otp</Button>
 						</Form.Item>
 					</div>
-                </Form>
+                </Form>				
+				}
+            </Form>
         </div>
 		) : (
 			<Redirect to="/signIn" />
