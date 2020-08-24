@@ -8,10 +8,10 @@ import {
     REVIVE_PASS,
     ERROR,
     ADD_PROFILE_PIC,
-    UPDATE_DETAILS
+    UPDATE_DETAILS,
+	  VERIFY_OTP
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
-
 
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
@@ -48,7 +48,7 @@ const userReducer = (state = initialState, action) => {
 
         case REGISTER_USER:
             return {
-                ...state, user : payload
+                ...state
             }
 
 
@@ -98,6 +98,13 @@ const userReducer = (state = initialState, action) => {
                 ...state, user : payload
             }
 
+        case VERIFY_OTP:
+            const userJSON = JSON.stringify(payload);
+            localStorage.setItem('user', userJSON);
+            return {
+              ...state,
+              user: payload
+            };
 
         default:
             return state;

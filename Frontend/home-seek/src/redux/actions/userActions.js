@@ -29,7 +29,7 @@ export const registerUser = user => async dispatch =>  {
     } catch (err) {
         dispatch({
             type : ERROR,
-            payload : err.response.data.message
+            payload : err
         })
     } finally {
         dispatch({ type: TOGGLE_AUTH_STATE})
@@ -56,7 +56,7 @@ export const loginUser = user => async (dispatch) =>  {
         }) : 
         dispatch({
             type : ERROR,
-            payload : err.response.data.message
+            payload : err
         })
     } finally {
         dispatch({ type: TOGGLE_AUTH_STATE})

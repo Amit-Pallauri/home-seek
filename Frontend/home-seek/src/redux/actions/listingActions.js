@@ -1,4 +1,5 @@
-import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR} from '../actionTypes/userActionTypes';
+import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST} from '../actionTypes/userActionTypes';
+import {VERIFY_OTP} from '../actionTypes/userActionTypes';
 import axios from 'axios';
 import { SERVER_BASE_URL } from '../../config'
 
@@ -6,7 +7,7 @@ import { SERVER_BASE_URL } from '../../config'
 export const listingHouse = (details) => async (dispatch, getState) => {
     try {
         dispatch({ type: TOGGLE_CREATE_STATE});
-        const storage = JSON.stringify(localStorage.getItem('user'))
+        const storage = JSON.parse(localStorage.getItem("user"))
         const headers = {
             'Content-Type': 'application/json',
             'authorization': storage.token
@@ -19,7 +20,7 @@ export const listingHouse = (details) => async (dispatch, getState) => {
         })
         
     } catch (err) {
-        dispatch({ type: ERROR, payload: err.response.data.message})
+        dispatch({ type: ERROR, payload: err})
     } finally {
         dispatch({ type: TOGGLE_CREATE_STATE})
     }
@@ -27,7 +28,7 @@ export const listingHouse = (details) => async (dispatch, getState) => {
 
 export const createOTP = (data2) => async (dispatch, getState) => {
     try {
-        const storage = JSON.stringify(localStorage.getItem('user'))
+        const storage = JSON.parse(localStorage.getItem('user'))
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': storage.token
@@ -42,15 +43,63 @@ export const createOTP = (data2) => async (dispatch, getState) => {
 
 export const verifyOTP = (data1) => async (dispatch, getState) => {
     try {
-        const storage = JSON.stringify(localStorage.getItem('user'))
+        const storage = JSON.parse(localStorage.getItem('user'))
         const headers = {
             'Content-Type': 'application/json',
             'Authorization': storage.token
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/owner/listing/verify`, data1 , {headers: headers})
+        dispatch({
+            type: VERIFY_OTP,
+            payload: data
+        })
         console.log(data)
         alert("verification successfull")
     } catch (err) {
         console.error(err.message);
+    }
+}
+
+export const allHomes = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: TOGGLE_CREATE_STATE});
+        const storage = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': storage.token
+        }
+        const { data } = await axios.get(`${SERVER_BASE_URL}/listings`, {headers: headers})
+        dispatch({
+            type: GETALLPOSTS,
+            payload: data
+        })
+        //console.log(data)
+    } catch (err) {
+        dispatch({ type: ERROR, payload: err})
+        console.error(err.message);
+    }finally {
+        dispatch({ type: TOGGLE_CREATE_STATE})
+    }
+}
+
+export const particularHome = (homeId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: TOGGLE_CREATE_STATE});
+        const storage = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': storage.token
+        }
+        const { data } = await axios.get(`${SERVER_BASE_URL}/owner/home/${homeId}`, {headers: headers})
+        dispatch({
+            type: GETPARTICULARPOST,
+            payload: data
+        })
+        //console.log(data)
+    } catch (err) {
+        dispatch({ type: ERROR, payload: err})
+        console.error(err.message);
+    }finally {
+        dispatch({ type: TOGGLE_CREATE_STATE})
     }
 }

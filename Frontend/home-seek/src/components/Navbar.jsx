@@ -14,7 +14,7 @@ import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
 import Loginpage from '../pages/LoginPage';
 import Homepage from '../pages/Homepage';
-// import DetailPage from './pages/DetailPage';
+import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';
 import ChatPage from '../pages/ChatPage';
 import ForgotPassword from '../pages/ForgotPassword';
@@ -22,6 +22,7 @@ import RevivePassword from '../pages/RevivePassword';
 import {logoutUser} from '../redux/actions/userActions';
 import Requests from '../pages/Requests';
 import ProfilePage from '../pages/ProfilePage';
+import HomeListPage from '../pages/HomeListPage';
 
 const { Header, Sider, Content } = Layout;
 
@@ -64,8 +65,10 @@ class Navbar extends Component {
 							</Menu.Item>
 							<Menu.Item key="3" icon={<VideoCameraOutlined />}>
 								<Link to="/owner/listing/create">Listings</Link>
-							</Menu.Item>
 							<Menu.Item key="4" icon={<UploadOutlined />}>
+								<Link to="/homes">Search Home</Link>
+							</Menu.Item>
+							<Menu.Item key="5" icon={<UploadOutlined />}>
 								<Link to="/requests">requests</Link>
 							</Menu.Item>
 						</Menu>
@@ -115,7 +118,8 @@ class Navbar extends Component {
 								<Route exact path="/owner/listing/create" component={protectedRoute(ListingPage)} />
 								<Route exact path='/requests' component={protectedRoute(Requests)} />
 								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
-								{/* <Redirect to="/" /> */}
+								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
+								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
 							</Switch>
 						</Content>
 					</Layout>
