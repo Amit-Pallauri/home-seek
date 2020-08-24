@@ -120,7 +120,7 @@ class Navbar extends Component {
 								<Route exact path='/requests' component={protectedRoute(Requests)} />
 								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
 								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
-								<Route exact path="/home/details/:homeId" component={DetailPage}/>
+								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
 							</Switch>
 						</Content>
 					</Layout>

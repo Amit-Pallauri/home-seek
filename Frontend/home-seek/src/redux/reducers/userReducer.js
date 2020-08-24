@@ -94,6 +94,8 @@ const userReducer = (state = initialState, action) => {
 
 
         case UPDATE_DETAILS : 
+            const updatedData = JSON.stringify(payload);
+            localStorage.setItem('user', updatedData);
             return {
                 ...state, user : payload
             }

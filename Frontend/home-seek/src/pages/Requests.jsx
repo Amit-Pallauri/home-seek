@@ -1,25 +1,20 @@
 import React from 'react'
 import { Tabs } from 'antd';
-import OwnerProfile from './OwnerRequests'
-import UserProfile from './UserRequests.jsx'
+import OwnerRequests from './OwnerRequests'
+import UserRequests from './UserRequests.jsx'
 
 const { TabPane } = Tabs;
 
-
-class Profile extends React.Component {
-  state = {
-    tabPosition: 'top',
-  };
-
+class Requests extends React.Component {
   render() {
     return (
       <div>
-        <Tabs tabPosition={this.state.tabPosition}>
+        <Tabs tabPosition={'top'}>
           <TabPane tab="User" key="1">
-            <UserProfile/>
+            <UserRequests/>
           </TabPane>
           <TabPane tab="Owner" key="2">
-            <OwnerProfile/>
+            <OwnerRequests/>
           </TabPane>
         </Tabs>
       </div>
@@ -27,5 +22,4 @@ class Profile extends React.Component {
   }
 }
 
-
-export default Profile
+export default Requests
