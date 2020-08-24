@@ -186,12 +186,13 @@ module.exports = {
     async createNormalRequest (req, res) {
         try {
             const user = req.user;
-            const {requests} = req.body
-            const createNormalRequest = await NormalRequests.create({requests: requests, user: user._id})
+            const {request, description} = req.body
+            const createNormalRequest = await NormalRequests.create({request : request, description : description, user: user._id})
             user.normalRequests = createNormalRequest._id
             createNormalRequest.save()
+            console.log(createNormalRequest)
             user.save()
-            return res.status(200).json({ message: "requested sent Successfully, our team will contact you soon", message: createNormalRequest})            
+            return res.status(200).json({ message: "requested sent Successfully, our team will contact you soon", request: createNormalRequest})            
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})

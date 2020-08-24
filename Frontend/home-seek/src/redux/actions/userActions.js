@@ -8,7 +8,8 @@ import {
     REVIVE_PASS,
     ERROR, 
     ADD_PROFILE_PIC,
-    UPDATE_DETAILS
+    UPDATE_DETAILS,
+    SERVICE_REQUEST
 } from '../actionTypes/userActionTypes';
 import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
@@ -174,6 +175,27 @@ export const updateProfile = details => async dispatch => {
             payload : data
         })
         dispatch({ type : TOGGLE_GET_STATE })
+    } catch (error) {
+        dispatch({
+            type : ERROR,
+            payload : error
+        })
+    }
+}
+
+export const addServiceRequest  =  req => async dispatch => {
+    try {
+        const { request, description } = req
+        const user = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-type' : 'application/json',
+            'authorization' : user.token
+        }
+        const { data } = await axios.post(`${SERVER_BASE_URL}/user/book/request`, { request, description }, {headers})
+        dispatch({
+            type : SERVICE_REQUEST,
+            payload : data  
+        })
     } catch (error) {
         dispatch({
             type : ERROR,

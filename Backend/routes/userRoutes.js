@@ -32,10 +32,5 @@ router.post('/forgotPassword', forgotPassword)
 router.post('/revivePassword/:token', revivePassword )
 router.post('/thirdPartysignIn', loginViaThirdParty)
 
-// router.get('/google', passport.authenticate('google', { session: false, scope : ['profile', 'email']}))
-// router.get('/google/redirect', passport.authenticate('google', { session: false, failureRedirect : 'http://localhost/3001/signIn'}), logInViaGoogle)
-
-// router.get('/fb', passport.authenticate('facebook', { session : false, scope : ['email']}))
-// router.get('/fb/redirect', passport.authenticate('facebook', { session: false, failureRedirect : 'http://localhost/3001/signIn'}), logInViaFacebook)
 
 module.exports = router

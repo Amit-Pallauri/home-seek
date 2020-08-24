@@ -1,16 +1,28 @@
 import React, {Component}  from 'react'
 import { connect } from 'react-redux'
 import {getRequestedPosts} from '../redux/actions/requestsActions'
-import { Descriptions } from 'antd';
+import { Descriptions, Button, Drawer } from 'antd';
+import '../styles/request.css'
+import { particularHome } from '../redux/actions/listingActions';
 
 class OwnerProfile extends Component{
     state = {
-
+        visible : false
     }
 
     componentDidMount(){
         this.props.getRequestedPosts()
     }
+
+    showDrawer = (e) => {
+        this.setState({visible : true});
+        const homeId = e.target.name
+        this.props.particularHome(homeId)
+      };
+
+    onClose = () => {
+        this.setState({visible : false});
+    };
 
     render(){
         return (
@@ -19,9 +31,8 @@ class OwnerProfile extends Component{
                 <h1>Loading...</h1>
             : 
                 this.props.posts.posts.map(el =>
-                    <div key={el._id}>
-                        <Descriptions title='listing requests'>
-                            <Descriptions.Item label="Society Name">{el.societyName}</Descriptions.Item>
+                    <div key={el._id} style = {{ display : 'flex', justifyContent : "center", alignItems : 'center'}} >
+                        <Descriptions className='request-description' title={el.societyName}>
                             <Descriptions.Item label="Address">
                                 {el.location.formattedAddress}
                             </Descriptions.Item>
@@ -29,7 +40,23 @@ class OwnerProfile extends Component{
                             <Descriptions.Item label="created on">{el.createdAt}</Descriptions.Item>
                             <Descriptions.Item label="vacant">{el.vacant == true ? 'yes' : 'no'}</Descriptions.Item>
                             <Descriptions.Item label="verified">{el.verified == true ? 'yes' : 'no'}</Descriptions.Item>
+                            <Descriptions.Item>
+                             <button name={el._id} onClick={this.showDrawer}>
+                                     Details
+                             </button>
+                            </Descriptions.Item>
                         </Descriptions>
+                        <div>
+                                    <Drawer
+                                        title="Basic Drawer"
+                                        placement="right"
+                                        closable={false}
+                                        onClose={this.onClose}
+                                        visible={this.state.visible}
+                                    >
+                                        <p>{ }</p>
+                                    </Drawer>
+                        </div>
                     </div>
                 )
         )    
@@ -38,8 +65,9 @@ class OwnerProfile extends Component{
 
 const mapStateToProps = stateStatus => {
     return {
-        posts : stateStatus.postsState
+        posts : stateStatus.postsState,
+        homeDetails : stateStatus.listingState.particularHome
     }
 }
 
-export default connect(mapStateToProps, { getRequestedPosts }) (OwnerProfile)
+export default connect(mapStateToProps, { getRequestedPosts, particularHome }) (OwnerProfile)

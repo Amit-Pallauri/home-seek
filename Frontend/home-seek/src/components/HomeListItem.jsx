@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { List, Button } from 'antd';
+import '../styles/listing-styles.css'
 
 const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
 
@@ -64,7 +65,7 @@ class HomeListItem extends Component {
 					{!this.state.active ? 'Map View' : 'Grid View'}
 				</Button>
 				<div style={{ width: !this.state.active ? '100%' : '60%' }}>
-					<List
+					<List 
 						itemLayout="vertical"
 						size="large"
 						pagination={{
@@ -78,6 +79,7 @@ class HomeListItem extends Component {
 							<div>
 								<Link to={`/home/details/${item._id}`}>
 									<List.Item
+										className='home-list'
 										key={item._id}
 										actions={[ <Button type="primary">Book Visit</Button> ]}
 										extra={<img width={272} alt="logo" src={`${item.details.images[0]}`} />}

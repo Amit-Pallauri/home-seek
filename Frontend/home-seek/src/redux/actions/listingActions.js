@@ -1,4 +1,4 @@
-import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST} from '../actionTypes/userActionTypes';
+import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST, TEMP_DETAIL} from '../actionTypes/userActionTypes';
 import {VERIFY_OTP} from '../actionTypes/userActionTypes';
 import axios from 'axios';
 import { SERVER_BASE_URL } from '../../config'
@@ -82,7 +82,7 @@ export const allHomes = () => async (dispatch, getState) => {
     }
 }
 
-export const particularHome = (homeId) => async (dispatch, getState) => {
+export const particularHome = (homeId) => async (dispatch) => {
     try {
         dispatch({ type: TOGGLE_CREATE_STATE});
         const storage = JSON.parse(localStorage.getItem('user'))
@@ -95,7 +95,6 @@ export const particularHome = (homeId) => async (dispatch, getState) => {
             type: GETPARTICULARPOST,
             payload: data
         })
-        //console.log(data)
     } catch (err) {
         dispatch({ type: ERROR, payload: err})
         console.error(err.message);

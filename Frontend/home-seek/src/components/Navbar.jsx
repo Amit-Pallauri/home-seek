@@ -23,6 +23,7 @@ import {logoutUser} from '../redux/actions/userActions';
 import Requests from '../pages/Requests';
 import ProfilePage from '../pages/ProfilePage';
 import HomeListPage from '../pages/HomeListPage';
+import MyHome from '../pages/MyHome'
 
 const { Header, Sider, Content } = Layout;
 
@@ -72,6 +73,9 @@ class Navbar extends Component {
 							<Menu.Item key="5" icon={<UploadOutlined />}>
 								<Link to="/requests">requests</Link>
 							</Menu.Item>
+							<Menu.Item key="6" icon={<UploadOutlined />}>
+								<Link to="/myHome">my Home</Link>
+							</Menu.Item>
 						</Menu>
 					</Sider>
 					<Layout className="site-layout" style={{ marginLeft: !this.state.collapsed ? 200 : 70 }}>
@@ -118,6 +122,7 @@ class Navbar extends Component {
 								<Route exact path="/chat" component={protectedRoute(ChatPage)} />
 								<Route exact path="/owner/listing/create" component={protectedRoute(ListingPage)} />
 								<Route exact path='/requests' component={protectedRoute(Requests)} />
+								<Route exact path='/myHome' component={protectedRoute(MyHome)} />
 								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
 								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
 								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
