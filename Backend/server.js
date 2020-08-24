@@ -10,7 +10,7 @@ const Chat = require('./models/Chat');
 
 
 io.on('connection', (socket)=>{
-    console.log('made socket connectin')
+    // console.log('made socket connectin')
     
     socket.on('input chat message', async msg => {
         try {
@@ -36,7 +36,7 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('disconnect', () => {
-        console.log('user has left')
+        // console.log('user has left')
     })
 })
 

@@ -4,6 +4,14 @@ const FacebookStractegy =  require('passport-facebook').Strategy
 const User = require('../models/Users')
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET } = process.env
 
+passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});
+
 passport.use(new GoogleStrategy({
     clientID : GOOGLE_CLIENT_ID,
     clientSecret : GOOGLE_CLIENT_SECRET,

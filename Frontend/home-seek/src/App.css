@@ -26,125 +26,26 @@
     color: rgba(29, 71, 29, 0.233);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-/* register and login forms
-.register-form, .login-form{
-    position: absolute;
-    left: 15%;
-    top: 30%;
-    height: 400px;
-    width: 300px;
-    border: 2px solid rgba(163, 204, 14, 0.199);
-    border-radius: 10px;
-    background: rgba(79, 148, 9, 0.39);
-}
-.register-form form, .login-form form{
+
+.home-page-logo {
     display: flex;
     flex-direction: column;
-    margin: 10px;
-}
-.register-form form h1, .login-form form h1{
-   text-align: center;
-   color: rgba(179, 83, 49, 0.678);
-}
-.register-form form input{
-    border-radius: 10px;
-    padding: 6px 20px;
-    margin: 5px;
-    outline: none;
-    border: none;
-    border-bottom: 1px solid rgba(184, 184, 6, 0.644);
-}
-
-.login-form form input{
-    border-radius: 10px;
-    padding: 6px 20px;
-    margin: 5px;
-    outline: none;
-    border: 1px solid rgba(184, 184, 6, 0.644);
-}
-
-.login-form .forgot-pass-btn {
-    text-decoration: none;
-    margin: 0 10px 5px 10px;
-    width: 125px;
-    text-align: center;
-    color: rgba(7, 24, 11, 0.582);
-    font-weight: 600;
-}
-.forgot-pass-container{
-    position: absolute;
-    left: 30%;
-    top: 30%;
-    width: 600px;
-    height: 350px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    background: rgb(47, 79, 79);
-}
-
-.forgot-pass-form  input[type='email']{
-    border: none;
-    height: 30px;
-    width: 200px;
-    padding: 5px 10px;
-} 
-
-.forgot-pass-form  input[type='submit']{
-    border: none;
-    padding: 11px 25px;
-    border: 1px solid rgba(53, 37, 37, 0.158);
-} 
-
-.revive-pass-container {
-    width: 400px;
-    height: 350px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: rgb(47, 79, 79);
     position: absolute;
-    left: 35%;
-    top: 30%
+    left: 25%;
+    top: 35%;
+    width: 60%;
 }
-
-.revive-pass-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.home-page-logo p{
+    font-size: 80px;
+    margin: 0;
+    padding: 0;
+    color: rgba(29, 71, 29, 0.233);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.revive-pass-form input[type='password']{ 
-    padding: 8px;
-    width: 200px;
-    margin: 5px;
-    border: none;
-    border-bottom: 1px solid black;
-    background: none;
-    outline: none;
+.home-page-logo Input.Search {
+    padding: 10px;
 }
-.revive-pass-form input[type='password']::placeholder {
-    color: white
-}
-
-.revive-pass-form input[type='submit']{ 
-    margin-top: 15px;
-    border: none;
-    padding: 8px 10px;
-}
-
-/* google login */
-/* .google-login{
-    padding: 3px;
-    background: rgba(192, 180, 10, 0.322);
-    width: 120px;
-    height: 30px;
-    text-align: center;
-    border-radius: 5px;
-}
-
-.thirdPartyAuth { 
-    margin: 5px;
-    display: flex;
-    justify-content: space-evenly;
-} */ 
+ #components-form-demo-control-hooks .ant-btn {
+   margin-right: 8px;
+ }

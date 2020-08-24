@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 import { Layout, Menu, Button } from 'antd';
 import {
 	MenuUnfoldOutlined,
@@ -9,10 +9,10 @@ import {
 	VideoCameraOutlined,
 	UploadOutlined
 } from '@ant-design/icons';
-
+import protectedRoute from '../HOC/protectedRoute'
 import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
-import Loginpage from '../pages/Loginpage';
+import Loginpage from '../pages/LoginPage';
 import Homepage from '../pages/Homepage';
 import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';
@@ -20,6 +20,8 @@ import ChatPage from '../pages/ChatPage';
 import ForgotPassword from '../pages/ForgotPassword';
 import RevivePassword from '../pages/RevivePassword';
 import {logoutUser} from '../redux/actions/userActions';
+import Requests from '../pages/Requests';
+import ProfilePage from '../pages/ProfilePage';
 import HomeListPage from '../pages/HomeListPage';
 
 const { Header, Sider, Content } = Layout;
@@ -58,17 +60,16 @@ class Navbar extends Component {
 							<Menu.Item key="1" icon={<UserOutlined />}>
 								<Link to="/">Home</Link>
 							</Menu.Item>
-							<Menu.Item key="2" icon={<VideoCameraOutlined />}>
-								<Link to="/owner/listing/create">Listing Your Home</Link>
+							<Menu.Item key="2" icon={<UploadOutlined />}>
+								<Link to="/profile">Profile</Link>
 							</Menu.Item>
-							<Menu.Item key="3" icon={<UploadOutlined />}>
+							<Menu.Item key="3" icon={<VideoCameraOutlined />}>
+								<Link to="/owner/listing/create">Listings</Link>
+							<Menu.Item key="4" icon={<UploadOutlined />}>
 								<Link to="/homes">Search Home</Link>
 							</Menu.Item>
-							<Menu.Item key="4" icon={<UploadOutlined />}>
-								<Link to="/normalrequests">Normal Request</Link>
-							</Menu.Item>
 							<Menu.Item key="5" icon={<UploadOutlined />}>
-								<Link to="/profile">Profile</Link>
+								<Link to="/requests">requests</Link>
 							</Menu.Item>
 						</Menu>
 					</Sider>
@@ -81,7 +82,7 @@ class Navbar extends Component {
 							{!this.props.user ? (
 								<>
 									<Link to="/signUp">
-										<Button style={{ marginLeft: 1350, marginRight: 15 }}>Register</Button>
+										<Button style={{ marginLeft : !this.state.collapsed ? 1050 : 1200 }}>Register</Button>
 									</Link>
 									<Link to="/signIn">
 										<Button style={{ marginLeft: 25 }}>Login</Button>
@@ -89,7 +90,7 @@ class Navbar extends Component {
 								</>
 							) : (
 								<>
-									<Button style={{ marginLeft: 1350, marginRight: 15 }} onClick={this.handleClick}>
+									<Button style={{ marginLeft: !this.state.collapsed ? 1050 : 1200, marginRight: 15 }} onClick={this.handleClick}>
 										Logout
 									</Button>
                                     <Link to="/chat">
@@ -101,6 +102,7 @@ class Navbar extends Component {
 						<Content
 							className="site-layout-background"
 							style={{
+								// height: '80vh',
 								margin: '24px 16px',
 								padding: 24,
 								minHeight: 280
@@ -111,12 +113,13 @@ class Navbar extends Component {
 								<Route exact path="/signUp" component={RegisterPage} />
 								<Route exact path="/signIn" component={Loginpage} />
 								<Route exact path="/forgotPassword" component={ForgotPassword} />
-								<Route exact path="/revivePassword/:token" component={RevivePassword} />
-								<Route exact path="/chat" component={ChatPage} />
-								<Route exact path="/owner/listing/create" component={ListingPage} />
-								<Route exact path="/homes" component={HomeListPage} />
-								<Route exact path="/home/details/:homeId" component={DetailPage}/>
-								<Redirect to="/" />
+								<Route exact path="/revivePassword/:token" component={RevivePassword}/>
+								<Route exact path="/chat" component={protectedRoute(ChatPage)} />
+								<Route exact path="/owner/listing/create" component={protectedRoute(ListingPage)} />
+								<Route exact path='/requests' component={protectedRoute(Requests)} />
+								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
+								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
+								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
 							</Switch>
 						</Content>
 					</Layout>

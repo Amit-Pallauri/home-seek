@@ -372,7 +372,7 @@ class ListingPage extends Component {
             </Form>
 				
             <Form className='otp-form'>
-				<Form.Item label="Phone no">
+				<Form.Item >
                     <Input 
                         type="tel"
 						name="phoneNumber"
@@ -383,13 +383,13 @@ class ListingPage extends Component {
 						required
                     />
                 </Form.Item>
-                <Form.Item label="Confirm">
+                <Form.Item>
                     <Input 
                         type="tel"
 						name="confirmPhoneNumber"
 						onChange={this.handleChange}
 						value={this.state.confirmPhoneNumber}
-						placeholder="Enter confirmPhoneNumber"
+						placeholder="confirm your PhoneNo."
 						addonBefore="+91"
 						required
                     />

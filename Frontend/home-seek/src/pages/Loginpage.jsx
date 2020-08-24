@@ -1,82 +1,125 @@
-import React, { useState, useEffect } from 'react';
+import React, {  Component } from 'react';
 import { connect } from 'react-redux';
 import { loginUser, loginViaThirdParty } from '../redux/actions/userActions';
 import { userValidation } from '../helpers/errorHanlder';
 import { Link } from 'react-router-dom'
+import { GoogleLogin } from 'react-google-login'
+import { GOOGLE_CLIENT_ID,  FACEBOOK_APP_ID } from '../config'
+import FacebookLogin from 'react-facebook-login'
 import '../styles/signin-styles.css'
 
-const Loginpage = (props) => {
-	const [user, setUser] = useState({
+class Loginpage extends Component{
+	state = {
 		email : "",
 		password : "",
+		firstName : '',
+		lastName : '',
+		image : '',
 		error : null
-	})
+	}
     
-    const handleChange = (e) => {
-		setUser({...user, [e.target.name] : e.target.value})
+     handleChange = (e) => {
+		this.setState({[e.target.name] : e.target.value})
     }
 
-    const handleSubmit = (e) => {
+     handleSubmit = (e) => {
 		e.preventDefault();
-		const isValidate = userValidation('signIn', user)
+		const isValidate = userValidation('signIn', this.state)
 		if(isValidate) {
-			props.loginUser(user)
-			setUser({...user, error : ""})
+			this.props.loginUser(this.state)
+			this.setState({error : ""})
 			// return !user.error ? props.history.push('/') : null
-		} else setUser({...user, error : "invalid credentials"})
+		} else this.setState({error : "invalid credentials"})
 	}
 
-	useEffect(()=> {
-		return props.user.isAuthenticating
-				? setUser({...user, error : props.user.errorMessage})
-				: undefined
-	}, [props.user])
+	 responseGoogle = res => {
+		if (res.error) {
+			this.setState({ error : res.error})
+		}
+		else {
+			const { profileObj : { email, givenName : firstName, familyName : lastName, imageUrl : image }} = res
+			this.props.loginViaThirdParty({ email, firstName, lastName, image })
+		}
+	}
 
-	return (
-		<>
-			<div className='login-form' style={{height: '350px'}}>
-				<form onSubmit={handleSubmit}>
-					<h1>Login page</h1>
-					<input
-						type="email"
-						name="email"
-						onChange={handleChange}
-						value={user.email}
-						placeholder="Email"
-						required
-					/>
-					<input
-						type="password"
-						name="password"
-						onChange={handleChange}
-						value={user.password}
-						placeholder="password"
-						required
-					/>
-					<Link to='/forgotPassword'  className="forgot-pass-btn" >forgot Password</Link>
-					{
-						user.error
-						?	<p style={{ 
-								color:"red",
-								textAlign : 'center',
-								fontWeight : 800, 
-								fontFamily : 'monospace', 
-								padding : 0, margin : '6px' 
-							}}>{user.error}</p>
-						:	null
-					}
-					<input type="submit" value="Login"/>
-					<div className='thirdPartyAuth'>
-						<a className='google-login'  href='http://localhost:3000/google'><img  alt='google' src="https://img.icons8.com/material-sharp/24/000000/google-logo.png"/></a>
-						<a className='google-login' href='http://localhost:3000/fb'><img  alt='facebook' src="https://img.icons8.com/material-sharp/24/000000/facebook-f.png"/></a>
-					</div>
-				</form>
-			</div>
-			<div>
-				<img className='signin-image' src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/authentication_fsn5.svg" alt=""/>
-			</div>
-		</>
-	);
+	 responseFacebook = res => {
+		if(res.error) this.setState({ error : res.error})
+		else {
+			const { email, name : firstName, picture : {data : {url : image}} } = res
+			this.props.loginViaThirdParty({ email, firstName, image })
+		}
+	}
+
+	componentDidUpdate(prevProps){
+		if(prevProps !== this.props){
+			return this.props.user.isAuthenticating
+				? this.setState({error : this.props.user.errorMessage})
+				: undefined		
+		}
+	}
+
+	render(){
+		return (
+			<>
+				<div className='login-form-container' style={{height: '350px'}}>
+					<form className='login-form' onSubmit={this.handleSubmit}>
+						<h1>Sign In</h1>
+						<input
+							type="email"
+							name="email"
+							onChange={this.handleChange}
+							value={this.state.email}
+							placeholder="Email"
+							required
+						/>
+						<input
+							type="password"
+							name="password"
+							onChange={this.handleChange}
+							value={this.state.password}
+							placeholder="password"
+							required
+						/>
+						<Link to='/forgotPassword'  className="forgot-pass-btn" >forgot Password</Link>
+						{
+							this.state.error
+							?	<p style={{ 
+									color:"red",
+									textAlign : 'center',
+									fontWeight : 800, 
+									fontFamily : 'monospace', 
+									padding : 0, margin : '6px' 
+								}}>{this.state.error}</p>
+							:	null
+						}
+						<input type="submit" value="Login"/>
+						<div className='thirdPartyAuth'>
+							<GoogleLogin
+								clientId = {GOOGLE_CLIENT_ID}
+								onSuccess = {this.responseGoogle}
+								onFailure = {this.responseGoogle}
+								cookiePolicy = {'single_host_origin'}
+								className='google-login'
+								icon= {true}
+								buttonText={false}
+							/>
+							<FacebookLogin
+								tag='button'
+								textButton = ' '
+								appId = {FACEBOOK_APP_ID}
+								fields= "name, email, picture"
+								callback={this.responseFacebook}
+								version="3.1"
+								cssClass='google-login'
+								icon='fa-facebook'
+							/>
+						</div>
+					</form>
+					<img className='signin-image' src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/authentication_fsn5.svg" alt=""/>
+				</div>
+			</>
+		);	
+	}
 }
 
 const mapStateToProps = storeState => {

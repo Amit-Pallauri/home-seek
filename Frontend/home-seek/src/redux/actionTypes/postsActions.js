@@ -1,0 +1,2 @@
+export const GET_REQUESTED_POSTS = 'GET_REQUESTED_POSTS'
+export const ERROR = 'ERROR'

@@ -1,0 +1,19 @@
+.profile-container{
+    display: flex;
+}
+
+.profilepage-container {
+    padding: 5px;
+    width: 60%;
+    margin: auto;
+}
+
+.card-data-el {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-data-container button{
+    width: 100px;
+
+}

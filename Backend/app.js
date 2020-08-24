@@ -1,8 +1,7 @@
 const express = require('express')
 const { config } = require('dotenv')
-
 const passport = require('passport')
-const cookieParser = require('cookie-parser')
+const bodyparser = require('body-parser')
 const cors = require('cors')
 config()
 require('./db')
@@ -10,7 +9,8 @@ require('./utils/passport')
 require("./utils/razorpay")
 
 const app = express()
-app.use(cookieParser());
+// app.use(cookieParser());
+app.use(bodyparser.json())
 app.use(express.json())
 app.use(
   cors() 
@@ -20,7 +20,7 @@ app.use(
   //       allowedHeaders: ["Content-Type"]
   //     })
 )
-app.options('*', cors())
+// app.options('*', cors())
 app.use(passport.initialize())
 
 const userRoutes = require('./routes/userRoutes')

@@ -34,7 +34,7 @@ module.exports = {
     //Get the posts
     async GetPost (req, res) {
         try {
-            const posts = await Posts.find({ verified: false });
+            const posts = await Posts.find({ });
             res.status(200).json({ listings: posts})
         } catch (err) {
             console.error(err)
