@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const router = Router()
 const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
-,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete,GetAllPosts} = require("../controllers/apiControllers");
+,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete,GetAllPosts, userSpecificPosts} = require("../controllers/apiControllers");
 const {
     verifyAdmin
 } = require("../middlewares/authenticate")
@@ -44,5 +44,7 @@ router.post('/owner/listing/verify', verifyAdmin, verifyOTP);
 router.get('/owner/home/:homeId', verifyAdmin, GetParticularPost);
 
 router.get('/listings', verifyAdmin, GetAllPosts);
+
+router.get('/userSpecificPosts', userSpecificPosts)
 
 module.exports = router

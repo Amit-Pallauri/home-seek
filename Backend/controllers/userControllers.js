@@ -16,7 +16,8 @@ module.exports = {
                 await newUser.save()
                 return res.status(201).json({
                     "message" : "user saved. Please verify your account",
-                    "data" : newUser
+                    token : token,
+                    data : newUser
                 })
             }  
         } catch (error) {
@@ -64,7 +65,9 @@ module.exports = {
             const foundUser = await User.findOneAndUpdate({ accessToken : token }, { verified : true }, { new : true })
             if(!foundUser) return res.status(400).json({"message" : "Invalid credentials"})
             return res.status(200).json({
-                "message" : "you have been verified"
+                "message" : "you have been verified",
+                data : foundUser,
+                token : token
             })
         } catch (error) {
             console.log(error.message)
@@ -81,6 +84,7 @@ module.exports = {
             const foundUser = await User.findOneAndUpdate({ accessToken }, { image : secure_url }, {new : true})
             res.json({
                 message : 'image uploaded',
+                token : accessToken,
                 data : foundUser  
             })      
         } catch (error) {
@@ -93,7 +97,11 @@ module.exports = {
             const { DOB , Address, gender, maritalStatus } = req.body
             const foundUser = await User.findOneAndUpdate({ accessToken : req.headers.authorization }, { DOB, Address, gender, maritalStatus }, {new : true})
             if(!foundUser) return res.send('invalid type')
-            res.status(200).json({success : true, data : foundUser})
+            res.status(200).json({
+                success : true,
+                data : foundUser,
+                token : req.headers.authorization
+            })
         } catch (error) {
            res.status(400).json({error : error}) 
         }
@@ -139,7 +147,8 @@ module.exports = {
                 await foundUser.save()
                 return res.status(201).json({
                     message : 'loggedIn successfully',
-                    data : foundUser
+                    data : foundUser,
+                    token : token
                 })
             }else{
                 const newUser = await User.create({...req.body.details, isThirdPartyUser : true, verified : true })
@@ -148,7 +157,8 @@ module.exports = {
                 await newUser.save()
                 return res.status(201).json({
                     message : 'user saved',
-                    data : newUser 
+                    data : newUser,
+                    token : token 
                 })
             }
         } catch (error) {

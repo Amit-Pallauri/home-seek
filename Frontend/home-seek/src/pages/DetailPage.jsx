@@ -271,7 +271,7 @@ class DetailPage extends Component {
 					<Modal
 						title="Basic Modal"
 						visible={this.state.visible}
-						onOk={this.props.user.user.isVerifiedPhoneNumber === true ? this.handleOk1 : { disabled: true }}
+						onOk={this.props.user.data.isVerifiedPhoneNumber === true ? this.handleOk1 : { disabled: true }}
 						onCancel={this.handleCancel1}
 					>
 						<h1>When are you planning to visit?</h1>
@@ -279,7 +279,7 @@ class DetailPage extends Component {
 						<br /><br/>
 						<DatePicker onChange={this.onChange} />
                         <br/><br/>
-						{this.props.user.user.isVerifiedPhoneNumber === false ? (
+						{this.props.user.data.isVerifiedPhoneNumber === false ? (
 							<Form className="otp-form">
 								<Form.Item label="Phone no">
 									<Input
@@ -339,7 +339,7 @@ class DetailPage extends Component {
 						<DatePicker onChange={this.onChange} />
 						<br />
 						<br />
-						{this.props.user.user.isVerifiedPhoneNumber === true ? (
+						{this.props.user.data.isVerifiedPhoneNumber === true ? (
 							<Button type="primary" onClick={this.handlePayment} size="large" >{`pay ₹${this.props.home.particuarPost
 								.details.rent} the rent`}</Button>
 						) : (
