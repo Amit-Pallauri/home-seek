@@ -103,13 +103,69 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    tentRent: {
-        type: Number
+    dateOfCheckIn : {
+        type : Date,
+        validate : {
+            validator : (data) => {
+                return data.toLocaleDateString()
+            },
+            message : props => `${props.value} is not a valid date format`
+        },
+        required : false,
+        default : new Date().toLocaleDateString()
     },
-    ownerRent: {
-        type: Number
+    dateOfCheckOut : {
+        type : Date,
+        validate : {
+            validator : (data) => {
+                return data.toLocaleDateString()
+            },
+            message : props => `${props.value} is not a valid date format`
+        },
+        required : false,
+        default : new Date().toLocaleDateString()
     },
-    totalRent: {
+    bankDetails : {
+        AccountName : {
+            type : String,
+            default : 'e.g., john'
+        },
+        AccountNo : {
+            type: String,
+            default : '7000897645709AS'
+        },
+        BankName : {
+            type : String,
+            default : 'state bank of india'
+        },
+        IFSC : {
+            type : String,
+            default : 'JDKDH6768S'
+        }
+    },
+    rentPaid : {
+        AdvnacePaid : {
+            value : { 
+                type : Number
+            },
+            on : {
+                type : Date
+            }
+        },
+        monthlyPayment : [{
+            value : { 
+                type : Number
+            },
+            on : {
+                type : Date
+            } 
+        }]
+    },
+    Home : {
+        type : Schema.Types.ObjectId,
+        ref : 'posts'
+    },
+    rentReceivedAsOwner : {
         type: Number
     },
     normalRequests: {
