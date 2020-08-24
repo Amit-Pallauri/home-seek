@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const router = Router()
 const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
-,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete} = require("../controllers/apiControllers");
+,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete,GetAllPosts} = require("../controllers/apiControllers");
 const {
     verifyAdmin
 } = require("../middlewares/authenticate")
@@ -33,14 +33,16 @@ router.delete('/admin/delete/normalrequests/:requestId', verifyAdmin, deleteNorm
 
 router.get('/filter', filterSearch)
 
-// router.post('/user/pay', verifyAdmin, amountpaycreate);
+router.post('/user/pay', verifyAdmin, amountpaycreate);
 
-// router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
+router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
 
 router.post('/owner/listing', verifyAdmin, createOTP);
 
 router.post('/owner/listing/verify', verifyAdmin, verifyOTP);
 
-router.get('/owner/home/:homeId', verifyAdmin, GetParticularPost)
+router.get('/owner/home/:homeId', verifyAdmin, GetParticularPost);
+
+router.get('/listings', verifyAdmin, GetAllPosts);
 
 module.exports = router

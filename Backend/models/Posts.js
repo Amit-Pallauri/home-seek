@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 const postsSchema = new Schema(
     {
-        noOfProperty: {
-            type: Number,
-            required: true
-        },
         location: {
             type: {
               type: String,
@@ -26,10 +22,6 @@ const postsSchema = new Schema(
             type: String,
             required: true
         },
-        rooms: {
-            type: Number,
-            required: true
-        },
         vacant: {
             type: Boolean,
             required: true
@@ -39,10 +31,6 @@ const postsSchema = new Schema(
             required: true
         },
         phoneNumber: {
-            type: String,
-            required: true
-        },
-        confirmPhoneNumber: {
             type: String,
             required: true
         },

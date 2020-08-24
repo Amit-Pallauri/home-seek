@@ -104,7 +104,14 @@ const userSchema = new Schema({
     listings: [
         { type: Schema.Types.ObjectId,
         ref: "posts"
-    }]
+    }],
+    isVerifiedPhoneNumber: {
+        type: Boolean,
+        default: false
+    },
+    phoneNumber: {
+        type: String
+    }
 }, {timestamps : true })
 
 userSchema.statics.findByEmailAndPassword = async (email, password) =>{

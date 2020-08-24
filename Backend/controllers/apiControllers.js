@@ -17,9 +17,6 @@ module.exports = {
     async PostsCreate (req, res)  {
         try {
             const user = req.user
-            if(req.body.phoneNumber !== req.body.confirmPhoneNumber) {
-                return res.status(404).json({ message: "Phone Number must be same"})
-            }
             const createHouse = await Posts.create({
                 ...req.body,
                 owner: user._id
@@ -57,6 +54,15 @@ module.exports = {
 
     },
 
+    async GetAllPosts (req, res) {
+        try {
+            const posts = await Posts.find({ verified: true }).populate('details')
+            res.status(200).json({ listings: posts}) 
+        } catch (error) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
     //Admin creating the details
     async detailsCreate (req, res) {
         try {
@@ -279,7 +285,6 @@ module.exports = {
                 channel: "sms"
             })
             res.status(200).json({message: "message Sent Successfully", data: sendOTP})
-            
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -288,13 +293,16 @@ module.exports = {
 
     async verifyOTP (req, res) {
         const {phoneNumber, code} = req.body
+        const user = req.user
         try {
             const verifyOTP = await client.verify.services(TWILIO_SERVICE_ID).verificationChecks.create({
                 to: `+${phoneNumber}`,
                 code: code
             })
-            res.status(200).json({message: "verified Successfully", data: verifyOTP})
-
+            user.isVerifiedPhoneNumber = true;
+            user.phoneNumber = phoneNumber
+            user.save()
+            res.status(200).json({message: "verified Successfully", token: user.accessToken, user: user})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
