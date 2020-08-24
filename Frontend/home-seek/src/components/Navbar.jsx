@@ -65,6 +65,7 @@ class Navbar extends Component {
 							</Menu.Item>
 							<Menu.Item key="3" icon={<VideoCameraOutlined />}>
 								<Link to="/owner/listing/create">Listings</Link>
+							</Menu.Item>
 							<Menu.Item key="4" icon={<UploadOutlined />}>
 								<Link to="/homes">Search Home</Link>
 							</Menu.Item>
@@ -79,7 +80,7 @@ class Navbar extends Component {
 								className: 'trigger',
 								onClick: this.toggle
 							})}
-							{!this.props.user ? (
+							{!this.props.user.token ? (
 								<>
 									<Link to="/signUp">
 										<Button style={{ marginLeft : !this.state.collapsed ? 1050 : 1200 }}>Register</Button>

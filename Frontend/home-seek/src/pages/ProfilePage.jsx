@@ -70,7 +70,7 @@ class ProfilePage extends Component {
     render() {
       const {
         firstName, lastName, email, DOB, gender, Address:{ city, district, state, pincode }, maritalStatus
-      } = this.props.user.user
+      } = this.props.user.user.data
       const formatedDate = new Date(DOB).toLocaleDateString()
         return (
           !this.state.loading
@@ -79,8 +79,8 @@ class ProfilePage extends Component {
               <Card style={{ width: 300, marginTop: 16 }}>
                 <Meta
                   avatar={
-                    this.props.user.image  
-                    ? <Avatar src={this.props.user.image} />
+                    this.props.user.data.image  
+                    ? <Avatar src={this.props.user.data.image} />
                     : <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                   }
                   title={`${firstName} ${lastName}`}

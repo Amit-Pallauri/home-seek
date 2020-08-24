@@ -23,7 +23,7 @@ export const registerUser = user => async dispatch =>  {
         const { data } = await axios.post(`${SERVER_BASE_URL}/signup`, user, {headers: headers})
         dispatch({
             type: REGISTER_USER,
-            payload: data.data
+            payload: data
         })   
         dispatch({ type : TOGGLE_AUTH_STATE });
     } catch (err) {
@@ -46,7 +46,7 @@ export const loginUser = user => async (dispatch) =>  {
         console.log('data', data)
         dispatch({
             type: LOGIN_USER,
-            payload: data.foundUser
+            payload: data
         })
         dispatch({ type : TOGGLE_AUTH_STATE });
     } catch (err) {
@@ -68,7 +68,7 @@ export const logoutUser = ()  => async dispatch => {
         const user = JSON.parse(localStorage.getItem('user'))
         const headers = {
             'Content-Type': 'application/json',
-            'authorization' : user.accessToken
+            'authorization' : user.token
         }
         const { data } = await axios.delete(`${SERVER_BASE_URL}/signOut`, { headers : headers })
         console.log(data)
@@ -88,7 +88,7 @@ export const loginViaThirdParty = details => async dispatch => {
         const { data } = await axios.post(`${SERVER_BASE_URL}/thirdPartysignIn`, {details} , {headers})
         dispatch({
             type : LOGIN_VIA_THIRDPARTY,
-            payload : data.data
+            payload : data
         })
     } catch (error) {
        dispatch({
@@ -139,7 +139,7 @@ export const addProfilepic = state => async dispatch => {
         dispatch({ type : TOGGLE_GET_STATE })
         const user = JSON.parse(localStorage.getItem('user'))
         const headers = {
-            'authorization' : user.accessToken
+            'authorization' : user.token
         }
         const { image }  = state
         const { data } = await axios.post(`${SERVER_BASE_URL}/uploadPic`, {image}, { headers })
@@ -162,7 +162,7 @@ export const updateProfile = details => async dispatch => {
         const user = JSON.parse(localStorage.getItem('user'))
         const headers = {
             'Content-type' : 'application/json',
-            'authorization' : user.accessToken
+            'authorization' : user.token
         }
         const { DOB, gender, city, district, state, pincode, maritalStatus } = details
         const Address = {
@@ -171,7 +171,7 @@ export const updateProfile = details => async dispatch => {
         const { data } = await axios.post(`${SERVER_BASE_URL}/addDetails`, { DOB, gender, Address, maritalStatus }, { headers })
         dispatch({
             type : UPDATE_DETAILS,
-            payload : data.data
+            payload : data
         })
         dispatch({ type : TOGGLE_GET_STATE })
     } catch (error) {

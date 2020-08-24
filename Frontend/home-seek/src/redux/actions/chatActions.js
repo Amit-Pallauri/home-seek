@@ -6,10 +6,10 @@ import { GET_CHATS, CHAT_FETCH_ERROR, CHAT_FETCHING } from '../actionTypes/chatA
 export const getChats =  () => async dispatch => {
     try {
         dispatch({type : CHAT_FETCHING})
-        const token = JSON.parse(localStorage.getItem('user'))
+        const user = JSON.parse(localStorage.getItem('user'))
         const headers = {
             'Content-Type': 'application/json',
-            'authorization' : token.token
+            'authorization' : user.token
         }
         const {data} = await axios.get(`${SERVER_BASE_URL}/getChats`, {headers})
         dispatch({

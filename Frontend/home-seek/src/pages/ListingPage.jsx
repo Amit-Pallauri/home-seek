@@ -252,7 +252,7 @@ class ListingPage extends Component {
 		this.setState({componentSize : size});
 	};
 	render() {
-		return this.props.user ? (
+		return this.props.user.data ? (
 			<div className='listing-form-conatiner'>
             <Title id='heading' level={2}>List your property</Title>
             <Form 
@@ -365,7 +365,7 @@ class ListingPage extends Component {
                             />
                         </Form.Item>
 					</div>
-			{this.props.user.user.isVerifiedPhoneNumber === true ? 
+			{this.props.user.data.isVerifiedPhoneNumber === true ? 
 			<Form.Item>
                     <Button type='submit' onClick={this.handleSubmit}>Create</Button>
 			</Form.Item> : null}
