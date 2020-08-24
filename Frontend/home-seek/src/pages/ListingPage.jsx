@@ -391,23 +391,23 @@ class ListingPage extends Component {
             </Form>
 				
             <Form className='otp-form'>
-				<Form.Item label="Phone no">
+				<Form.Item >
                     <Input 
                         type="tel"
 						name="phoneNumber"
 						onChange={this.handleChange}
 						value={this.state.phoneNumber}
-						placeholder="Enter phoneNumber"
+						placeholder="Enter PhoneNo."
 						required
                     />
                 </Form.Item>
-                <Form.Item label="Confirm">
+                <Form.Item>
                     <Input 
                         type="tel"
 						name="confirmPhoneNumber"
 						onChange={this.handleChange}
 						value={this.state.confirmPhoneNumber}
-						placeholder="Enter confirmPhoneNumber"
+						placeholder="confirm your PhoneNo."
 						required
                     />
                 </Form.Item>

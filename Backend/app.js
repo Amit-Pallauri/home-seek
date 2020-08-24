@@ -1,11 +1,7 @@
 const express = require('express')
 const { config } = require('dotenv')
-
 const passport = require('passport')
-// const cookieParser = require('cookie-parser')
 const bodyparser = require('body-parser')
-const { config } = require('dotenv')
-const cookieParser = require('cookie-parser')
 const cors = require('cors')
 config()
 require('./db')
@@ -24,7 +20,7 @@ app.use(
   //       allowedHeaders: ["Content-Type"]
   //     })
 )
-app.options('*', cors())
+// app.options('*', cors())
 app.use(passport.initialize())
 
 const userRoutes = require('./routes/userRoutes')

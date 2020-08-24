@@ -12,7 +12,8 @@ const userSchema = new Schema({
     },
     lastName : {
         type : String,
-        required : true,
+        required : false,
+        default : ' ',
         trim : true,
         minlength : 3,
         maxlength : 10   
@@ -67,18 +68,36 @@ const userSchema = new Schema({
             },
             message : props => `${props.value} is not a valid date format`
         },
-        required : false
+        required : false,
+        default : new Date().toLocaleDateString()
+    },
+    gender : {
+        type : String,
+        default : 'male',
+        enum : ['male', 'female', 'other']
     },
     Address : {
-        city: String,
-        district : String,
-        state : String,
-        pincode : Number 
+        city: {
+            type : String,
+            default : " "
+        },
+        district : {
+            type : String,
+            default : " "
+        },
+        state : {
+            type : String,
+            default : " "
+        },
+        pincode : {
+            type : Number,
+            default : " "
+        }
     },
     maritalStatus :{
         type : String,
-        enum : ['married', 'single'],
-        required : false
+        default : 'single',
+        enum : ["married", "single"]
     },
     owner: {
         type: Boolean,

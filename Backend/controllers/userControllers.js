@@ -1,6 +1,4 @@
 const User = require('../models/Users')
-const { sign } = require('jsonwebtoken')
-const { privatekey } = process.env
 const bufferToString = require('../utils/bufferToString')
 const cloudinary = require('../utils/cloudinary')
 const { sendMail } = require('../utils/sendMail')
@@ -10,11 +8,17 @@ module.exports = {
     signUp : async ( req, res )=>{
         try {
             const newUser = await User.create({...req.body})
-            res.status(201).json({
-                "message" : "user saved. Please verify your account",
-                "data" : newUser
-            })
+            const token = createToken(newUser)
             sendMail(newUser, 'verify', 'confirm')
+            if(!token) return res.status(404).json({ "message" : "server error" })
+            else{
+                newUser.accessToken = token
+                await newUser.save()
+                return res.status(201).json({
+                    "message" : "user saved. Please verify your account",
+                    "data" : newUser
+                })
+            }  
         } catch (error) {
             error.name == 'MongoError'
             ? res.status(401).json({message : 'this mail is already registered'})
@@ -33,7 +37,7 @@ module.exports = {
                 await foundUser.save()
                 return res.status(200).json({
                     "message" : "logged in successfully",
-                    "token" : token
+                    "foundUser" : foundUser
                 })
             }        
         } catch (error) {
@@ -56,7 +60,7 @@ module.exports = {
         try {
             const token = req.params.token
             if(!token) return res.status(400).send('invalid credentials')
-            const foundUser = await User.findOneAndUpdate({ accessToken : token }, { verified : true })
+            const foundUser = await User.findOneAndUpdate({ accessToken : token }, { verified : true }, { new : true })
             if(!foundUser) return res.status(400).json({"message" : "Invalid credentials"})
             return res.status(200).json({
                 "message" : "you have been verified"
@@ -70,12 +74,13 @@ module.exports = {
         try {
             const accessToken = req.headers.authorization
             const { originalname, buffer } = req.file
+            console.log('file from client :', req.file)
             const imageContent = bufferToString( originalname, buffer)
             const { secure_url } = await cloudinary.uploader.upload(imageContent)
-            const foundUser = await User.findOneAndUpdate({ accessToken }, { image : secure_url })
+            const foundUser = await User.findOneAndUpdate({ accessToken }, { image : secure_url }, {new : true})
             res.json({
-                'message' : 'image uploaded',
-                'image' : secure_url   
+                message : 'image uploaded',
+                data : foundUser  
             })      
         } catch (error) {
             console.log(error.message)
@@ -84,12 +89,12 @@ module.exports = {
     },
     addDetails : async (req, res) => {
         try {
-            const { DOB , Address } = req.body
-            const foundUser = await User.findOneAndUpdate({ accessToken : req.headers.authorization }, { DOB : DOB, Address })
+            const { DOB , Address, gender, maritalStatus } = req.body
+            const foundUser = await User.findOneAndUpdate({ accessToken : req.headers.authorization }, { DOB, Address, gender, maritalStatus }, {new : true})
             if(!foundUser) return res.send('invalid type')
-            res.status(200).json({"message" : 'data saved'})
+            res.status(200).json({success : true, data : foundUser})
         } catch (error) {
-            console.log(error)
+           res.status(400).json({error : error}) 
         }
     },
     forgotPassword : async (req, res)=>{
@@ -121,39 +126,33 @@ module.exports = {
             res.status(404).json({'error' : 'server error'})
         }
     },
-    logInViaGoogle : async(req, res)=>{
+    loginViaThirdParty : async (req, res) => {
         try {
-            const user = req.user
-            const accessToken = createToken(user)
-            await user.save()
-            // send the token as cookie
-            res.cookie("accessToken", accessToken, {
-                expires: new Date(Date.now() + 1000 * 60* 60* 12 )
-            })
-            // redirect to the client route
-            res.redirect('http://localhost:3001/')
-            // res.send(user)
+            const { details : { 
+                email
+            }} = req.body
+            const foundUser = await User.findOne({ email : email })
+            if(foundUser !== null){
+                const token = createToken(foundUser)
+                foundUser.accessToken = token
+                await foundUser.save()
+                return res.status(201).json({
+                    message : 'loggedIn successfully',
+                    data : foundUser
+                })
+            }else{
+                const newUser = await User.create({...req.body.details, isThirdPartyUser : true, verified : true })
+                const token = createToken(newUser)
+                newUser.accessToken  = token
+                await newUser.save()
+                return res.status(201).json({
+                    message : 'user saved',
+                    data : newUser 
+                })
+            }
         } catch (error) {
             console.log(error)
-            res.status(400).json({'error' : error.message})
-        }
-    },
-    logInViaFacebook : async(req, res)=>{
-        try {
-            const user = req.user
-            const accessToken = createToken(user)
-            await user.save()
-            // send the token as cookie
-            res.cookie("accessToken", accessToken, {
-                expires: new Date(Date.now() + 1000 * 60* 60* 12 ),
-                httpOnly: true,
-                sameSite :'none'
-            })
-            // redirect to the client route
-            res.redirect('http://localhost:3001/')
-        } catch (error) {
-            console.log(error)
-            res.status(400).json({'error' : error.message})
+            res.status(400).json({message : 'error', error : error})
         }
     }
 } 

@@ -9,10 +9,6 @@
 .listing-form{
     /* border: 1px solid red; */
     background: rgba(255, 248, 220, 0.527);
-    padding-top: 25px;
-    padding-left: 30px;
-    width: 80%;
-    margin: auto;
     text-align: center;
 }
 .listing-form Button{
@@ -24,17 +20,17 @@
 }
 .listing-form-conatiner #heading {
     text-align: center;
-    margin: 20px;
+    margin: 30px;
+    font-family: sans-serif;
 }
 
 .otp-form{
     padding: 5px;
-    /* border: 1px solid red; */
-    width: 50%;
-    margin: auto;
     text-align: center;
-    /* display: flex;
-    justify-content: space-between; */
+}
+
+.otp-form input[type = 'tel']{
+    width: 300px;
 }
 
 .otp-form input[type='number']{
