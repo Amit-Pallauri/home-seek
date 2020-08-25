@@ -14,7 +14,7 @@ const requestsReducer = (state = initialState, action) => {
             }
         case ERROR:
             return{
-                ...state, errorMessage : payload.error
+                ...state, errorMessage : payload
             }
         default:
             return state

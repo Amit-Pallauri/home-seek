@@ -32,7 +32,7 @@ const postsSchema = new Schema(
         },
         phoneNumber: {
             type: String,
-            required: true
+            required: false
         },
         verified: {
             type: Boolean,

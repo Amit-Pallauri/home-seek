@@ -10,7 +10,8 @@ import {
     ADD_PROFILE_PIC,
     UPDATE_DETAILS,
 	  VERIFY_OTP,
-      SERVICE_REQUEST
+      SERVICE_REQUEST,
+      UPDATE_BANK_DETAILS
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
 
@@ -113,6 +114,13 @@ const userReducer = (state = initialState, action) => {
         case SERVICE_REQUEST:
             return {
                 ...state, serviceRequests : payload
+            }
+
+        case UPDATE_BANK_DETAILS :
+            const updatedBankDetails = JSON.stringify(payload);
+            localStorage.setItem('user', updatedBankDetails);
+            return {
+                ...state, user : payload
             }
 
         default:

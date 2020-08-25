@@ -37,9 +37,9 @@ module.exports = {
                 foundUser.accessToken = token
                 await foundUser.save()
                 return res.status(200).json({
-                    "message" : "logged in successfully",
-                    "foundUser" : foundUser,
-                    "token" : token,
+                    message : "logged in successfully",
+                    data : foundUser,
+                    token : token,
                 })
             }        
         } catch (error) {
@@ -164,6 +164,21 @@ module.exports = {
         } catch (error) {
             console.log(error)
             res.status(400).json({message : 'error', error : error})
+        }
+    },
+    updateBankDetails : async (req, res) => {
+        try {
+            const accessToken = req.headers.authorization
+            const { details } = req.body
+            const foundUser = await User.findOneAndUpdate({ accessToken }, { bankDetails : details }, { new : true})
+            if(!foundUser) res.status(400).json({error : 'invalid credentials'})
+            res.status(200).json({
+                message : 'bank details updated',
+                token : accessToken,
+                data : foundUser
+            })
+        } catch (error) {
+            res.status(400).json({error : error})
         }
     }
 } 

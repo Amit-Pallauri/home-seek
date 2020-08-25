@@ -9,6 +9,7 @@ import {
 	Form,
 	Input,
 	Button,
+	message,
 	Typography
   } from 'antd';
 import '../styles/listing-styles.css'
@@ -135,7 +136,9 @@ class ListingPage extends Component {
 			location: {
 				type: "Point",
 				coordinates: [this.state.mapPosition.lat, this.state.mapPosition.lng],
-				formattedAddress: this.state.address
+				city : this.state.city,
+				state : this.state.state,
+				formattedAddress: this.state.address,
 			},
 			ownerShip: this.state.ownerShip,
 			societyName: this.state.societyName,
@@ -144,6 +147,7 @@ class ListingPage extends Component {
 			phoneNumber: this.state.phoneNumber
 		}
 		this.props.listingHouse(data);
+		message.success('your property has been listed. please go to the request tab to see the status. Thank you!')
 	};
 
 	handleGetOTP = () => {
@@ -409,7 +413,7 @@ class ListingPage extends Component {
 										<Button style={{ width : '200px'}} onClick={this.handleSubmit1} type='submit'>submit otp</Button>
 									</Form.Item>
 								</div>
-								</Form>
+							</Form>
 				}
             </Form>
         </div>

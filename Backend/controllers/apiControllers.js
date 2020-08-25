@@ -231,7 +231,7 @@ module.exports = {
     async filterSearch (req, res) {
         try {
             let filteredData = []
-            const {location, type, maxRent, minRent } = req.query
+            const {location, type, maxRent, minRent } = req.body
             console.log(maxRent, minRent)
             const locationeWise = await Details.find({ location })
             const typeWise = await Details.find({ type })
