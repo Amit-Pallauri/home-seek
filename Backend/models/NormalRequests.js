@@ -3,8 +3,13 @@ const Schema = mongoose.Schema;
 
 const normalRequestSchema = new Schema(
     {
-        requests : {
-            type: String
+        request : {
+            type: String,
+            require : true
+        },
+        description : {
+            type : String,
+            require : false
         },
         user : {
             type: Schema.Types.ObjectId,

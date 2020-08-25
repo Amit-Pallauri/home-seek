@@ -207,11 +207,6 @@ class ListingPage extends Component {
 			state = this.getState(addressArray),
 			latValue = place.geometry.location.lat(),
 			lngValue = place.geometry.location.lng();
-
-		//console.log('latvalue', latValue);
-		//console.log('lngValue', lngValue);
-
-		// Set these values in the state.
 		this.setState({
 			address: address ? address : '',
 			area: area ? area : '',
@@ -252,7 +247,7 @@ class ListingPage extends Component {
 		this.setState({componentSize : size});
 	};
 	render() {
-		return this.props.user ? (
+		return this.props.user.data ? (
 			<div className='listing-form-conatiner'>
             <Title id='heading' level={2}>List your property</Title>
             <Form 
@@ -365,53 +360,58 @@ class ListingPage extends Component {
                             />
                         </Form.Item>
 					</div>
-			{this.props.user.foundUser.isVerifiedPhoneNumber === true ? 
-			<Form.Item>
-                    <Button type='submit' onClick={this.handleSubmit}>Create</Button>
-			</Form.Item> : null}
+				{
+					this.props.user.data.isVerifiedPhoneNumber === true 
+						? 
+							<Form.Item>
+									<Button type='submit' onClick={this.handleSubmit}>Create</Button>
+							</Form.Item> 
+						: 
+							<Form className='otp-form'>
+								<Form.Item >
+									<Input 
+										type="tel"
+										name="phoneNumber"
+										onChange={this.handleChange}
+										value={this.state.phoneNumber}
+										placeholder="Enter phoneNumber"
+										addonBefore="+91"
+										required
+									/>
+								</Form.Item>
+								<Form.Item>
+									<Input 
+										type="tel"
+										name="confirmPhoneNumber"
+										onChange={this.handleChange}
+										value={this.state.confirmPhoneNumber}
+										placeholder="confirm your PhoneNo."
+										addonBefore="+91"
+										required
+									/>
+								</Form.Item>
+								<Form.Item style = {{ position : 'absolute', right : '20%'}} >
+									<Button onClick={this.handleGetOTP}  type='submit'>send otp</Button>
+								</Form.Item>
+							
+								<div className='otp'>
+									<Form.Item>
+										<Input
+											type="number"
+											name="code"
+											placeholder="Enter OTP"
+											onChange={this.handleChange}
+											value={this.state.code}
+											required
+										/>
+									</Form.Item>
+									<Form.Item>
+										<Button style={{ width : '200px'}} onClick={this.handleSubmit1} type='submit'>submit otp</Button>
+									</Form.Item>
+								</div>
+								</Form>
+				}
             </Form>
-				
-            <Form className='otp-form'>
-				<Form.Item >
-                    <Input 
-                        type="tel"
-						name="phoneNumber"
-						onChange={this.handleChange}
-						value={this.state.phoneNumber}
-						placeholder="Enter phoneNumber"
-						addonBefore="+91"
-						required
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Input 
-                        type="tel"
-						name="confirmPhoneNumber"
-						onChange={this.handleChange}
-						value={this.state.confirmPhoneNumber}
-						placeholder="confirm your PhoneNo."
-						addonBefore="+91"
-						required
-                    />
-                </Form.Item>
-                    <Form.Item>
-                        <Button onClick={this.handleGetOTP} type='submit'>send otp</Button>
-                    </Form.Item>
-					<div style={{ display : "flex", justifyContent : 'space-around' }}>
-						<Form.Item>
-							<Input
-								type="number"
-								name="code"
-								placeholder="Enter OTP"
-								onChange={this.handleChange}
-								value={this.state.code}
-							/>
-						</Form.Item>
-						<Form.Item>
-							<Button style={{ width : '200px'}} onClick={this.handleSubmit1} type='submit'>submit otp</Button>
-						</Form.Item>
-					</div>
-                </Form>
         </div>
 		) : (
 			<Redirect to="/signIn" />
