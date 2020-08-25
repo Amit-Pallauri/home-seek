@@ -149,11 +149,12 @@ module.exports = {
     async createUserRequest (req, res) {
         try {
             const user = req.user;
-            const {requests} = req.body
-            const createUserRequest = await UserRequests.create({requests: requests, user: user._id})
-            user.userRequests = createUserRequest._id
-            createUserRequest.save()
-            user.save()
+            const {request, description} = req.body
+
+            const createUserRequest = await UserRequests.create({request : request, description : description, user: user._id})
+            user.userRequests.push(createUserRequest._id)
+            await createUserRequest.save()
+            await user.save()
             return res.status(200).json({ message: "requested sent Successfully, our team will contact you soon", message: createUserRequest})            
         } catch (err) {
             console.error(err)
@@ -191,12 +192,12 @@ module.exports = {
     async createNormalRequest (req, res) {
         try {
             const user = req.user;
-            const {request, description} = req.body
-            const createNormalRequest = await NormalRequests.create({request : request, description : description, user: user._id})
-            user.normalRequests = createNormalRequest._id
-            createNormalRequest.save()
+            const {requests} = req.body
+            const createNormalRequest = await NormalRequests.create({requests: requests, user: user._id})
+            user.normalRequests.push(createNormalRequest._id)
+            await createNormalRequest.save()
             console.log(createNormalRequest)
-            user.save()
+            await user.save()
             return res.status(200).json({ message: "requested sent Successfully, our team will contact you soon", request: createNormalRequest})            
         } catch (err) {
             console.error(err)

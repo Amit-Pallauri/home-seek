@@ -91,6 +91,7 @@ export const particularHome = (homeId) => async (dispatch) => {
             'Authorization': storage.token
         }
         const { data } = await axios.get(`${SERVER_BASE_URL}/owner/home/${homeId}`, {headers: headers})
+        console.log(homeId)
         dispatch({
             type: GETPARTICULARPOST,
             payload: data
