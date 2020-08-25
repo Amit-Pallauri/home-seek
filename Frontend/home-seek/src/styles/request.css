@@ -1,0 +1,6 @@
+.request-description { 
+    /* border: 1px solid rgba(80, 78, 78, 0.24); */
+    padding: 20px 10px;
+    box-shadow: -5px 5px 20px 0.5px rgba(92, 88, 88, 0.356);
+    margin: 15px;
+}

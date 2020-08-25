@@ -9,7 +9,8 @@ import {
     ERROR,
     ADD_PROFILE_PIC,
     UPDATE_DETAILS,
-	  VERIFY_OTP
+	  VERIFY_OTP,
+      SERVICE_REQUEST
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
 
@@ -17,6 +18,7 @@ const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
     isAuthenticating: false,
     errorMessage : null,
+    serviceRequests : null,
     isLoading : false
 }
 
@@ -94,6 +96,8 @@ const userReducer = (state = initialState, action) => {
 
 
         case UPDATE_DETAILS : 
+            const updatedData = JSON.stringify(payload);
+            localStorage.setItem('user', updatedData);
             return {
                 ...state, user : payload
             }
@@ -105,6 +109,11 @@ const userReducer = (state = initialState, action) => {
               ...state,
               user: payload
             };
+
+        case SERVICE_REQUEST:
+            return {
+                ...state, serviceRequests : payload
+            }
 
         default:
             return state;

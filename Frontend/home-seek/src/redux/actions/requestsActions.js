@@ -7,13 +7,11 @@ export const getRequestedPosts = () => async dispatch => {
     try {
         dispatch({ type : TOGGLE_GET_STATE })
         const storage =  JSON.parse(localStorage.getItem('user'))
-        console.log(storage.token)
         const headers = {
             'Content-Type': 'application/json',
             'authorization' :  storage.token
         }
-        const {data} = await axios.get(`${SERVER_BASE_URL}/owner/listings`, { headers })
-        console.log(data)
+        const {data} = await axios.get(`${SERVER_BASE_URL}/userSpecificPosts`, { headers })
         dispatch({
             type : GET_REQUESTED_POSTS,
             payload : data

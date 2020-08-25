@@ -37,6 +37,7 @@ class Loginpage extends Component{
 			this.setState({ error : res.error})
 		}
 		else {
+			console.log(res)
 			const { profileObj : { email, givenName : firstName, familyName : lastName, imageUrl : image }} = res
 			this.props.loginViaThirdParty({ email, firstName, lastName, image })
 		}

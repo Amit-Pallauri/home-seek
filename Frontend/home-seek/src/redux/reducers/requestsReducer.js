@@ -5,20 +5,20 @@ const initialState = {
     errorMessage : ''
 }
 
-const postsReducer = (state = initialState, action) => {
+const requestsReducer = (state = initialState, action) => {
     const { type, payload} = action
     switch (type) {
         case GET_REQUESTED_POSTS:
             return {
-                ...state, posts : payload
+                ...state, posts : payload.data
             }
         case ERROR:
             return{
-                ...state, errorMessage : payload
+                ...state, errorMessage : payload.error
             }
         default:
             return state
     }
 }
 
-export default postsReducer
+export default requestsReducer
