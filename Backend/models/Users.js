@@ -158,7 +158,7 @@ const userSchema = new Schema({
             },
             onDate : {
                 type : Date
-            } 
+            }
         }]
     },
     Home : {
