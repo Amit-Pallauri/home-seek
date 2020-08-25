@@ -11,7 +11,8 @@ import {
     UPDATE_DETAILS,
 	VERIFY_OTP,
     SERVICE_REQUEST,
-    NORMAL_REQUEST
+    NORMAL_REQUEST,
+      UPDATE_BANK_DETAILS
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
 
@@ -117,10 +118,21 @@ const userReducer = (state = initialState, action) => {
                 ...state, serviceRequests : payload
             }
         
+        
         case NORMAL_REQUEST:
             return {
                 ...state, normalRequests : payload
             }
+        
+        
+        case UPDATE_BANK_DETAILS :
+            const updatedBankDetails = JSON.stringify(payload);
+            localStorage.setItem('user', updatedBankDetails);
+            return {
+                ...state, user : payload
+            }
+        
+        
         default:
             return state;
     }

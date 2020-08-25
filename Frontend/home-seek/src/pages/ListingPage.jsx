@@ -5,8 +5,15 @@ import { listingHouse, createOTP, verifyOTP } from '../redux/actions/listingActi
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
-import { Form, Input, Button, Typography } from 'antd';
 import '../styles/listing-styles.css';
+import {
+	Form,
+	Input,
+	Button,
+	message,
+	Typography
+  } from 'antd';
+import '../styles/listing-styles.css'
 const { Title } = Typography;
 
 const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
@@ -127,9 +134,11 @@ class ListingPage extends Component {
 		e.preventDefault();
 		const data = {
 			location: {
-				type: 'Point',
-				coordinates: [ this.state.mapPosition.lat, this.state.mapPosition.lng ],
-				formattedAddress: this.state.address
+				type: "Point",
+				coordinates: [this.state.mapPosition.lat, this.state.mapPosition.lng],
+				city : this.state.city,
+				state : this.state.state,
+				formattedAddress: this.state.address,
 			},
 			ownerShip: this.state.ownerShip,
 			societyName: this.state.societyName,
@@ -138,6 +147,7 @@ class ListingPage extends Component {
 			phoneNumber: this.state.phoneNumber
 		};
 		this.props.listingHouse(data);
+		message.success('your property has been listed. please go to the request tab to see the status. Thank you!')
 	};
 
 	handleGetOTP = () => {

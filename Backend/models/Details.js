@@ -20,7 +20,9 @@ const detailsSchema = new Schema(
               type: [Number],
               index: '2dsphere'
             },
-            formattedAddress: String
+            city : String,
+            state : String,
+            formattedAddress: String,
         },
         deposit: {
             type: String,

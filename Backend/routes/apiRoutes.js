@@ -6,6 +6,7 @@ const {
     verifyAdmin
 } = require("../middlewares/authenticate")
 const upload = require('../utils/multer');
+const Details = require('../models/Details');
 
 router.post('/owner/listing/create', verifyAdmin, PostsCreate)
 
@@ -46,5 +47,17 @@ router.get('/owner/home/:homeId', verifyAdmin, GetParticularPost);
 router.get('/listings', verifyAdmin, GetAllPosts);
 
 router.get('/userSpecificPosts', userSpecificPosts)
+
+router.get('/getAll', async (req, res)=> {
+    try {
+        const data = await Details.find({})
+        data.map(el => {
+            console.log(el)
+        })
+        res.send('hi bro')        
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 module.exports = router
