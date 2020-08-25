@@ -191,7 +191,7 @@ export const addServiceRequest  =  req => async dispatch => {
             'Content-type' : 'application/json',
             'authorization' : user.token
         }
-        const { data } = await axios.post(`${SERVER_BASE_URL}/user/book/request`, { request, description }, {headers})
+        const { data } = await axios.post(`${SERVER_BASE_URL}/user/request`, { request, description }, {headers})
         dispatch({
             type : SERVICE_REQUEST,
             payload : data  

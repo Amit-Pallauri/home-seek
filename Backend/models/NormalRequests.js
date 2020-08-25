@@ -7,10 +7,6 @@ const normalRequestSchema = new Schema(
             type: String,
             require : true
         },
-        description : {
-            type : String,
-            require : false
-        },
         user : {
             type: Schema.Types.ObjectId,
             ref: "user"

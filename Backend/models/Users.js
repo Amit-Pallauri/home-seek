@@ -168,16 +168,16 @@ const userSchema = new Schema({
     rentReceivedAsOwner : {
         type: Number
     },
-    normalRequests: {
+    normalRequests: [{
         type: Schema.Types.ObjectId,
         ref: "normalRequest"
-    },
-    userRequests: {
+    }],
+    userRequests: [{
         type: Schema.Types.ObjectId,
         ref: "userRequest"
-    },
-    listings: [
-        { type: Schema.Types.ObjectId,
+    }],
+    listings: [{
+        type: Schema.Types.ObjectId,
         ref: "posts"
     }],
     isVerifiedPhoneNumber: {
