@@ -46,7 +46,7 @@ export const loginUser = user => async (dispatch) =>  {
         console.log('data', data)
         dispatch({
             type: LOGIN_USER,
-            payload: data.foundUser
+            payload: data
         })
         dispatch({ type : TOGGLE_AUTH_STATE });
     } catch (err) {

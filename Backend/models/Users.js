@@ -148,17 +148,17 @@ const userSchema = new Schema({
             value : { 
                 type : Number
             },
-            on : {
-                type : Date
-            }
+            // on : {
+            //     type : Date
+            // }
         },
         monthlyPayment : [{
             value : { 
                 type : Number
             },
-            on : {
-                type : Date
-            } 
+            // on : {
+            //     type : Date
+            // } 
         }]
     },
     Home : {

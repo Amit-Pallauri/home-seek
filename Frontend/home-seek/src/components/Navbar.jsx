@@ -12,7 +12,7 @@ import {
 import protectedRoute from '../HOC/protectedRoute'
 import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
-import Loginpage from '../pages/LoginPage';
+import Loginpage from '../pages/Loginpage';
 import Homepage from '../pages/Homepage';
 import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';
@@ -65,6 +65,7 @@ class Navbar extends Component {
 							</Menu.Item>
 							<Menu.Item key="3" icon={<VideoCameraOutlined />}>
 								<Link to="/owner/listing/create">Listings</Link>
+							</Menu.Item>
 							<Menu.Item key="4" icon={<UploadOutlined />}>
 								<Link to="/homes">Search Home</Link>
 							</Menu.Item>
@@ -119,7 +120,7 @@ class Navbar extends Component {
 								<Route exact path='/requests' component={protectedRoute(Requests)} />
 								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
 								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
-								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
+								<Route exact path="/home/details/:homeId" component={DetailPage}/>
 							</Switch>
 						</Content>
 					</Layout>

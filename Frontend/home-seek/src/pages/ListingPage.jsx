@@ -365,7 +365,7 @@ class ListingPage extends Component {
                             />
                         </Form.Item>
 					</div>
-			{this.props.user.user.isVerifiedPhoneNumber === true ? 
+			{this.props.user.foundUser.isVerifiedPhoneNumber === true ? 
 			<Form.Item>
                     <Button type='submit' onClick={this.handleSubmit}>Create</Button>
 			</Form.Item> : null}
