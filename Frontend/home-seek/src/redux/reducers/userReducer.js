@@ -9,8 +9,9 @@ import {
     ERROR,
     ADD_PROFILE_PIC,
     UPDATE_DETAILS,
-	  VERIFY_OTP,
-      SERVICE_REQUEST
+	VERIFY_OTP,
+    SERVICE_REQUEST,
+    NORMAL_REQUEST
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
 
@@ -19,6 +20,7 @@ const initialState = {
     isAuthenticating: false,
     errorMessage : null,
     serviceRequests : null,
+    normalRequests: null,
     isLoading : false
 }
 
@@ -114,7 +116,11 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state, serviceRequests : payload
             }
-
+        
+        case NORMAL_REQUEST:
+            return {
+                ...state, normalRequests : payload
+            }
         default:
             return state;
     }

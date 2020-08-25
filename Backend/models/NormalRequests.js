@@ -10,6 +10,10 @@ const normalRequestSchema = new Schema(
         user : {
             type: Schema.Types.ObjectId,
             ref: "user"
+        },
+        home : {
+            type: Schema.Types.ObjectId,
+            ref: 'posts'
         }
     },
     { timestamps: true}

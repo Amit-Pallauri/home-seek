@@ -37,9 +37,9 @@ module.exports = {
                 foundUser.accessToken = token
                 await foundUser.save()
                 return res.status(200).json({
-                    "message" : "logged in successfully",
-                    "foundUser" : foundUser,
-                    "token" : token,
+                    message : "logged in successfully",
+                    data : foundUser,
+                    token : token,
                 })
             }        
         } catch (error) {

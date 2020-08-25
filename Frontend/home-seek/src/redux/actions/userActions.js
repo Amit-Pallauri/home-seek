@@ -9,7 +9,8 @@ import {
     ERROR, 
     ADD_PROFILE_PIC,
     UPDATE_DETAILS,
-    SERVICE_REQUEST
+    SERVICE_REQUEST,
+    NORMAL_REQUEST
 } from '../actionTypes/userActionTypes';
 import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
@@ -196,6 +197,28 @@ export const addServiceRequest  =  req => async dispatch => {
             type : SERVICE_REQUEST,
             payload : data  
         })
+    } catch (error) {
+        dispatch({
+            type : ERROR,
+            payload : error
+        })
+    }
+}
+
+
+export const addNormalRequest  =  req => async dispatch => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-type' : 'application/json',
+            'authorization' : user.token
+        }
+        const { data } = await axios.post(`${SERVER_BASE_URL}/user/book/request`, req , {headers})
+        dispatch({
+            type : NORMAL_REQUEST,
+            payload : data  
+        })
+        alert("Booking Visit is confirmed, our team will contact you")
     } catch (error) {
         dispatch({
             type : ERROR,

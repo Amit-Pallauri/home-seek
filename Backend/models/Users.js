@@ -155,13 +155,13 @@ const userSchema = new Schema({
         monthlyPayment : [{
             value : { 
                 type : Number
-            }
+            },
             onDate : {
                 type : Date
             }
         }]
     },
-    Home : {
+    home : {
         type : Schema.Types.ObjectId,
         ref : 'posts'
     },
