@@ -192,11 +192,10 @@ module.exports = {
     async createNormalRequest (req, res) {
         try {
             const user = req.user;
-            const {requests} = req.body
-            const createNormalRequest = await NormalRequests.create({requests: requests, user: user._id})
+            const {requests, homeId} = req.body
+            const createNormalRequest = await NormalRequests.create({request: requests, user: user._id, home: homeId})
             user.normalRequests.push(createNormalRequest._id)
             await createNormalRequest.save()
-            console.log(createNormalRequest)
             await user.save()
             return res.status(200).json({ message: "requested sent Successfully, our team will contact you soon", request: createNormalRequest})            
         } catch (err) {
@@ -264,8 +263,7 @@ module.exports = {
 
     async verifyAmountPayment (req, res) {
         const user = req.user
-        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature,postId} = req.body;
-        console.log(postId)
+        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature,postId,checkInDate} = req.body;
         try {
             const createdSignature = createSignature(razorpay_order_id, razorpay_payment_id);
             if(createdSignature !== razorpay_signature) {
@@ -273,13 +271,19 @@ module.exports = {
             }
             const captureResponse = await instance.payments.capture(razorpay_payment_id, amount, currency)
             const foundPayment = await AmountPay.find({razorpayOrderId: razorpay_order_id})
+            const foundPost = await Posts.findByIdAndUpdate({_id: postId}, {vacant: false})
             if(!foundPayment) {
                 return res.status(401).send({ message: "Invalid payment request"})
             }
             foundPayment[0].razorpayTransactionId = razorpay_payment_id
             foundPayment[0].razorpaySignature = razorpay_signature
             foundPayment[0].isPending = false
-            foundPayment[0].save()
+            user.dateOfCheckIn = checkInDate
+            user.home = postId
+            user.rentPaid.AdvnacePaid.value = (amount / 100)
+            user.rentPaid.AdvnacePaid.onDate = checkInDate
+            await user.save()
+            await foundPayment[0].save()
             res.status(201).json(foundPayment)
         } catch (err) {
             console.error(err)

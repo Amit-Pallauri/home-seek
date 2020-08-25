@@ -10,6 +10,7 @@ import {
     ADD_PROFILE_PIC,
     UPDATE_DETAILS,
     SERVICE_REQUEST,
+    NORMAL_REQUEST,
     UPDATE_BANK_DETAILS
 } from '../actionTypes/userActionTypes';
 import axios from 'axios';
@@ -205,14 +206,28 @@ export const addServiceRequest  =  req => async dispatch => {
     }
 }
 
-export const updateBankDetails = details => async dispatch => {
+export const addNormalRequest  =  req => async dispatch => {
     try {
-        console.log(details)
-        const user = JSON.parse(localStorage.getItem('user'))
-        const headers = {
-            'Content-type' : 'application/json',
-            'authorization' : user.token
-        }
+        const { data } = await axios.post(`${SERVER_BASE_URL}/user/book/request`, req , {headers})
+        dispatch({
+            type : NORMAL_REQUEST,
+            payload : data  
+        })
+        alert("Booking Visit is confirmed, our team will contact you")
+    }catch(error){
+      dispatch({
+            type : ERROR,
+            payload : error
+        })
+    }
+}
+    export const updateBankDetails = details => async dispatch => {
+            try {
+                const user = JSON.parse(localStorage.getItem('user'))
+                const headers = {
+                    'Content-type' : 'application/json',
+                    'authorization' : user.token
+                }
         const { data } = await axios.post(`${SERVER_BASE_URL}/updateBankDetails`, { details }, { headers })
         dispatch({
             type : UPDATE_BANK_DETAILS,

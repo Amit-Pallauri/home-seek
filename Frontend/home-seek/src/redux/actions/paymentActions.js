@@ -42,7 +42,7 @@ export const verifyPayments = (details) => async(dispatch, getState) => {
         alert("Payment Successfull")
     } catch (err) {
         console.error(err.message);
-        alert(err.message)
+        alert("Payment Unsuccessfull")
     } finally {
         dispatch({ type: TOGGLE_GET_STATE})
     }

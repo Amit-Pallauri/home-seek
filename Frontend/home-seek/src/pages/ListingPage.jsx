@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { listingHouse, createOTP, verifyOTP } from '../redux/actions/listingActions';
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
+import '../styles/listing-styles.css';
 import {
 	Form,
 	Input,
@@ -13,10 +14,9 @@ import {
 	Typography
   } from 'antd';
 import '../styles/listing-styles.css'
-const { Title } = Typography
+const { Title } = Typography;
 
-
-const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4'
+const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
 
 Geocode.setApiKey(apiKey);
 
@@ -44,7 +44,7 @@ class ListingPage extends Component {
 			lat: 0,
 			lng: 0
 		},
-		componentSize : 'default'
+		componentSize: 'default'
 	};
 
 	componentDidMount() {
@@ -145,20 +145,19 @@ class ListingPage extends Component {
 			vacant: this.state.vacant,
 			name: this.state.name,
 			phoneNumber: this.state.phoneNumber
-		}
+		};
 		this.props.listingHouse(data);
 		message.success('your property has been listed. please go to the request tab to see the status. Thank you!')
 	};
 
 	handleGetOTP = () => {
-		if(this.state.phoneNumber === this.state.confirmPhoneNumber) {
+		if (this.state.phoneNumber === this.state.confirmPhoneNumber) {
 			const data = {
 				phoneNumber: `91${this.state.phoneNumber}`
 			};
 			this.props.createOTP(data);
-		}
-		else {
-			alert("PhoneNumber must be Same")
+		} else {
+			alert('PhoneNumber must be Same');
 		}
 	};
 
@@ -246,70 +245,72 @@ class ListingPage extends Component {
 			</GoogleMap>
 		))
 	);
-	
+
 	onFormLayoutChange = ({ size }) => {
-		this.setState({componentSize : size});
+		this.setState({ componentSize: size });
 	};
 	render() {
 		return this.props.user.data ? (
-			<div className='listing-form-conatiner'>
-            <Title id='heading' level={2}>List your property</Title>
-            <Form 
-                className="listing-form"
-                labelCol={{
-                span: 4,
-                }}
-                wrapperCol={{
-                span: 14,
-                }}
-                layout="horizontal"
-                initialValues={{
-                size: this.state.componentSize,
-                }}
-                onValuesChange={this.onFormLayoutChange}
-                size={this.state.componentSize}
-            >
-                <Form.Item label="Name">
-                    <Input 
-                        type="text"
-						name="name"
-						onChange={this.handleChange}
-						value={this.state.name}
-						placeholder="Enter name"
-						required
-                    />
-                </Form.Item>
-                <Form.Item label="OwnerShip">
-                    <Input 
-                        type="text"
-						name="ownerShip"
-						onChange={this.handleChange}
-						value={this.state.ownerShip}
-						placeholder="(e.g., manager/owner)"
-						required
-                    />
-                </Form.Item>
-                <Form.Item label="Society Name">
-                    <Input 
-                        type="text"
-						name="societyName"
-						onChange={this.handleChange}
-						value={this.state.societyName}
-						placeholder="Enter societyName"
-						required
-                    />
-                </Form.Item>
-                <Form.Item label="Vacancy">
-                    <Input 
-                        type="checkbox"
-						name="vacant"
-						onChange={e => this.setState({vacant : e.target.checked})}
-						value={this.state.vacant}
-						placeholder="Enter vacant"
-						required
-                    />
-                </Form.Item>
-                <div className="geoLocation" style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
+			<div className="listing-form-conatiner">
+				<Title id="heading" level={2}>
+					List your property
+				</Title>
+				<Form
+					className="listing-form"
+					labelCol={{
+						span: 4
+					}}
+					wrapperCol={{
+						span: 14
+					}}
+					layout="horizontal"
+					initialValues={{
+						size: this.state.componentSize
+					}}
+					onValuesChange={this.onFormLayoutChange}
+					size={this.state.componentSize}
+				>
+					<Form.Item label="Name">
+						<Input
+							type="text"
+							name="name"
+							onChange={this.handleChange}
+							value={this.state.name}
+							placeholder="Enter name"
+							required
+						/>
+					</Form.Item>
+					<Form.Item label="OwnerShip">
+						<Input
+							type="text"
+							name="ownerShip"
+							onChange={this.handleChange}
+							value={this.state.ownerShip}
+							placeholder="(e.g., manager/owner)"
+							required
+						/>
+					</Form.Item>
+					<Form.Item label="Society Name">
+						<Input
+							type="text"
+							name="societyName"
+							onChange={this.handleChange}
+							value={this.state.societyName}
+							placeholder="Enter societyName"
+							required
+						/>
+					</Form.Item>
+					<Form.Item label="Vacancy">
+						<Input
+							type="checkbox"
+							name="vacant"
+							onChange={(e) => this.setState({ vacant: e.target.checked })}
+							value={this.state.vacant}
+							placeholder="Enter vacant"
+							required
+						/>
+					</Form.Item>
+					<div className="geoLocation" style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
 						<this.MapWithAMarker
 							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.exp&libraries=geometry,drawing,places`}
 							loadingElement={<div style={{ height: `100%` }} />}
@@ -328,98 +329,102 @@ class ListingPage extends Component {
 							types={[ '(regions)' ]}
 						/>
 						<Form.Item label="city">
-                            <Input 
-                                type="text"
-                                name="city"
-                                value={this.state.city}
-                                placeholder="Enter your city name"
-                                readOnly
-                            />
-                        </Form.Item>
-                        <Form.Item label="Area">
-                            <Input 
-                                type="text"
-                                name="area"
-                                value={this.state.area}
-                                placeholder="Enter your Area name"
-                                readOnly
-                            />
-                        </Form.Item>
-                        <Form.Item label="state">
-                            <Input 
-                                type="text"
-                                name="state"
-                                value={this.state.state}
-                                placeholder="Enter your State name"
-                                readOnly
-                            />
-                        </Form.Item>
-                        <Form.Item label="Address">
-                            <Input 
-                                type="text"
-                                name="address"
-                                value={this.state.address}
-                                placeholder="Enter your address"
-                                readOnly
-                            />
-                        </Form.Item>
+							<Input
+								type="text"
+								name="city"
+								value={this.state.city}
+								placeholder="Enter your city name"
+								readOnly
+							/>
+						</Form.Item>
+						<Form.Item label="Area">
+							<Input
+								type="text"
+								name="area"
+								value={this.state.area}
+								placeholder="Enter your Area name"
+								readOnly
+							/>
+						</Form.Item>
+						<Form.Item label="state">
+							<Input
+								type="text"
+								name="state"
+								value={this.state.state}
+								placeholder="Enter your State name"
+								readOnly
+							/>
+						</Form.Item>
+						<Form.Item label="Address">
+							<Input
+								type="text"
+								name="address"
+								value={this.state.address}
+								placeholder="Enter your address"
+								readOnly
+							/>
+						</Form.Item>
 					</div>
-				{
-					this.props.user.data.isVerifiedPhoneNumber === true 
-						? 
+					{this.props.user.data.isVerifiedPhoneNumber === true ? (
+						<Form.Item>
+							<Button type="submit" onClick={this.handleSubmit}>
+								Create
+							</Button>
+						</Form.Item>
+					) : (
+						<Form className="otp-form">
 							<Form.Item>
-									<Button type='submit' onClick={this.handleSubmit}>Create</Button>
-							</Form.Item> 
-						: 
-							<Form className='otp-form'>
-								<Form.Item >
-									<Input 
-										type="tel"
-										name="phoneNumber"
+								<Input
+									type="tel"
+									name="phoneNumber"
+									onChange={this.handleChange}
+									value={this.state.phoneNumber}
+									placeholder="Enter phoneNumber"
+									addonBefore="+91"
+									required
+								/>
+							</Form.Item>
+							<Form.Item>
+								<Input
+									type="tel"
+									name="confirmPhoneNumber"
+									onChange={this.handleChange}
+									value={this.state.confirmPhoneNumber}
+									placeholder="confirm your PhoneNo."
+									addonBefore="+91"
+									required
+								/>
+							</Form.Item>
+							<Form.Item style={{ position: 'absolute', right: '20%' }}>
+								<Button onClick={this.handleGetOTP} type="submit">
+									send otp
+								</Button>
+							</Form.Item>
+
+							<div className="otp">
+								<Form.Item>
+									<Input
+										type="number"
+										name="code"
+										placeholder="Enter OTP"
 										onChange={this.handleChange}
-										value={this.state.phoneNumber}
-										placeholder="Enter phoneNumber"
-										addonBefore="+91"
+										value={this.state.code}
 										required
 									/>
 								</Form.Item>
 								<Form.Item>
-									<Input 
-										type="tel"
-										name="confirmPhoneNumber"
-										onChange={this.handleChange}
-										value={this.state.confirmPhoneNumber}
-										placeholder="confirm your PhoneNo."
-										addonBefore="+91"
-										required
-									/>
+									<Button style={{ width: '200px' }} onClick={this.handleSubmit1} type="submit">
+										submit otp
+									</Button>
 								</Form.Item>
-								<Form.Item style = {{ position : 'absolute', right : '20%'}} >
-									<Button onClick={this.handleGetOTP}  type='submit'>send otp</Button>
-								</Form.Item>
-							
-								<div className='otp'>
-									<Form.Item>
-										<Input
-											type="number"
-											name="code"
-											placeholder="Enter OTP"
-											onChange={this.handleChange}
-											value={this.state.code}
-											required
-										/>
-									</Form.Item>
-									<Form.Item>
-										<Button style={{ width : '200px'}} onClick={this.handleSubmit1} type='submit'>submit otp</Button>
-									</Form.Item>
-								</div>
-							</Form>
-				}
-            </Form>
-        </div>
+							</div>
+						</Form>
+					)}
+				</Form>
+			</div>
 		) : (
 			<Redirect to="/signIn" />
-		)
+		);
 	}
 }
 

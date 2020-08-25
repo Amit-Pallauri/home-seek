@@ -9,8 +9,9 @@ import {
     ERROR,
     ADD_PROFILE_PIC,
     UPDATE_DETAILS,
-	  VERIFY_OTP,
-      SERVICE_REQUEST,
+	VERIFY_OTP,
+    SERVICE_REQUEST,
+    NORMAL_REQUEST,
       UPDATE_BANK_DETAILS
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
@@ -20,6 +21,7 @@ const initialState = {
     isAuthenticating: false,
     errorMessage : null,
     serviceRequests : null,
+    normalRequests: null,
     isLoading : false
 }
 
@@ -115,14 +117,22 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state, serviceRequests : payload
             }
-
+        
+        
+        case NORMAL_REQUEST:
+            return {
+                ...state, normalRequests : payload
+            }
+        
+        
         case UPDATE_BANK_DETAILS :
             const updatedBankDetails = JSON.stringify(payload);
             localStorage.setItem('user', updatedBankDetails);
             return {
                 ...state, user : payload
             }
-
+        
+        
         default:
             return state;
     }

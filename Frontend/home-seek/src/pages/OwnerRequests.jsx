@@ -25,7 +25,7 @@ class OwnerProfile extends Component{
 
     render(){
         return (
-            this.props.posts.posts.length == 0
+            this.props.posts.posts.length === 0
             ? 
                 <h1>Loading...</h1>
             : 
@@ -38,8 +38,8 @@ class OwnerProfile extends Component{
                             </Descriptions.Item>
                             <Descriptions.Item label="Telephone">{el.phoneNumber}</Descriptions.Item>
                             <Descriptions.Item label="created on">{el.createdAt}</Descriptions.Item>
-                            <Descriptions.Item label="vacant">{el.vacant == true ? 'yes' : 'no'}</Descriptions.Item>
-                            <Descriptions.Item label="verified">{el.verified == true ? 'yes' : 'no'}</Descriptions.Item>
+                            <Descriptions.Item label="vacant">{el.vacant === true ? 'yes' : 'no'}</Descriptions.Item>
+                            <Descriptions.Item label="verified">{el.verified === true ? 'yes' : 'no'}</Descriptions.Item>
                         </Descriptions>
                             <button onClick={() => this.showDrawer(el._id)}>
                                 Details

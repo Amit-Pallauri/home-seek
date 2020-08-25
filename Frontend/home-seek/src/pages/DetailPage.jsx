@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { createPayment, verifyPayments } from '../redux/actions/paymentActions';
-import { createOTP, verifyOTP } from '../redux/actions/listingActions';
+import { createOTP, verifyOTP, particularHome } from '../redux/actions/listingActions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { particularHome } from '../redux/actions/listingActions';
+import {addNormalRequest} from '../redux/actions/userActions';
 import { Carousel, Divider, Typography, Button, Modal, DatePicker, Form, Input, Spin } from 'antd';
 
 const { Title } = Typography;
@@ -13,7 +13,8 @@ class DetailPage extends Component {
          visible1: false,
          phoneNumber: '',
          confirmPhoneNumber: '',
-         date: ''
+		 date: '',
+		 checkInDate: ''
         };
 
 	showModal = () => {
@@ -41,10 +42,15 @@ class DetailPage extends Component {
 	};
 
 	handleOk1 = (e) => {
+		const homeId = this.props.match.params.homeId;
 		this.setState({
 			visible: false
-        });
-        console.log(this.state.date)
+		});
+		const data = {
+			requests : `I want to visit this house on ${this.state.date}`,
+			homeId: homeId
+		}
+        this.props.addNormalRequest(data)
 	};
 
 	handleCancel1 = (e) => {
@@ -59,10 +65,24 @@ class DetailPage extends Component {
         let mm = String(today.getMonth() + 1).padStart(2, '0'); 
         let yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
-        console.log(today)
         if(today <= dateString) {
             this.setState({date : dateString })
         } else {
+			this.setState({date : '' })
+            alert("pick correct date")
+        }
+	}
+	
+	onChange1 = (date, dateString) =>  {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); 
+        let yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        if(today <= dateString) {
+            this.setState({checkInDate : dateString })
+        } else {
+			this.setState({checkInDate : '' })
             alert("pick correct date")
         }
     }
@@ -115,7 +135,8 @@ class DetailPage extends Component {
 					razorpay_signature,
 					amount: 3000 * 100,
 					currency: 'INR',
-					postId: homeId
+					postId: homeId,
+					checkInDate: this.state.checkInDate
 				};
 				this.props.verifyPayments(details);
 			}
@@ -273,8 +294,9 @@ class DetailPage extends Component {
 					<Modal
 						title="Basic Modal"
 						visible={this.state.visible}
-						onOk={this.props.user.data.isVerifiedPhoneNumber === true ? this.handleOk1 : { disabled: true }}
+						onOk={this.handleOk1}
 						onCancel={this.handleCancel1}
+						okButtonProps={(this.props.user.data.isVerifiedPhoneNumber === true ?  { disabled: false } : { disabled: true }) && (this.state.date === '' ? {disabled: true} : {disabled: false})}
 					>
 						<h1>When are you planning to visit?</h1>
 						<span>Open from 11am - 7pm</span>
@@ -338,62 +360,64 @@ class DetailPage extends Component {
 				{this.props.order ? (
 					<div style={{ marginLeft: 700 }}>
 						<h1>Date You want to Move</h1>
-						<DatePicker onChange={this.onChange} />
+						<DatePicker onChange={this.onChange1} />
 						<br />
 						<br />
 						{this.props.user.data.isVerifiedPhoneNumber === true ? (
-							<Button type="primary" onClick={this.handlePayment} size="large" >{`pay ₹${this.props.home.particuarPost
-								.details.rent} the rent`}</Button>
+							null
 						) : (
 							<Form className="otp-form">
-								<Form.Item label="Phone no">
+							<Form.Item label="Phone no">
+								<Input
+									type="tel"
+									name="phoneNumber"
+									onChange={this.handleChange}
+									value={this.state.phoneNumber}
+									placeholder="Enter phoneNumber"
+									addonBefore="+91"
+									required
+								/>
+							</Form.Item>
+							<Form.Item label="Confirm">
+								<Input
+									type="tel"
+									name="confirmPhoneNumber"
+									onChange={this.handleChange}
+									value={this.state.confirmPhoneNumber}
+									placeholder="Enter confirmPhoneNumber"
+									addonBefore="+91"
+									required
+								/>
+							</Form.Item>
+							<Form.Item>
+								<Button onClick={this.handleGetOTP} type="submit">
+									send otp
+								</Button>
+							</Form.Item>
+							<div style={{ display: 'flex', justifyContent: 'space-around' }}>
+								<Form.Item>
 									<Input
-										type="tel"
-										name="phoneNumber"
+										type="number"
+										name="code"
+										placeholder="Enter OTP"
 										onChange={this.handleChange}
-										value={this.state.phoneNumber}
-										placeholder="Enter phoneNumber"
-										addonBefore="+91"
-										required
-									/>
-								</Form.Item>
-								<Form.Item label="Confirm">
-									<Input
-										type="tel"
-										name="confirmPhoneNumber"
-										onChange={this.handleChange}
-										value={this.state.confirmPhoneNumber}
-										placeholder="Enter confirmPhoneNumber"
-										addonBefore="+91"
-										required
+										value={this.state.code}
 									/>
 								</Form.Item>
 								<Form.Item>
-									<Button onClick={this.handleGetOTP} type="submit">
-										send otp
+									<Button style={{ width: '200px' }} onClick={this.handleSubmit1} type="submit">
+										submit otp
 									</Button>
 								</Form.Item>
-								<div style={{ display: 'flex', justifyContent: 'space-around' }}>
-									<Form.Item>
-										<Input
-											type="number"
-											name="code"
-											placeholder="Enter OTP"
-											onChange={this.handleChange}
-											value={this.state.code}
-										/>
-									</Form.Item>
-									<Form.Item>
-										<Button style={{ width: '200px' }} onClick={this.handleSubmit1} type="submit">
-											submit otp
-										</Button>
-									</Form.Item>
-								</div>
-							</Form>
+							</div>
+						</Form>
 						)}
+						{this.state.checkInDate === '' ? null :
+							<Button type="primary" onClick={this.handlePayment} size="large" >{`pay ₹3000 the rent`}</Button>
+						}
 					</div>
 				) : null}
-				{this.props.successPayment ? <Redirect to="/" /> : null}
+				{this.props.successPayment ? this.props.history.push("/homes") : null}
 			</div>
 		) : (
             <Spin size="large" style={{marginLeft : "50vw", marginTop: "50vh"}}/>
@@ -410,4 +434,4 @@ const mapStateToProps = (storeState) => {
 	};
 };
 
-export default connect(mapStateToProps, { createPayment, verifyPayments, particularHome,createOTP, verifyOTP })(DetailPage);
+export default connect(mapStateToProps, { createPayment, verifyPayments, particularHome,createOTP, verifyOTP, addNormalRequest })(DetailPage);
