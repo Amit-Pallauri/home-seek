@@ -12,7 +12,7 @@ import {
 import protectedRoute from '../HOC/protectedRoute'
 import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
-import Loginpage from '../pages/LoginPage';
+import Loginpage from '../pages/Loginpage';
 import Homepage from '../pages/Homepage';
 import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';
@@ -125,7 +125,7 @@ class Navbar extends Component {
 								<Route exact path='/myHome' component={protectedRoute(MyHome)} />
 								<Route exact path='/profile' component={protectedRoute(ProfilePage)}/>
 								<Route exact path="/homes" component={protectedRoute(HomeListPage)} />
-								<Route exact path="/home/details/:homeId" component={protectedRoute(DetailPage)}/>
+								<Route exact path="/home/details/:homeId" component={DetailPage}/>
 							</Switch>
 						</Content>
 					</Layout>

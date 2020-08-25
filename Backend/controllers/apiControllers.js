@@ -57,7 +57,12 @@ module.exports = {
 
     async GetAllPosts (req, res) {
         try {
-            const posts = await Posts.find({ verified: true }).populate('details')
+            const posts = await Posts.find({ 
+                $and: [
+                    {verified: true},
+                    {vacant : true}
+                ]
+                 }).populate('details')
             res.status(200).json({ listings: posts}) 
         } catch (error) {
             console.error(err)
@@ -257,7 +262,9 @@ module.exports = {
     },
 
     async verifyAmountPayment (req, res) {
-        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature} = req.body;
+        const user = req.user
+        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature,postId} = req.body;
+        console.log(postId)
         try {
             const createdSignature = createSignature(razorpay_order_id, razorpay_payment_id);
             if(createdSignature !== razorpay_signature) {

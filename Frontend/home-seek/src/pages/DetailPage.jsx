@@ -94,16 +94,17 @@ class DetailPage extends Component {
 
 	handleBook = () => {
 		const payment = {
-			amountInPaise: this.props.home.particuarPost.details.rent * 100,
+			amountInPaise: 3000 * 100,
 			currency: 'INR'
 		};
 		this.props.createPayment(payment);
 	};
 
 	handlePayment = (e) => {
+		const homeId = this.props.match.params.homeId;
 		const checkoutObject = {
 			key: 'rzp_test_ZwkXJNBqm8UDM9',
-			amount: this.props.home.particuarPost.details.rent * 100,
+			amount: 3000 * 100,
 			currency: 'INR',
 			name: 'Tejas',
 			order_id: this.props.order.orderId,
@@ -112,8 +113,9 @@ class DetailPage extends Component {
 					razorpay_order_id,
 					razorpay_payment_id,
 					razorpay_signature,
-					amount: this.props.home.particuarPost.details.rent * 100,
-					currency: 'INR'
+					amount: 3000 * 100,
+					currency: 'INR',
+					postId: homeId
 				};
 				this.props.verifyPayments(details);
 			}
@@ -197,7 +199,7 @@ class DetailPage extends Component {
 						</div>
 					) : null}
 					<div style={{ marginLeft: 50 }}>
-						<img src="https://img.icons8.com/color/96/000000/bath.png" />
+						<img src="https://img.icons8.com/color/96/000000/bath.png" alt="bath" />
 						<span>{`${this.props.home.particuarPost.details.bathRooms} BathRooms `}</span>
 					</div>
 				</div>
@@ -218,7 +220,7 @@ class DetailPage extends Component {
 				<span>Fully refundable if vacated in original condition</span>
 				<br />
 				<br />
-				<h1>One Time HomeSeek Fees: ₹{2000}</h1>
+				<h1>One Time HomeSeek Fees: ₹{3000}</h1>
 				<span>
 					HomeSeek charges a one time accommodation convenience fee for all bookings which is calculated as a
 					percentage of one month's rent
