@@ -9,7 +9,8 @@ const {
     revivePassword,
     loginViaThirdParty,
     uploadProfilePic,
-    addDetails
+    addDetails,
+    updateBankDetails
 } = require('../controllers/userControllers')
 const {
     verifyToken,
@@ -31,6 +32,6 @@ router.post('/addDetails', verifyToken, addDetails)
 router.post('/forgotPassword', forgotPassword)
 router.post('/revivePassword/:token', revivePassword )
 router.post('/thirdPartysignIn', loginViaThirdParty)
-
+router.post('/updateBankDetails',verifyToken, updateBankDetails )
 
 module.exports = router

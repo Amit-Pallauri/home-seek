@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { List, Button } from 'antd';
+import { List, Button, Modal } from 'antd';
 import '../styles/listing-styles.css'
 
 const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
@@ -13,7 +13,8 @@ class HomeListItem extends Component {
 		this.state = {
 			active: false,
 			lat: '',
-			lng: ''
+			lng: '',
+			visible: false 
 		};
 	}
 
@@ -34,6 +35,25 @@ class HomeListItem extends Component {
 		this.setState({ active: !this.state.active });
 	};
 
+	showModal = () => {
+		this.setState({
+		  visible: true,
+		});
+	  };
+	
+	  handleOk = e => {
+		console.log(e);
+		this.setState({
+		  visible: false,
+		});
+	  };
+	
+	  handleCancel = e => {
+		console.log(e);
+		this.setState({
+		  visible: false,
+		});
+	  };
 
 	MapWithAMarker = withScriptjs(
 		withGoogleMap((props) => (
@@ -58,7 +78,6 @@ class HomeListItem extends Component {
 		))
 	);
 	render() {
-		console.log(this.props.homes.listings);
 		return (
 			<div style={{ display: 'flex' }}>
 				<Button type="primary" onClick={this.handleClick}>
@@ -106,6 +125,19 @@ class HomeListItem extends Component {
 						/>
 					</div>
 				) : null}
+				<Button type="primary" onClick={this.showModal}>
+					filter 
+				</Button>
+				<Modal
+					title="Basic Modal"
+					visible={this.state.visible}
+					onOk={this.handleOk}
+					onCancel={this.handleCancel}
+					>
+					<p>Some contents...</p>
+					<p>Some contents...</p>
+					<p>Some contents...</p>
+				</Modal>
 			</div>
 		);
 	}

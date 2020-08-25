@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addProfilepic, updateProfile } from '../redux/actions/userActions'
-import { Input, Form, Button, Select, Card, Avatar } from 'antd';
+import { addProfilepic, updateProfile, updateBankDetails } from '../redux/actions/userActions'
+import { Input, Form, Button, Select, Card, Avatar, Descriptions, message } from 'antd';
 import '../styles/profile-page.css'
 const { Option } = Select;
 const { Meta } = Card;
@@ -20,7 +20,7 @@ var tailLayout = {
       span: 16,
     },
   };
-
+  
 class ProfilePage extends Component {
     state = {
         image: '',
@@ -31,50 +31,95 @@ class ProfilePage extends Component {
         state : '',
         pincode : '',
         maritalStatus : '',
-        edit : false,
+        AccountName : '',
+        AccountNo : '',
+        BankName : '',
+        IFSC : '',
+        editProfile : false,
+        editBankDetails : false,
         loading : false
     }
     onGenderChange = value => {
         this.setState({gender : value})
       };
+
     dateChangeHandle = e=> {
         this.setState({DOB : e.target.value})
       }
+
     handleChange = e => {
           e.preventDefault()
           this.setState({[e.target.name] : e.target.value})
       }
+
     handleFileChange = e => {
         e.preventDefault()
         this.setState({image : e.target.files[0]})
     }
+
     handleSubmit = e => {
       e.preventDefault()
-      this.setState({ edit : false})
+      this.setState({ editProfile : false})
       this.props.addProfilepic(this.state)
       this.props.updateProfile(this.state)
+      message.info('profile updated');
     }
+
     handleMaritalStatusChange = e => {
       this.setState({maritalStatus : e.value})
     }
+
     onCardChange = checked => {
       this.setState({ loading: !checked });
     };
+
     handleEditClick = e => {
       e.preventDefault()
-      this.setState({edit : true})
+      this.setState({editProfile : true})
+    }
+    
+    hanldeClickForBankDetails = e => {
+      e.preventDefault()
+      this.setState({ editBankDetails : true})
+    }
+    
+    handleBankDetailsSubmit = () => {
+      this.setState({editBankDetails : false})
+      const {AccountNo, AccountName, BankName, IFSC } = this.state
+      this.props.updateBankDetails({AccountNo, AccountName, BankName, IFSC})
+      message.info('Bank details updated');
     }
 
-    
+    handleChangeForBankDetails = e => {
+      e.preventDefault()
+      this.setState({[e.target.name] : e.target.value})
+    }
 
     render() {
       const {
-        firstName, lastName, email, DOB, gender, Address:{ city, district, state, pincode }, maritalStatus
+        firstName,
+        lastName, 
+        email, 
+        DOB, 
+        gender, 
+        Address:{ 
+          city, 
+          district, 
+          state, 
+          pincode 
+        }, maritalStatus,
+        bankDetails : {
+          AccountName,
+          AccountNo,
+          BankName,
+          IFSC
+        }
       } = this.props.user.user.data
       const formatedDate = new Date(DOB).toLocaleDateString()
         return (
           !this.state.loading
           ? 
+            <>
             <div className='profile-container'>
               <Card style={{ width: 300, marginTop: 16 }}>
                 <Meta
@@ -101,7 +146,7 @@ class ProfilePage extends Component {
                   </div>
                 </div>
               </Card>
-            { this.state.edit 
+            { this.state.editProfile 
               ?  
                 <div className='profilepage-container'>
                   <Form encType='multipart/form-data' onSubmitCapture={this.handleSubmit} className='profilepage-form' {...layout}  name="control-hooks">
@@ -192,6 +237,76 @@ class ProfilePage extends Component {
               : null
             }
           </div>
+          <div className='bank-details-container'>
+            <div className='bank-details-description'>
+              <Descriptions title="Bank Info">
+                <Descriptions.Item label="Acc Name">{AccountName}</Descriptions.Item>
+                <Descriptions.Item label="Acc No">{AccountNo}</Descriptions.Item>
+                <Descriptions.Item label="Bank Name">{BankName}</Descriptions.Item>
+                <Descriptions.Item label="IFSC">{IFSC}</Descriptions.Item>
+                <Descriptions.Item>
+                  <Button type='primary' onClick={this.hanldeClickForBankDetails}>
+                    Edit details
+                  </Button>
+                </Descriptions.Item>
+              </Descriptions>
+            </div>
+            {
+              this.state.editBankDetails 
+              ? 
+                <div className='bank-edit-conatiner'>
+                    <Form encType='multipart/form-data' onSubmitCapture={this.handleBankDetailsSubmit} className='profilepage-form' {...layout}  name="control-hooks">
+                      <Form.Item label="Account Name">
+                          <Input
+                              type="text"
+                              name="AccountName"
+                              value={this.state.AccountName}
+                              placeholder="e.g., Teja S"
+                              onChange={this.handleChangeForBankDetails}
+                              required
+                          /> 
+                      </Form.Item>
+                      <Form.Item label="Acc No.">
+                          <Input 
+                              type="text"
+                              name="AccountNo"
+                              value={this.state.AccountNo}
+                              placeholder="e.g., 7000436281827"
+                              onChange={this.handleChangeForBankDetails}
+                              required
+                          />
+                      </Form.Item>
+                      <Form.Item label="Bank name">
+                          <Input
+                              type="text"
+                              name="BankName"
+                              value={this.state.BankName}
+                              placeholder="e.g., State Bank of India"
+                              onChange={this.handleChangeForBankDetails}
+                              required
+                          /> 
+                          </Form.Item>
+                      <Form.Item label="IFSC">
+                          <Input
+                              type="text"
+                              name="IFSC"
+                              value={this.state.IFSC}
+                              placeholder="e.g., SBIN00998"
+                              onChange={this.handleChangeForBankDetails}
+                              required
+                          /> 
+                      </Form.Item>
+                      <Form.Item {...tailLayout}>
+                        <Button type="submit" htmlType="submit">
+                          Submit
+                        </Button>
+                      </Form.Item>
+                  </Form>                
+                </div>
+              : null    
+            }
+          </div>
+          </>
           : <h1>Loading...</h1>
         );
     }
@@ -204,4 +319,4 @@ const mapStateToProps = stateStatus => {
 }
 
 
-export default connect(mapStateToProps, {addProfilepic, updateProfile})(ProfilePage)
+export default connect(mapStateToProps, {addProfilepic, updateProfile, updateBankDetails})(ProfilePage)
