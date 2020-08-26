@@ -35,7 +35,7 @@ module.exports = {
     //Get the posts
     async GetPost (req, res) {
         try {
-            const posts = await Posts.find({ });
+            const posts = await Posts.find({verified: false});
             res.status(200).json({ listings: posts})
         } catch (err) {
             console.error(err)
@@ -179,9 +179,13 @@ module.exports = {
         try {
             const id = req.params.requestId;
             const foundRequest = await UserRequests.findById({_id: id})
-            const foundUser = await Users.findById({_id : foundRequest._id})
-            foundUser.userRequests = null
+            //console.log(foundRequest)
+            const foundUser = await Users.find({userRequests : foundRequest._id})
+            //console.log(foundUser[0])
+            foundUser[0].userRequests.splice(foundRequest._id, 1)
             await foundRequest.deleteOne({_id: id})
+            foundUser.save()
+            await foundRequest.save()
             return res.status(200).json({ message: "deleted Successfully"})            
         } catch (err) {
             console.error(err)
@@ -218,9 +222,11 @@ module.exports = {
         try {
             const id = req.params.requestId;
             const foundRequest = await NormalRequests.findById({_id: id})
-            const foundUser = await Users.findById({_id : foundRequest._id})
-            foundUser.normalRequests = null
+            const foundUser = await Users.find({ normalRequests: foundRequest._id})
+            foundUser[0].normalRequests.splice(foundRequest._id, 1)
             await foundRequest.deleteOne({_id: id})
+            foundUser.save()
+            await foundRequest.save()
             return res.status(200).json({ message: "deleted Successfully"})            
         } catch (err) {
             console.error(err)

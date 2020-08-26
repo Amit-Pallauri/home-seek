@@ -197,6 +197,8 @@ class VerifyHomesPage extends Component {
             location: {
 				type: "Point",
 				coordinates: [this.state.mapPosition.lat, this.state.mapPosition.lng],
+				city : this.state.city,
+				state : this.state.state,
 				formattedAddress: this.state.address
             },
             deposit: this.state.deposit,
