@@ -127,6 +127,7 @@ module.exports = {
         try {
             const id = req.params.postId
             const foundPost = await Posts.findByIdAndDelete({ _id: id })
+            console.log(foundPost)
             return res.status(200).json({ message: "the post deleted Successfully"})            
         } catch (err) {
             console.error(err)
@@ -181,10 +182,10 @@ module.exports = {
             const foundRequest = await UserRequests.findById({_id: id})
             //console.log(foundRequest)
             const foundUser = await Users.find({userRequests : foundRequest._id})
-            //console.log(foundUser[0])
+            //console.log(foundUser)
             foundUser[0].userRequests.splice(foundRequest._id, 1)
             await foundRequest.deleteOne({_id: id})
-            foundUser.save()
+            await foundUser.save()
             await foundRequest.save()
             return res.status(200).json({ message: "deleted Successfully"})            
         } catch (err) {

@@ -23,7 +23,6 @@ import NormalRequestPage from '../pages/NormalRequestPage';
 import ProfilePage from '../pages/ProfilePage';
 
 const { Header, Sider, Content } = Layout;
-
 class NavBar extends Component {
 	state = {
 		collapsed: false

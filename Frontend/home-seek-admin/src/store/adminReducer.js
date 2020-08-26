@@ -8,9 +8,11 @@ export const registration = createAsyncThunk('admin/registration', async(data) =
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/register`, data, {headers: headers})
         console.log(response.data)
+        alert("Registeration Successfull")
         return response.data
     } catch (err) {
         console.log(err)
+        alert("Registeration UnSuccessfull")
     }
 })
 
@@ -21,9 +23,11 @@ export const logIn = createAsyncThunk('admin/logIn', async(data) => {
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/login`, data, {headers: headers})
         console.log(response.data)
+        alert("Login Successfull")
         return response.data
     } catch (err) {
         console.log(err)
+        alert("Login UnSuccessfull")
     }
 })
 
