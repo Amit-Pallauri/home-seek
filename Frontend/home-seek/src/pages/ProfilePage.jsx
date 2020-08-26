@@ -61,7 +61,7 @@ class ProfilePage extends Component {
       e.preventDefault()
       const formData = new FormData()
       this.setState({ editProfile : false})
-      console.log(this.state.image)
+      //console.log(this.state.image)
       formData.append('image', this.state.image)
       this.props.addProfilepic(formData)
       this.props.updateProfile(this.state)
