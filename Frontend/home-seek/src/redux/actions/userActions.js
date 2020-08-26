@@ -142,10 +142,10 @@ export const addProfilepic = state => async dispatch => {
         dispatch({ type : TOGGLE_GET_STATE })
         const user = JSON.parse(localStorage.getItem('user'))
         const headers = {
+            'Content-type' : 'application/json',
             'authorization' : user.token
         }
-        const { image }  = state
-        const { data } = await axios.post(`${SERVER_BASE_URL}/uploadPic`, {image}, { headers })
+        const { data } = await axios.post(`${SERVER_BASE_URL}/uploadPic`, state, { headers })
         dispatch({
             type : ADD_PROFILE_PIC,
             payload : data
@@ -156,6 +156,7 @@ export const addProfilepic = state => async dispatch => {
             type : ERROR,
             payload : error
         })
+        console.log(error)
     }
 }
 
