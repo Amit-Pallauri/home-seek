@@ -132,6 +132,7 @@ class ListingPage extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		const user = JSON.parse(localStorage.getItem('user'))
 		const data = {
 			location: {
 				type: "Point",
@@ -144,7 +145,7 @@ class ListingPage extends Component {
 			societyName: this.state.societyName,
 			vacant: this.state.vacant,
 			name: this.state.name,
-			phoneNumber: this.state.phoneNumber
+			phoneNumber: this.state.phoneNumber !== '' ? this.state.phoneNumber : user.data.phoneNumber
 		};
 		this.props.listingHouse(data);
 		message.success('your property has been listed. please go to the request tab to see the status. Thank you!')
