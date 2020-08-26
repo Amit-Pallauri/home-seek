@@ -1,0 +1,55 @@
+.listing-form-conatiner{
+    width: 75%;
+    margin: auto;
+    border: 1px solid  rgba(185, 184, 184, 0.329);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-shadow: -5px 5px 20px 0.5px rgba(92, 88, 88, 0.356);
+}
+.listing-form{
+    /* border: 1px solid red; */
+    background: rgba(255, 248, 220, 0.527);
+    text-align: center;
+}
+.listing-form Button{
+    width: 150px;
+    height: 40px;
+    margin-left: 40vh;
+    background: rgba(0, 0, 0, 0.425);
+    color: white;
+}
+.listing-form-conatiner #heading {
+    text-align: center;
+    margin: 30px;
+    font-family: sans-serif;
+}
+
+.otp-form{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.otp-form .otp{
+    width: 850px;
+   display: flex;
+   justify-content:space-around ;
+}
+
+.otp-form input[type = 'tel']{
+    width: 300px;
+}
+
+.otp-form input[type='number']{
+    width: 250px;
+}
+
+
+
+/* search home page */
+.home-list{
+    /* border: 1px solid black; */
+    box-shadow: -5px 5px 20px 0.5px rgba(92, 88, 88, 0.356);
+    margin : 15px;
+}

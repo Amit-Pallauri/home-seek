@@ -1,0 +1,16 @@
+.chat-container{
+    /* position: absolute; */
+    left: 30%;
+    top: 25%
+}
+.chat-display {
+    border: 2px solid black;
+    overflow: auto ;
+    height: 400px;
+    width: 300px;
+}
+
+.chat-display div{
+    display: flex;
+    justify-content: space-around;
+}

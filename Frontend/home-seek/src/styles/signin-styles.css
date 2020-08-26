@@ -1,0 +1,61 @@
+.login-form-container{
+    /* position: absolute; */
+    /* left: 20%; */
+    /* top: 30%; */
+    /* margin-left: 8em; */
+    margin: auto;
+    /* height: 400px; */
+    /* width: 300px; */
+    /* border: 2px solid rgba(163, 204, 14, 0.199); */
+    /* border-radius: 10px; */
+    /* background: rgba(79, 148, 9, 0.39); */
+    display: flex;
+    justify-content: space-around;
+}
+
+.login-form{
+    display: flex;
+    border: 2px solid rgba(163, 204, 14, 0.199);
+    background: rgba(79, 148, 9, 0.39);
+    border-radius: 10px;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.login-form h1{
+    text-align: center;
+    font-size: 28px;
+    color: rgba(179, 83, 49, 0.678);
+ }
+
+ .login-form input{
+    border-radius: 10px;
+    padding: 6px 20px;
+    margin: 5px;
+    outline: none;
+    border: 1px solid rgba(184, 184, 6, 0.644);
+}
+
+.signin-image{
+    width: 600px;
+    /* position: absolute;
+    left: 48%;
+    top: 20% */
+}
+
+.google-login{
+    padding: 3px;
+    background: white;
+    width: 120px;
+    height: 50px;
+    text-align: center;
+    border: none;
+    /* border-radius: 5px; */
+}
+
+.thirdPartyAuth { 
+    margin: 8px;
+    width: 260px;
+    display: flex;
+    justify-content: space-evenly;
+}

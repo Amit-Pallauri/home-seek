@@ -1,0 +1,19 @@
+.listing-container { 
+    border: 1px solid black;
+    width: 500px;
+    height: 500px;
+}
+.listing-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 30%
+}
+.listing-form input[type = 'text'], .listing-form input[type = 'number'] {
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px;
+    /* text-align: ; */
+}

@@ -1,0 +1,38 @@
+.profile-container{
+    display: flex;
+}
+
+.profilepage-container {
+    padding: 5px;
+    width: 60%;
+    margin: auto;
+}
+
+.card-data-el {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-data-container button{
+    width: 100px;
+
+}
+
+.bank-details-container {
+    /* border: 1px solid red; */
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bank-details-description{
+    border-bottom: 1px black;
+    border-bottom-style: dashed;
+}
+
+.bank-edit-conatiner {
+    /* border: 1px solid black; */
+    width: 50%;
+    /* margin: auto */
+    margin: 50px 0 50px 120px;
+}

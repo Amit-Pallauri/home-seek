@@ -1,0 +1,40 @@
+.register-form-container{
+    /* left: 15%;
+    top: 30%;
+    height: 400px;
+    width: 300px; */
+    /* border: 2px solid rgba(163, 204, 14, 0.199);
+    border-radius: 10px;
+    background: rgba(79, 148, 9, 0.39); */
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+.register-form{
+    display: flex;
+    border: 2px solid rgba(163, 204, 14, 0.199);
+    border-radius: 10px;
+    background: rgba(79, 148, 9, 0.39);
+    flex-direction: column;
+    margin: 10px;
+}
+.register-form h1{
+    font-size: 25px;
+   text-align: center;
+   color: rgba(179, 83, 49, 0.678);
+}
+.register-form input{
+    border-radius: 10px;
+    padding: 4px 15px;
+    margin: 5px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgba(184, 184, 6, 0.644);
+}
+.signup-image{
+    width: 600px;
+    /* height: 600px; */
+    /* position: absolute;
+    left: 48%;
+    top: 5%; */
+}

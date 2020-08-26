@@ -1,0 +1,23 @@
+.revive-pass-form {
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+.revive-pass-form input[type='password']{ 
+padding: 8px;
+width: 200px;
+margin: 5px;
+border: none;
+border-bottom: 1px solid black;
+background: none;
+outline: none;
+}
+.revive-pass-form input[type='password']::placeholder {
+color: white
+}
+
+.revive-pass-form input[type='submit']{ 
+margin-top: 15px;
+border: none;
+padding: 8px 10px;
+}

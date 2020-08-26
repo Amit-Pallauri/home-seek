@@ -1,0 +1,4 @@
+export const GET_CHATS = 'GET_CHATS'
+export const CHAT_FETCH_ERROR = 'CHAT_FETCH_ERROR'
+export const CHAT_FETCHING = 'CHAT_FETCHING'
+export const AFTER_CHATS = 'AFTER_CHATS'
