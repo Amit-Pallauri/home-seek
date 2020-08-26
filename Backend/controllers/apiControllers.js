@@ -233,15 +233,37 @@ module.exports = {
             res.status(400).json({err : err.message}) 
         }
     },
+    // left for later
     async filterSearch (req, res) {
         try {
             let filteredData = []
-            const {location, type, maxRent, minRent } = req.body
-            console.log(maxRent, minRent)
-            const locationeWise = await Details.find({ location })
-            const typeWise = await Details.find({ type })
-            const rentWise = await Details.find({ rent : { $gte : minRent, $lte : maxRent}})
-            filteredData.push(rentWise)
+            // const {maxRent, minRent, location, type } = req.query
+            // var allPosts = await Posts.find({}).populate('details')
+            if(req.query.location){
+                console.log(req.query.location)
+                var locationeWise = await Details.find({ 'location.city' : req.query.location })
+                locationeWise.forEach(el => {
+                    filteredData.push(el)
+                })
+            }
+
+            if(req.query.type){
+                console.log(req.query.type)
+                var typeWise = await Details.find({ type : req.query.type })
+                typeWise.forEach(el => {
+                    filteredData.push(el)
+                })
+            }
+
+            if(req.query.maxRent && req.query.minRent){
+                console.log(req.query.minRent, req.query.maxRent)
+                var rentWise = await Details.find({ rent : { $gte : req.query.minRent, $lte : req.query.maxRent}})
+                rentWise.forEach(el => {
+                    filteredData.push(el)
+                })
+            }
+            
+            console.log(filteredData)
             res.status(200).json({'filteredData' : filteredData})
         } catch (error) {
             console.log(error)

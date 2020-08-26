@@ -49,12 +49,12 @@ class RegisterPage extends Component{
 		}
 	}
 
-	componentDidUpdate(prevProps){
-		if(prevProps.user !== this.props )
-			return this.props.user.isAuthenticating
-				? this.setState({error : this.props.user.errorMessage})
-				: undefined
-	}
+	// componentDidUpdate(prevProps){
+	// 	if(prevProps.user !== this.props )
+	// 		return this.props.user.isAuthenticating
+	// 			? this.setState({error : this.props.user.errorMessage})
+	// 			: undefined
+	// }
 
 	render(){
 		return (

@@ -4,7 +4,7 @@ import {createHomes} from '../store/ownerReducer';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
-import { Upload, Modal, Form, Input, Button, Typography, Checkbox, Descriptions } from 'antd';
+import { Upload, Modal, Form, Input, Button, Typography, Checkbox, Descriptions, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 const { Title } = Typography;
 
@@ -230,6 +230,7 @@ class VerifyHomesPage extends Component {
 		formData.append("data", JSON.stringify(data));
 		const homeId = this.props.match.params.homeId
 		this.props.createHomes({homeId: homeId, data:formData})
+		message.success('verified successfully!!')
     }
 
 	onInfoWindowClose = (event) => {};
