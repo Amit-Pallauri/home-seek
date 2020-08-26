@@ -100,7 +100,7 @@ class HomeListItem extends Component {
 									<List.Item
 										className='home-list'
 										key={item._id}
-										actions={[ <Button type="primary">Book Visit</Button> ]}
+										actions={[ <Button type="primary" >Show More</Button> ]}
 										extra={<img width={272} alt="logo" src={`${item.details.images[0]}`} />}
 									>
 										<List.Item.Meta
