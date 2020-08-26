@@ -93,6 +93,8 @@ const userReducer = (state = initialState, action) => {
 
 
         case ADD_PROFILE_PIC : 
+            const picUpdatedData = JSON.stringify(payload);
+            localStorage.setItem('user', picUpdatedData);
             return {
                 ...state, user : payload
             }

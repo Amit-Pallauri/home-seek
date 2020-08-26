@@ -41,9 +41,9 @@ class OwnerProfile extends Component{
                             <Descriptions.Item label="vacant">{el.vacant === true ? 'yes' : 'no'}</Descriptions.Item>
                             <Descriptions.Item label="verified">{el.verified === true ? 'yes' : 'no'}</Descriptions.Item>
                         </Descriptions>
-                            <button onClick={() => this.showDrawer(el._id)}>
+                            {/* <button onClick={() => this.showDrawer(el._id)}>
                                 Details
-                            </button>
+                            </button> */}
                     </div>
                 )
         )    
