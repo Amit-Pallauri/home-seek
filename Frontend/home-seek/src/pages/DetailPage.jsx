@@ -417,7 +417,7 @@ class DetailPage extends Component {
 						}
 					</div>
 				) : null}
-				{this.props.successPayment ? this.props.history.push("/homes") : null}
+				{this.props.successPayment ? <Redirect to="/homes" /> : null}
 			</div>
 		) : (
             <Spin size="large" style={{marginLeft : "50vw", marginTop: "50vh"}}/>

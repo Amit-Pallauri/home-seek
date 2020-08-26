@@ -59,8 +59,11 @@ class ProfilePage extends Component {
 
     handleSubmit = e => {
       e.preventDefault()
+      const formData = new FormData()
       this.setState({ editProfile : false})
-      this.props.addProfilepic(this.state)
+      //console.log(this.state.image)
+      formData.append('image', this.state.image)
+      this.props.addProfilepic(formData)
       this.props.updateProfile(this.state)
       message.info('profile updated');
     }
