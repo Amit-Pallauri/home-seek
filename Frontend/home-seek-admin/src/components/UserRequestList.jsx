@@ -13,7 +13,7 @@ class UserRequestList extends Component {
 			<div>
 				{this.props.requests ? (
 					<div>
-						<h1>User Reuests</h1>
+						<h1>User Requests</h1>
 						{this.props.requests.map((requests) => {
 							return requests.user.owner === false ? (
 								<div key={requests._id}>
@@ -33,7 +33,8 @@ class UserRequestList extends Component {
 							{this.props.requests.map((requests) => {
 								return requests.user.owner === true ? (
 									<div key={requests._id}>
-										<h1>{requests.requests}</h1>
+										<h1>{requests.request}</h1>
+										<h2>{requests.description}</h2>
 										<ListingRequest listing={requests.user.listings} />
 										<Button type="primary" onClick={() => this.handleClick(requests._id)} danger>
 											Delete Request
