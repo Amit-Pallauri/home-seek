@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { List, Button, Modal } from 'antd';
+import { List, Button, Form, Drawer, Dropdown, Input, Menu, Select, InputNumber} from 'antd';
+import { getAllSortedPosts, getFilteredData } from '../redux/actions/listingActions'
 import '../styles/listing-styles.css'
 
 const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
@@ -14,7 +15,15 @@ class HomeListItem extends Component {
 			active: false,
 			lat: '',
 			lng: '',
-			visible: false 
+			visible: false,
+			city : '',
+			state : '',
+			type : '' ,
+			// sortedValues : [],
+			minRent : '',
+			maxRent : '',
+			rentType : '',
+			toBeSortValue: ''
 		};
 	}
 
@@ -34,26 +43,6 @@ class HomeListItem extends Component {
 	handleClick = () => {
 		this.setState({ active: !this.state.active });
 	};
-
-	showModal = () => {
-		this.setState({
-		  visible: true,
-		});
-	  };
-	
-	  handleOk = e => {
-		console.log(e);
-		this.setState({
-		  visible: false,
-		});
-	  };
-	
-	  handleCancel = e => {
-		console.log(e);
-		this.setState({
-		  visible: false,
-		});
-	  };
 
 	MapWithAMarker = withScriptjs(
 		withGoogleMap((props) => (
@@ -77,7 +66,76 @@ class HomeListItem extends Component {
 			</GoogleMap>
 		))
 	);
+
+	// componentDidUpdate(prevProps) {
+	// 	if(prevProps !== this.props){
+	// 		this.props.posts.sortedValues 
+	// 		?
+	// 			this.setState({ sortedValues : this.props.posts.sortedValues.data})
+	// 		: console.log('none')
+	// 	}
+	// }
+
+	showDrawer = () => {
+		this.props.getAllSortedPosts()
+		this.setState({
+			visible: true,
+		});
+	};
+
+	onClose = () => {
+		this.setState({
+		visible: false,
+		});
+	};
+
+	changeHandle = e => {
+		// console.log(e.target.value.toString())
+		this.setState({ toBeSortValue : e })
+	}
+	 handleChange = e => {
+		 this.setState({[e.target.name] : e.target.value})
+	 }
+
+	handleSubmit = e => {
+		e.preventDefault()
+		console.log('i am here')
+		const { maxRent, toBeSortValue : location, minRent, rentType : type } = this.state
+		// this.props.getFilteredData({maxRent, minRent, location, type})
+	}
+
+	handleTypeClick = e => {
+		// console.log(e.target.name.toString())
+		this.setState({rentType : e})
+	}
+
 	render() {
+		const typeMenu = (
+			<Menu>
+				<Menu.Item>
+					<Button onClick={() => this.handleTypeClick('family')}>family</Button>
+				</Menu.Item>
+				<Menu.Item>
+					<Button onClick={() => this.handleTypeClick('bachelor')}>bachelor</Button>
+				</Menu.Item>
+			</Menu>
+		)
+
+		const locationMenu = (
+			<Menu>
+				{
+					this.props.posts.sortedValues 
+					? 
+					this.props.posts.sortedValues.data.city.map(el =>
+						<Menu.Item>
+							<Button onClick={() => this.changeHandle(el)}>{el}</Button>
+						</Menu.Item>
+					)
+					: null
+				}
+				
+			</Menu>
+		)
 		return (
 			<div style={{ display: 'flex' }}>
 				<Button type="primary" onClick={this.handleClick}>
@@ -101,7 +159,7 @@ class HomeListItem extends Component {
 										className='home-list'
 										key={item._id}
 										actions={[ <Button type="primary">Book Visit</Button> ]}
-										extra={<img width={272} alt="logo" src={`${item.details.images[0]}`} />}
+										extra={<img width={272} alt="logo" src={item.details.images[0]} />}
 									>
 										<List.Item.Meta
 											title={`₹${item.details.rent}`}
@@ -125,22 +183,57 @@ class HomeListItem extends Component {
 						/>
 					</div>
 				) : null}
-				<Button type="primary" onClick={this.showModal}>
-					filter 
+				<div>
+				<Button type="primary" onClick={this.showDrawer}>
+					sort homes
 				</Button>
-				<Modal
-					title="Basic Modal"
+				<Drawer
+					title="Basic Drawer"
+					placement="right"
+					closable={false}
+					onClose={this.onClose}
 					visible={this.state.visible}
-					onOk={this.handleOk}
-					onCancel={this.handleCancel}
-					>
-					<p>Some contents...</p>
-					<p>Some contents...</p>
-					<p>Some contents...</p>
-				</Modal>
+				>
+					<Form>
+						<Dropdown overlay={locationMenu} placement="bottomLeft">
+							<Button>Location</Button>
+						</Dropdown>
+						<Dropdown overlay={typeMenu} placement="bottomLeft">
+							<Button>Type</Button>
+						</Dropdown>
+						<Form.Item label='min. Rent'>
+							<input
+								type="number"
+								name='minRent'
+								value={this.state.minRent}
+								onChange={this.handleChange}
+							/>
+						</Form.Item>
+						<Form.Item label='max. Rent'>
+							<input
+								type="number"
+								name='maxRent'
+								value={this.state.maxRent}
+								onChange={this.handleChange}
+							/>
+						</Form.Item>
+						<Form.Item>
+							<button onClick={this.handleSubmit}>
+								Submit
+							</button>
+						</Form.Item>
+					</Form>
+				</Drawer>
+				</div>
 			</div>
 		);
 	}
 }
 
-export default HomeListItem;
+const mapStateToProps = stateStatus => {
+	return {
+		posts : stateStatus.listingState
+	}
+}
+
+export default connect (mapStateToProps, { getAllSortedPosts, getFilteredData })(HomeListItem);

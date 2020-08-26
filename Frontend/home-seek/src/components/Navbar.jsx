@@ -12,7 +12,7 @@ import {
 import protectedRoute from '../HOC/protectedRoute'
 import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
-import Loginpage from '../pages/LoginPage';
+import Loginpage from '../pages/Loginpage';
 import Homepage from '../pages/Homepage';
 import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';

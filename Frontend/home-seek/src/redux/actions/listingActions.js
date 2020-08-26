@@ -1,5 +1,6 @@
 import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST, TEMP_DETAIL} from '../actionTypes/userActionTypes';
 import {VERIFY_OTP} from '../actionTypes/userActionTypes';
+import {SORTED_VALUES, FILTERED_DATA} from '../actionTypes/postsActions'
 import axios from 'axios';
 import { SERVER_BASE_URL } from '../../config'
 
@@ -62,18 +63,17 @@ export const verifyOTP = (data1) => async (dispatch, getState) => {
 
 export const allHomes = () => async (dispatch, getState) => {
     try {
-        dispatch({ type: TOGGLE_CREATE_STATE});
-        const storage = JSON.parse(localStorage.getItem('user'))
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': storage.token
-        }
-        const { data } = await axios.get(`${SERVER_BASE_URL}/listings`, {headers: headers})
-        dispatch({
-            type: GETALLPOSTS,
-            payload: data
-        })
-        //console.log(data)
+            dispatch({ type: TOGGLE_CREATE_STATE});
+            const storage = JSON.parse(localStorage.getItem('user'))
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': storage.token
+            }
+            const { data } = await axios.get(`${SERVER_BASE_URL}/listings`, {headers: headers})
+            dispatch({
+                type: GETALLPOSTS,
+                payload: data
+            })
     } catch (err) {
         dispatch({ type: ERROR, payload: err})
         console.error(err.message);
@@ -101,5 +101,48 @@ export const particularHome = (homeId) => async (dispatch) => {
         console.error(err.message);
     }finally {
         dispatch({ type: TOGGLE_CREATE_STATE})
+    }
+}
+
+export const getAllSortedPosts = () => async dispatch => {
+   try {
+        const storage = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': storage.token
+        }
+       const { data } = await axios.get(`${SERVER_BASE_URL}/getAllSortedPosts`, {headers})
+       dispatch({
+           type :  SORTED_VALUES,
+           payload : data
+       })
+   } catch (error) {
+       dispatch({
+           type : ERROR,
+           payload : error
+       })
+   } 
+}
+
+export const getFilteredData = details => async dispatch => {
+    try {
+        const storage = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': storage.token
+        }
+        const { location, maxRent, minRent, type } = details
+        const { data } = await axios.get(`${SERVER_BASE_URL}/filter`, { headers, params: { 
+            location, 
+            maxRent, 
+            minRent,
+            type 
+         }})
+        dispatch({
+            type :  FILTERED_DATA,
+            payload : data
+        })     
+    } catch (error) {
+        
     }
 }

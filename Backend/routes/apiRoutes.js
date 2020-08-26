@@ -3,7 +3,7 @@ const router = Router()
 const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
 ,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete,GetAllPosts, userSpecificPosts} = require("../controllers/apiControllers");
 const {
-    verifyAdmin
+    verifyAdmin, verifyToken
 } = require("../middlewares/authenticate")
 const upload = require('../utils/multer');
 const Details = require('../models/Details');
@@ -32,7 +32,7 @@ router.get('/admin/normalrequests', verifyAdmin, getNormalRequests);
 
 router.delete('/admin/delete/normalrequests/:requestId', verifyAdmin, deleteNormalRequests);
 
-router.get('/filter', filterSearch)
+router.get('/filter',verifyToken, filterSearch)
 
 router.post('/user/pay', verifyAdmin, amountpaycreate);
 
@@ -48,13 +48,27 @@ router.get('/listings', verifyAdmin, GetAllPosts);
 
 router.get('/userSpecificPosts', userSpecificPosts)
 
-router.get('/getAll', async (req, res)=> {
+router.get('/getAllSortedPosts', verifyToken, async (req, res)=> {
     try {
+        var detailedData = {
+            city : []
+        }
         const data = await Details.find({})
         data.map(el => {
-            console.log(el)
+            if(el.location.city){
+                detailedData.city.length === 0 
+                ?
+                    detailedData.city.push(el.location.city)
+                : 
+                    !detailedData.city.includes(el.location.city) 
+                    ? detailedData.city.push(el.location.city)
+                    : ''
+            }
         })
-        res.send('hi bro')        
+        res.status(200).json({
+            message : 'sorted data extracted',
+            data : detailedData
+        })       
     } catch (error) {
         console.log(error)
     }

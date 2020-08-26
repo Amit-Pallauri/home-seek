@@ -3,7 +3,7 @@ import { createPayment, verifyPayments } from '../redux/actions/paymentActions';
 import { createOTP, verifyOTP, particularHome } from '../redux/actions/listingActions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import {addNormalRequest} from '../redux/actions/userActions';
+import {addNormalRequest } from '../redux/actions/userActions';
 import { Carousel, Divider, Typography, Button, Modal, DatePicker, Form, Input, Spin } from 'antd';
 
 const { Title } = Typography;
