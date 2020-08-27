@@ -1,2 +1,36 @@
 @import '~antd/dist/antd.css';
 
+.home-page-logo p{
+    font-size: 80px;
+    /* position: absolute; */
+    left: 25%;
+    top: 30%;
+    color: rgba(29, 71, 29, 0.233);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.home-page-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: 25%;
+    top: 35%;
+    width: 60%;
+}
+
+.home-page-logo p{
+    font-size: 80px;
+    margin: 0;
+    padding: 0;
+    color: rgba(29, 71, 29, 0.233);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.home-page-logo Input.Search {
+    padding: 10px;
+}
+
+#components-form-demo-control-hooks .ant-btn {
+   margin-right: 8px;
+}
