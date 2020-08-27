@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {allHomes} from '../redux/actions/listingActions';
 import HomeListItem from '../components/HomeListItem';
-
+import '../styles/loading.css'
 class HomeListPage extends Component {
 
     componentDidMount() {
@@ -14,7 +14,10 @@ class HomeListPage extends Component {
         if(!this.props.user)  return <Redirect to="/" /> 
         return this.props.homes ? 
         <HomeListItem homes={this.props.homes} />
-        : null
+        : 
+            <div className="container">
+                <div className="box"></div>
+            </div>
     }
 }
 

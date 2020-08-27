@@ -4,7 +4,7 @@ import {getRequestedPosts} from '../redux/actions/requestsActions'
 import { Descriptions, Button, Drawer } from 'antd';
 import '../styles/request.css'
 import { particularHome } from '../redux/actions/listingActions';
-
+import '../styles/loading.css'
 class OwnerProfile extends Component{
     state = {
         visible : false
@@ -27,7 +27,9 @@ class OwnerProfile extends Component{
         return (
             this.props.posts.posts.length === 0
             ? 
-                <h1>Loading...</h1>
+                <div className="container">
+                    <div className="box"></div>
+                </div>
             : 
                 this.props.posts.posts.map(el =>
 
