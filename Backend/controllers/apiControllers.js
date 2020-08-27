@@ -73,6 +73,7 @@ module.exports = {
     async detailsCreate (req, res) {
         try {
             const admin = req.admin
+            console.log(admin)
             const id = req.params.homeId
             const foundPost = await Posts.findById({ _id: id })
             const body = JSON.parse(req.body.data)

@@ -105,6 +105,7 @@ class ProfilePage extends Component {
         email, 
         DOB, 
         gender, 
+        phoneNumber,
         Address:{ 
           city, 
           district, 
@@ -146,6 +147,7 @@ class ProfilePage extends Component {
                     <span className='card-data-el'><b>state :</b><p>{state}</p></span>
                     <span className='card-data-el'><b>pincode :</b><p>{pincode}</p></span>
                     <span className='card-data-el'><b>maritalStatus :</b><p>{maritalStatus}</p></span>
+                    <span className='card-data-el'><b>phoneNumber :</b><p>{phoneNumber}</p></span>
                   </div>
                 </div>
               </Card>
