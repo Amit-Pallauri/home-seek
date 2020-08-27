@@ -16,7 +16,10 @@ class NormalRequestList extends Component {
 						{this.props.requests.map((requests) => {
 							return requests  ? (
 								<div key={requests._id}>
-									<h1>{requests.requests}</h1>
+									<h1>{requests.request}</h1>
+									<p>{requests.user.firstName}</p>
+									<p>{requests.user.email}</p>
+									<p>{requests.user.phoneNumber}</p>
 									<Button type="primary" onClick={() => this.handleClick(requests._id)} danger>
 										Delete Request
 									</Button>

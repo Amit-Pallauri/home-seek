@@ -46,7 +46,7 @@ class HomeListItem extends Component {
 
 	MapWithAMarker = withScriptjs(
 		withGoogleMap((props) => (
-			<GoogleMap defaultZoom={10} defaultCenter={{ lat: this.state.lat, lng: this.state.lng }}>
+			<GoogleMap defaultZoom={10} defaultCenter={{ lat: Number(this.state.lat), lng: Number(this.state.lng) }}>
 				{this.props.homes.listings.map((home) => (
 					<Marker
 						key={home._id}
