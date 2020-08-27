@@ -16,6 +16,7 @@ import {
 import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
+import {message} from 'antd';
 
 export const registerUser = user => async dispatch =>  {
     try {
@@ -29,11 +30,13 @@ export const registerUser = user => async dispatch =>  {
             payload: data
         })   
         dispatch({ type : TOGGLE_AUTH_STATE });
+        message.success("Registration is Successfull, kindly check your mail")
     } catch (err) {
         dispatch({
             type : ERROR,
             payload : err
         })
+        message.warning("Invalid Credentails")
     } finally {
         dispatch({ type: TOGGLE_AUTH_STATE})
     }
@@ -46,12 +49,12 @@ export const loginUser = user => async (dispatch) =>  {
             'Content-Type': 'application/json'
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/signIn`, user, {headers: headers});
-        console.log('data', data)
+        //console.log('data', data)
         dispatch({
             type: LOGIN_USER,
             payload: data
         })
-        dispatch({ type : TOGGLE_AUTH_STATE });
+        message.success("Login Successfull")
     } catch (err) {
         err.name === Error ? dispatch({
             type : ERROR,
@@ -61,6 +64,7 @@ export const loginUser = user => async (dispatch) =>  {
             type : ERROR,
             payload : err
         })
+        message.warning("Invalid Credentails")
     } finally {
         dispatch({ type: TOGGLE_AUTH_STATE})
     }
@@ -127,7 +131,7 @@ export const revivePassword = (token, passwordData) => async dispatch => {
             { newPassword, confirmPassword }, 
             { headers }
         )
-        console.log(data)
+        //console.log(data)
         dispatch({
             type : REVIVE_PASS,
             payload : data

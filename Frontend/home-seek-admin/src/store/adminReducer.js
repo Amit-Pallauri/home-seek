@@ -7,7 +7,7 @@ export const registration = createAsyncThunk('admin/registration', async(data) =
             'Content-Type': 'application/json'
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/register`, data, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
         alert("Registeration Successfull")
         return response.data
     } catch (err) {
@@ -22,7 +22,7 @@ export const logIn = createAsyncThunk('admin/logIn', async(data) => {
             'Content-Type': 'application/json'
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/login`, data, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
         alert("Login Successfull")
         return response.data
     } catch (err) {
@@ -39,7 +39,8 @@ export const logOut = createAsyncThunk('admin/logOut', async(_,{getState}) => {
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/logOut`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
+        alert("LogOut Successfull")
         return response.data
     } catch (err) {
         console.log(err)
@@ -54,7 +55,7 @@ export const profile = createAsyncThunk('admin/profile', async(_,{getState}) => 
             'Authorization': accessToken
         }
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/profile`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
         return response.data
     } catch (err) {
         console.log(err)
