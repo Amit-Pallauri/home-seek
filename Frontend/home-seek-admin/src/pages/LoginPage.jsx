@@ -32,7 +32,7 @@ class Loginpage extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.logIn(this.state);
-		this.props.history.push('/')
+		//this.props.history.push('/')
 	};
 	render() {
 		return (

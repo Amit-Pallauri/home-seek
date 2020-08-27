@@ -14,7 +14,7 @@ export const listingHouse = (details) => async (dispatch, getState) => {
             'authorization': storage.token
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/owner/listing/create`, details, {headers: headers})
-        console.log(data)
+        //console.log(data)
         dispatch({
             type: LISTING_HOUSE,
             payload: data
@@ -35,7 +35,7 @@ export const createOTP = (data2) => async (dispatch, getState) => {
             'Authorization': storage.token
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/owner/listing`, data2, {headers: headers})
-        console.log(data)
+        //console.log(data)
         alert("OTP is sent successfully")
     } catch (err) {
         console.error(err.message);
@@ -54,7 +54,7 @@ export const verifyOTP = (data1) => async (dispatch, getState) => {
             type: VERIFY_OTP,
             payload: data
         })
-        console.log(data)
+        //console.log(data)
         alert("verification successfull")
     } catch (err) {
         console.error(err.message);
@@ -91,7 +91,7 @@ export const particularHome = (homeId) => async (dispatch) => {
             'Authorization': storage.token
         }
         const { data } = await axios.get(`${SERVER_BASE_URL}/owner/home/${homeId}`, {headers: headers})
-        console.log(homeId)
+        //console.log(homeId)
         dispatch({
             type: GETPARTICULARPOST,
             payload: data

@@ -25,6 +25,7 @@ export const deleteUserRequests = createAsyncThunk('admin/deleteUserRequests', a
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/delete/userrequests/${requestId}`, {headers: headers})
+        alert("Deleted Successfully")
         return response.data
     } catch (err) {
         console.log(err)
@@ -55,6 +56,7 @@ export const deleteNormalRequests = createAsyncThunk('admin/deleteNormalRequests
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/delete/normalrequests/${requestId}`, {headers: headers})
+        alert("Deleted Successfully")
         return response.data
     } catch (err) {
         console.log(err)
