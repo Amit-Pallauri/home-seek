@@ -1,5 +1,6 @@
 import {CREATE_PAYMENT,TOGGLE_GET_STATE,PAYMENT_SUCCESS} from '../actionTypes/paymentActionTypes';
 import axios from 'axios';
+import { SERVER_BASE_URL } from '../../config'
 
 
 export const createPayment = (payment) => async (dispatch, getState) => {
@@ -10,7 +11,7 @@ export const createPayment = (payment) => async (dispatch, getState) => {
             'Content-Type': 'application/json',
             'Authorization': storage.token
         }
-        const { data } = await axios.post("http://localhost:3000/user/pay", payment, {headers: headers})
+        const { data } = await axios.post(`${SERVER_BASE_URL}/user/pay`, payment, {headers: headers})
         //console.log(data)
         dispatch({
             type: CREATE_PAYMENT,
@@ -33,7 +34,7 @@ export const verifyPayments = (details) => async(dispatch, getState) => {
             'Content-Type': 'application/json',
             'Authorization': storage.token
         }
-        const { data } = await axios.post("http://localhost:3000/user/pay/verify", details, {headers: headers})
+        const { data } = await axios.post(`${SERVER_BASE_URL}/user/pay/verify`, details, {headers: headers})
         //console.log(data)
         dispatch({
             type: PAYMENT_SUCCESS,
