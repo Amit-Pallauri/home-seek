@@ -12,11 +12,11 @@ import {
 import protectedRoute from '../HOC/protectedRoute'
 import '../styles/navbar.css';
 import RegisterPage from '../pages/RegisterPage';
-import Loginpage from '../pages/Loginpage';
+import Loginpage from '../pages/LoginPage';
 import Homepage from '../pages/Homepage';
 import DetailPage from '../pages/DetailPage';
 import ListingPage from '../pages/ListingPage';
-import ChatPage from '../pages/ChatPage';
+// import ChatPage from '../pages/ChatPage';
 import ForgotPassword from '../pages/ForgotPassword';
 import RevivePassword from '../pages/RevivePassword';
 import {logoutUser} from '../redux/actions/userActions';
@@ -98,9 +98,9 @@ class Navbar extends Component {
 									<Button style={{ marginLeft: !this.state.collapsed ? 1050 : 1200, marginRight: 15 }} onClick={this.handleClick}>
 										Logout
 									</Button>
-                                    <Link to="/chat">
+                                    {/* <Link to="/chat">
 										<Button style={{ marginLeft: 25 }}>chat</Button>
-									</Link>
+									</Link> */}
 								</>
 							)}
 						</Header>
@@ -119,7 +119,7 @@ class Navbar extends Component {
 								<Route exact path="/signIn" component={Loginpage} />
 								<Route exact path="/forgotPassword" component={ForgotPassword} />
 								<Route exact path="/revivePassword/:token" component={RevivePassword}/>
-								<Route exact path="/chat" component={protectedRoute(ChatPage)} />
+								{/* <Route exact path="/chat" component={protectedRoute(ChatPage)} /> */}
 								<Route exact path="/owner/listing/create" component={protectedRoute(ListingPage)} />
 								<Route exact path='/requests' component={protectedRoute(Requests)} />
 								<Route exact path='/myHome' component={protectedRoute(MyHome)} />
