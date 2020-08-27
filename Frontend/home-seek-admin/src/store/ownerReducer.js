@@ -10,7 +10,7 @@ export const verifyHomes = createAsyncThunk('admin/verifyHomes', async(_,{getSta
             'Authorization': accessToken
         }
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/owner/listings`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
         return response.data
     } catch (err) {
         console.log(err)
@@ -25,7 +25,8 @@ export const createHomes = createAsyncThunk('admin/createHomes', async({homeId, 
             'Authorization': accessToken
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/owner/listing/home/${homeId}`, data , {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
+        alert("Home Updated Successfully")
         return response.data
     } catch (err) {
         console.log(err)
@@ -40,7 +41,8 @@ export const deleteHomes = createAsyncThunk('admin/deleteHomes', async(homeId,{g
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/owner/listing/home/delete/${homeId}`, {headers: headers})
-        console.log(response.data)
+        alert("Deleted Successfully")
+        //console.log(response.data)
         return response.data
     } catch (err) {
         console.log(err)
@@ -55,7 +57,8 @@ export const deletePosts = createAsyncThunk('admin/deletePosts', async(postId,{g
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/owner/listing/delete/${postId}`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
+        alert("Deleted Successfully")
         return response.data
     } catch (err) {
         console.log(err)
@@ -70,7 +73,7 @@ export const particularHome = createAsyncThunk('admin/particularHome', async(hom
             'Authorization': accessToken
         }
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/owner/home/${homeId}`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
         return response.data
     } catch (err) {
         console.log(err)
@@ -85,7 +88,8 @@ export const updateHomes = createAsyncThunk('admin/updateHomes', async({homeId, 
             'Authorization': accessToken
         }
         const response = await axios.patch(`${process.env.REACT_APP_BASE_URL}/owner/listing/home/update/${homeId}`, data , {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
+        alert("updated Successfully")
         return response.data
     } catch (err) {
         console.log(err)

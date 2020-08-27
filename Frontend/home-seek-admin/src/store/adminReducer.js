@@ -40,7 +40,8 @@ export const logOut = createAsyncThunk('admin/logOut', async(_,{getState}) => {
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/logOut`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
+        alert("LogOut Successfull")
         return response.data
     } catch (err) {
         console.log(err)
@@ -55,7 +56,7 @@ export const profile = createAsyncThunk('admin/profile', async(_,{getState}) => 
             'Authorization': accessToken
         }
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/profile`, {headers: headers})
-        console.log(response.data)
+        //console.log(response.data)
         return response.data
     } catch (err) {
         console.log(err)

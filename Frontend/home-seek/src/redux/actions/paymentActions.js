@@ -11,7 +11,7 @@ export const createPayment = (payment) => async (dispatch, getState) => {
             'Authorization': storage.token
         }
         const { data } = await axios.post("http://localhost:3000/user/pay", payment, {headers: headers})
-        console.log(data)
+        //console.log(data)
         dispatch({
             type: CREATE_PAYMENT,
             payload: data
@@ -34,7 +34,7 @@ export const verifyPayments = (details) => async(dispatch, getState) => {
             'Authorization': storage.token
         }
         const { data } = await axios.post("http://localhost:3000/user/pay/verify", details, {headers: headers})
-        console.log(data)
+        //console.log(data)
         dispatch({
             type: PAYMENT_SUCCESS,
             payload: data
