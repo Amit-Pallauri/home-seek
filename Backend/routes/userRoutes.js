@@ -10,7 +10,8 @@ const {
     loginViaThirdParty,
     uploadProfilePic,
     addDetails,
-    updateBankDetails
+    updateBankDetails,
+    getUserhome
 } = require('../controllers/userControllers')
 const {
     verifyToken,
@@ -33,5 +34,6 @@ router.post('/forgotPassword', forgotPassword)
 router.post('/revivePassword/:token', revivePassword )
 router.post('/thirdPartysignIn', loginViaThirdParty)
 router.post('/updateBankDetails',verifyToken, updateBankDetails )
+router.get('/getMyHome', verifyToken, getUserhome)
 
 module.exports = router

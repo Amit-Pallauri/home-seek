@@ -27,9 +27,9 @@ class OwnerProfile extends Component{
         return (
             this.props.posts.posts.length === 0
             ? 
-                <div className="container">
-                    <div className="box"></div>
-                </div>
+                    <div className="container">
+                        <div className="box"></div>
+                    </div>
             : 
                 this.props.posts.posts.map(el =>
 

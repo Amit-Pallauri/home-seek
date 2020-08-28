@@ -16,7 +16,9 @@ import {
 import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
-import {message} from 'antd';
+import {message, notification} from 'antd';
+import { GET_MY_HOME } from '../actionTypes/postsActions'
+
 
 export const registerUser = user => async dispatch =>  {
     try {
@@ -199,11 +201,22 @@ export const addServiceRequest  =  req => async dispatch => {
             'authorization' : user.token
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/user/request`, { request, description }, {headers})
+        notification.success({
+            message: 'Request received',
+            description:
+              'your request has been added successfully. Home seek team will reach out to you soon. Thank you!!',
+            duration : 3
+        });
         dispatch({
             type : SERVICE_REQUEST,
             payload : data  
         })
     } catch (error) {
+        notification.warning({
+            message: 'Error',
+            description :'ERROR while creating your request!!',
+            duration : 3
+        })
         dispatch({
             type : ERROR,
             payload : error
@@ -223,7 +236,12 @@ export const addNormalRequest  =  req => async dispatch => {
             type : NORMAL_REQUEST,
             payload : data  
         })
-        alert("Booking Visit is confirmed, our team will contact you")
+        notification.success({
+            message: 'Request received',
+            description:
+              'Booking Visit is confirmed, our team will reach out to you soon. Thank you!!',
+            duration : 3
+        });
     }catch(error){
       dispatch({
             type : ERROR,
@@ -250,3 +268,23 @@ export const addNormalRequest  =  req => async dispatch => {
         })
     }
 }
+
+    export const getMyHome = () => async dispatch => {
+        try {
+            const storage = JSON.parse(localStorage.getItem('user'))
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': storage.token
+            }
+            const { data } = await axios.get(`${SERVER_BASE_URL}/getMyHome`, {headers})
+            dispatch({
+                type : GET_MY_HOME,
+                payload : data
+            })
+        } catch (error) {
+            dispatch({
+                type : ERROR,
+                payload : error
+            })
+        }
+    }

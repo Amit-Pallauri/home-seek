@@ -82,7 +82,7 @@ class Loginpage extends Component{
 							required
 						/>
 						<Link to='/forgotPassword'  className="forgot-pass-btn" >forgot Password</Link>
-						{
+						{/* {
 							this.state.error
 							?	<p style={{ 
 									color:"red",
@@ -92,7 +92,7 @@ class Loginpage extends Component{
 									padding : 0, margin : '6px' 
 								}}>{this.state.error}</p>
 							:	null
-						}
+						} */}
 						<input type="submit" value="Login"/>
 						<div className='thirdPartyAuth'>
 							<GoogleLogin

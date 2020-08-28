@@ -12,12 +12,14 @@ import {
 	VERIFY_OTP,
     SERVICE_REQUEST,
     NORMAL_REQUEST,
-      UPDATE_BANK_DETAILS
+    UPDATE_BANK_DETAILS
 } from '../actionTypes/userActionTypes';
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
+import { GET_MY_HOME } from '../actionTypes/postsActions'
 
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
+    myHome : null,
     isAuthenticating: false,
     errorMessage : null,
     serviceRequests : null,
@@ -134,7 +136,10 @@ const userReducer = (state = initialState, action) => {
                 ...state, user : payload
             }
         
-        
+        case GET_MY_HOME:
+            // const homeData = JSON.stringify(payload);
+            // localStorage.setItem('user', homeData);
+            return {...state, myHome : payload }
         default:
             return state;
     }

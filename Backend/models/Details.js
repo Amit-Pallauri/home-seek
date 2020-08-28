@@ -25,7 +25,7 @@ const detailsSchema = new Schema(
             formattedAddress: String,
         },
         deposit: {
-            type: String,
+            type: Number,
             required: true
         },
         bedrooms: {

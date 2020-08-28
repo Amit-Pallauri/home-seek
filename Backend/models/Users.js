@@ -144,7 +144,15 @@ const userSchema = new Schema({
         }
     },
     rentPaid : {
-        AdvnacePaid : {
+        tokenAmmountPaid : {
+            value : { 
+                type : Number
+            },
+            onDate : {
+                type : Date
+            }
+        },
+        depositMoney : {
             value : { 
                 type : Number
             },
@@ -175,6 +183,10 @@ const userSchema = new Schema({
     userRequests: [{
         type: Schema.Types.ObjectId,
         ref: "userRequest"
+    }],
+    ownerRequests : [{
+        type : Schema.Types.ObjectId,
+        ref : "ownerRequest"
     }],
     listings: [{
         type: Schema.Types.ObjectId,
