@@ -1,8 +1,9 @@
 import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST, TEMP_DETAIL} from '../actionTypes/userActionTypes';
 import {VERIFY_OTP} from '../actionTypes/userActionTypes';
-import {SORTED_VALUES, FILTERED_DATA, GET_MY_HOME} from '../actionTypes/postsActions'
+import {SORTED_VALUES, FILTERED_DATA, CREATE_OWNER_REQUEST, GET_VERIFIED_POSTS} from '../actionTypes/postsActions'
 import axios from 'axios';
 import { SERVER_BASE_URL } from '../../config'
+import { message, notification } from 'antd';
 
 
 export const listingHouse = (details) => async (dispatch, getState) => {
@@ -145,6 +146,58 @@ export const getFilteredData = details => async dispatch => {
             payload : data
         })     
     } catch (error) {
+        dispatch({
+            type : ERROR,
+            payload : error
+        })
+    }
+}
+
+export const getAllVerifiedPosts = () => async dispatch => {
+    try {
+        const storage = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': storage.token
+        }
+        const { data } = await axios.get(`${SERVER_BASE_URL}/getAllPostedListings`, {headers})
+        dispatch({
+            type : GET_VERIFIED_POSTS,
+            payload : data
+        })
+    } catch (error) {
+        dispatch({
+            type : ERROR,
+            payload : error
+        })
+    }
+}
+
+export const createOwnerRequests = details => async dispatch => {
+    try {
+        const storage = JSON.parse(localStorage.getItem('user'))
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': storage.token
+        }
+        const { data } = await axios.post(`${SERVER_BASE_URL}/createOwnerRequests`, details, {headers})
+        // message.success('your request has been added successfully. Home seek team will reach out to you soon. Thank you!!')
+        notification.success({
+            message: 'Request received',
+            description:
+              'your request has been added successfully. Home seek team will reach out to you soon. Thank you!!',
+            duration : 3
+        });
+        dispatch({
+            type : CREATE_OWNER_REQUEST,
+            payload : data
+        })
+    } catch (error) {
+        notification.warning({
+            message: 'Error',
+            description :'ERROR while creating your request!!',
+            duration : 3
+        })
         dispatch({
             type : ERROR,
             payload : error

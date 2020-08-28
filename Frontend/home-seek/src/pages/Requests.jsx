@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tabs } from 'antd';
 import OwnerRequests from './OwnerRequests'
+import OwnerServiceRequests from './OwnerServiceRequests'
 
 const { TabPane } = Tabs;
 
@@ -13,7 +14,7 @@ class Requests extends React.Component {
             <OwnerRequests/>
           </TabPane>   
           <TabPane tab="update requests" key="2">
-            update/delete requests
+            <OwnerServiceRequests/>
           </TabPane>       
         </Tabs>
       </div>
