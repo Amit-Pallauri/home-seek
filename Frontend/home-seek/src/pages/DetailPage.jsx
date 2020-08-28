@@ -86,7 +86,10 @@ class DetailPage extends Component {
             alert("pick correct date")
         }
     }
-    
+	
+	handleChange3 = (e) => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
     handleGetOTP = () => {
 		if(this.state.phoneNumber === this.state.confirmPhoneNumber) {
 			const data = {
@@ -382,7 +385,7 @@ class DetailPage extends Component {
 								<Input
 									type="tel"
 									name="confirmPhoneNumber"
-									onChange={this.handleChange}
+									onChange={this.handleChange3}
 									value={this.state.confirmPhoneNumber}
 									placeholder="Enter confirmPhoneNumber"
 									addonBefore="+91"
@@ -400,7 +403,7 @@ class DetailPage extends Component {
 										type="number"
 										name="code"
 										placeholder="Enter OTP"
-										onChange={this.handleChange}
+										onChange={this.handleChange3}
 										value={this.state.code}
 									/>
 								</Form.Item>
