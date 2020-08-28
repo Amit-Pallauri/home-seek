@@ -16,7 +16,7 @@ import {
 import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
-import {message} from 'antd';
+import {message, notification} from 'antd';
 import { GET_MY_HOME } from '../actionTypes/postsActions'
 
 
@@ -201,11 +201,22 @@ export const addServiceRequest  =  req => async dispatch => {
             'authorization' : user.token
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/user/request`, { request, description }, {headers})
+        notification.success({
+            message: 'Request received',
+            description:
+              'your request has been added successfully. Home seek team will reach out to you soon. Thank you!!',
+            duration : 3
+        });
         dispatch({
             type : SERVICE_REQUEST,
             payload : data  
         })
     } catch (error) {
+        notification.warning({
+            message: 'Error',
+            description :'ERROR while creating your request!!',
+            duration : 3
+        })
         dispatch({
             type : ERROR,
             payload : error
@@ -225,7 +236,12 @@ export const addNormalRequest  =  req => async dispatch => {
             type : NORMAL_REQUEST,
             payload : data  
         })
-        alert("Booking Visit is confirmed, our team will contact you")
+        notification.success({
+            message: 'Request received',
+            description:
+              'Booking Visit is confirmed, our team will reach out to you soon. Thank you!!',
+            duration : 3
+        });
     }catch(error){
       dispatch({
             type : ERROR,

@@ -184,6 +184,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "userRequest"
     }],
+    ownerRequests : [{
+        type : Schema.Types.ObjectId,
+        ref : "ownerRequest"
+    }],
     listings: [{
         type: Schema.Types.ObjectId,
         ref: "posts"

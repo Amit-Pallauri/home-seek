@@ -10,7 +10,9 @@ const cloudinary = require('../utils/cloudinary');
 const instance = require("../utils/razorpay");
 const {v4 : uuid } = require("uuid");
 const User = require("../models/Users");
-const {TWILIO_SERVICE_ID,TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN} = process.env
+const { verify } = require("jsonwebtoken");
+const ownerRequest = require("../models/OwnerRequests");
+const {TWILIO_SERVICE_ID,TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN, privatekey} = process.env
 const client = require("twilio")(TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN)
 
 module.exports = {
@@ -370,6 +372,22 @@ module.exports = {
                 token : accessToken,
                 data : foundUser.listings
             })
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                error : error
+            })
+        }
+    },
+
+    async createOwnerRequests (req, res){
+        try {
+            const { request, description, homeId : home } = req.body
+            const accessToken = req.headers.authorization
+            const token = await verify(accessToken, privatekey)
+            const newRequest = await ownerRequest.create({request, description, home, user : token.id})
+            const founduser= await User.findOneAndUpdate({_id : token.id}, { $push : { ownerRequests : newRequest._id}}, { new : true })
+            res.status(200).json({ token, data : founduser })
         } catch (error) {
             console.log(error)
             res.status(400).json({
