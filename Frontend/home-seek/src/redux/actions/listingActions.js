@@ -1,6 +1,6 @@
 import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST, TEMP_DETAIL} from '../actionTypes/userActionTypes';
 import {VERIFY_OTP} from '../actionTypes/userActionTypes';
-import {SORTED_VALUES, FILTERED_DATA} from '../actionTypes/postsActions'
+import {SORTED_VALUES, FILTERED_DATA, GET_MY_HOME} from '../actionTypes/postsActions'
 import axios from 'axios';
 import { SERVER_BASE_URL } from '../../config'
 
@@ -132,17 +132,22 @@ export const getFilteredData = details => async dispatch => {
             'Authorization': storage.token
         }
         const { location, maxRent, minRent, type } = details
+        // const { location } = details
         const { data } = await axios.get(`${SERVER_BASE_URL}/filter`, { headers, params: { 
-            location, 
+            location,
             maxRent, 
             minRent,
             type 
          }})
+         console.log(data)
         dispatch({
             type :  FILTERED_DATA,
             payload : data
         })     
     } catch (error) {
-        
+        dispatch({
+            type : ERROR,
+            payload : error
+        })
     }
 }

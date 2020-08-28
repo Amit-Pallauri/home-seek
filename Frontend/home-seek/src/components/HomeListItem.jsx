@@ -101,7 +101,7 @@ class HomeListItem extends Component {
 		e.preventDefault()
 		console.log('i am here')
 		const { maxRent, toBeSortValue : location, minRent, rentType : type } = this.state
-		// this.props.getFilteredData({maxRent, minRent, location, type})
+		this.props.getFilteredData({maxRent, minRent, location, type})
 	}
 
 	handleTypeClick = e => {

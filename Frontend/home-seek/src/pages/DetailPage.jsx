@@ -163,7 +163,7 @@ class DetailPage extends Component {
 				<div style={{ display: 'flex', marginLeft: 700 }}>
 					<Title level={3}>{`₹${this.props.home.particuarPost.details.rent}`}</Title>
 					<Title level={3} style={{ marginLeft: 20, marginTop: -1 }}>{`Just ${this.props.home.particuarPost
-						.details.deposit}`}</Title>
+						.details.deposit} months rent`}</Title>
 				</div>
 				<Divider />
 				<span>{this.props.home.particuarPost.name}</span>
