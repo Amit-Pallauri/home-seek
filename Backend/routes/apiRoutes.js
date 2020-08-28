@@ -1,7 +1,27 @@
 const {Router} = require('express');
 const router = Router()
-const {PostsCreate,GetPost,detailsCreate,detailsUpdate,postDelete,createUserRequest,getUserRequests,deleteUserRequests
-,createNormalRequest,getNormalRequests,deleteNormalRequests, filterSearch,amountpaycreate,createOTP,verifyAmountPayment,verifyOTP,GetParticularPost,postAndDetailsDelete,GetAllPosts, userSpecificPosts} = require("../controllers/apiControllers");
+const {
+    PostsCreate,
+    GetPost,
+    detailsCreate,
+    detailsUpdate,
+    postDelete,
+    createUserRequest,
+    getUserRequests,
+    deleteUserRequests,
+    createNormalRequest,
+    getNormalRequests,
+    deleteNormalRequests, 
+    filterSearch,
+    amountpaycreate,
+    createOTP,
+    verifyAmountPayment,
+    verifyOTP,
+    GetParticularPost,
+    postAndDetailsDelete,
+    GetAllPosts, 
+    userSpecificPosts
+} = require("../controllers/apiControllers");
 const {
     verifyAdmin, verifyToken
 } = require("../middlewares/authenticate")

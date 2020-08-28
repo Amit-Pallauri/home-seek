@@ -17,6 +17,8 @@ import axios from 'axios';
 import {SERVER_BASE_URL} from '../../config'
 import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
 import {message} from 'antd';
+import { GET_MY_HOME } from '../actionTypes/postsActions'
+
 
 export const registerUser = user => async dispatch =>  {
     try {
@@ -250,3 +252,23 @@ export const addNormalRequest  =  req => async dispatch => {
         })
     }
 }
+
+    export const getMyHome = () => async dispatch => {
+        try {
+            const storage = JSON.parse(localStorage.getItem('user'))
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': storage.token
+            }
+            const { data } = await axios.get(`${SERVER_BASE_URL}/getMyHome`, {headers})
+            dispatch({
+                type : GET_MY_HOME,
+                payload : data
+            })
+        } catch (error) {
+            dispatch({
+                type : ERROR,
+                payload : error
+            })
+        }
+    }

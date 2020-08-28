@@ -11,7 +11,7 @@ class HomeListPage extends Component {
     }
     render() {
         console.log(this.props.homes)
-        if(!this.props.user)  return <Redirect to="/" /> 
+        if(!this.props.user)  return <Redirect to="/signIn" /> 
         return this.props.homes ? 
         <HomeListItem homes={this.props.homes} />
         : 

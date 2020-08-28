@@ -11,7 +11,10 @@ class Requests extends React.Component {
         <Tabs tabPosition={'top'}>
           <TabPane tab="Listing requests" key="1">
             <OwnerRequests/>
-          </TabPane>        
+          </TabPane>   
+          <TabPane tab="update requests" key="2">
+            update/delete requests
+          </TabPane>       
         </Tabs>
       </div>
     );

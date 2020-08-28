@@ -1,5 +1,5 @@
 import {LISTING_HOUSE,TOGGLE_CREATE_STATE, ERROR,GETALLPOSTS,GETPARTICULARPOST, TEMP_DETAIL} from '../actionTypes/userActionTypes';
-import { SORTED_VALUES, FILTERED_DATA } from '../actionTypes/postsActions'
+import { SORTED_VALUES, FILTERED_DATA, GET_MY_HOME } from '../actionTypes/postsActions'
 
 const initialState = {
     create: null,
@@ -26,7 +26,7 @@ const listingReducer = (state = initialState, action) => {
         case SORTED_VALUES : 
             return { ...state, sortedValues : payload }
         case FILTERED_DATA:
-            return {...state, allHomes : payload.filteredData}
+            return {...state, allHomes : payload}
         default:
             return state;
     }

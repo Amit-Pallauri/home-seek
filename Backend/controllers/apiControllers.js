@@ -238,35 +238,42 @@ module.exports = {
     // left for later
     async filterSearch (req, res) {
         try {
-            let filteredData = []
-            // const {maxRent, minRent, location, type } = req.query
-            // var allPosts = await Posts.find({}).populate('details')
-            if(req.query.location){
+            var filteredData = []
+            if(req.query.location && req.query.type && req.query.maxRent && req.query.minRent){
                 console.log(req.query.location)
-                var locationeWise = await Details.find({ 'location.city' : req.query.location })
-                locationeWise.forEach(el => {
-                    filteredData.push(el)
-                })
+                var locationWise = await Details.find({
+                     'location.city' : req.query.location,
+                        type : req.query.type,
+                        rent : { $gte : req.query.minRent, $lte : req.query.maxRent} 
+                    })
+                console.log(locationWise)
+                for( var i= 0; i<locationWise.length; i++){
+                    const foundPosts = await Posts.find({ details : locationWise[i]._id }).populate('details')
+                    filteredData.push(foundPosts[0])
+                }
+            }else if(req.query.location && req.query.type){
+                console.log(req.query.location)
+                var locationWise = await Details.find({
+                     'location.city' : req.query.location,
+                        type : req.query.type
+                    })
+                console.log(locationWise)
+                for( var i= 0; i<locationWise.length; i++){
+                    const foundPosts = await Posts.find({ details : locationWise[i]._id }).populate('details')
+                    filteredData.push(foundPosts[0])
+                }
+            }else if(req.query.location){
+                console.log(req.query.location)
+                var locationWise = await Details.find({
+                     'location.city' : req.query.location
+                    })
+                console.log(locationWise)
+                for( var i= 0; i<locationWise.length; i++){
+                    const foundPosts = await Posts.find({ details : locationWise[i]._id }).populate('details')
+                    filteredData.push(foundPosts[0])
+                }
             }
-
-            if(req.query.type){
-                console.log(req.query.type)
-                var typeWise = await Details.find({ type : req.query.type })
-                typeWise.forEach(el => {
-                    filteredData.push(el)
-                })
-            }
-
-            if(req.query.maxRent && req.query.minRent){
-                console.log(req.query.minRent, req.query.maxRent)
-                var rentWise = await Details.find({ rent : { $gte : req.query.minRent, $lte : req.query.maxRent}})
-                rentWise.forEach(el => {
-                    filteredData.push(el)
-                })
-            }
-            
-            console.log(filteredData)
-            res.status(200).json({'filteredData' : filteredData})
+            res.status(200).json({listings : filteredData})
         } catch (error) {
             console.log(error)
         }
@@ -310,8 +317,8 @@ module.exports = {
             foundPayment[0].isPending = false
             user.dateOfCheckIn = checkInDate
             user.home = postId
-            user.rentPaid.AdvnacePaid.value = (amount / 100)
-            user.rentPaid.AdvnacePaid.onDate = checkInDate
+            user.rentPaid.tokenAmmountPaid.value = (amount / 100)
+            user.rentPaid.tokenAmmountPaid.onDate = checkInDate
             await user.save()
             await foundPayment[0].save()
             res.status(201).json(foundPayment)

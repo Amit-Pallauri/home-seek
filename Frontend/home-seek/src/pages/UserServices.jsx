@@ -21,7 +21,7 @@ class UserServices extends Component{
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps !== this.props){
+        if(prevProps.serviceReq !== this.props.serviceReq){
             if(this.props.serviceReq !== null){
                 message
                 .loading('Action in progress..', 2.5)

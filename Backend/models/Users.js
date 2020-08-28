@@ -144,7 +144,15 @@ const userSchema = new Schema({
         }
     },
     rentPaid : {
-        AdvnacePaid : {
+        tokenAmmountPaid : {
+            value : { 
+                type : Number
+            },
+            onDate : {
+                type : Date
+            }
+        },
+        depositMoney : {
             value : { 
                 type : Number
             },
