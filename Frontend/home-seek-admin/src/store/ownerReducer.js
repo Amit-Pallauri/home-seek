@@ -97,12 +97,28 @@ export const updateHomes = createAsyncThunk('admin/updateHomes', async({homeId, 
     }
 })
 
+export const historyOfUser = createAsyncThunk('admin/historyOfUser', async(_,{getState}) => {
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
+    try {
+        const headers = {
+            'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
+            'Authorization': accessToken
+        }
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getAllUsersWithHome`, {headers: headers})
+        //console.log(response.data)
+        return response.data
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 
 const slice = createSlice({
     name: "ownerReducer",
     initialState: {
         homes:  null,
         particularHome: null,
+        historyOfUser: null,
         isFetching: false
     },
     reducers:{},
@@ -164,7 +180,17 @@ const slice = createSlice({
         },
         [deletePosts.rejected]: (state, action) => {
             state.isFetching = false;
-        }
+        },
+        [historyOfUser.pending] : (state, action) => {
+            state.isFetching = true
+        },
+        [historyOfUser.fulfilled]: (state, action) => {
+            state.historyOfUser = action.payload;
+            state.isFetching = false;
+        },
+        [historyOfUser.rejected]: (state, action) => {
+            state.isFetching = false;
+        },
     }
 })
 
