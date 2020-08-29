@@ -30,7 +30,7 @@ class UpdateHome extends Component {
 		fileList: [],
 		rent: 0,
 		type: '',
-		deposit: '',
+		deposit: 0,
 		bedrooms: 0,
 		bathRooms: 0,
 		sofa: false,
@@ -422,7 +422,7 @@ class UpdateHome extends Component {
 							<Input
 								required
 								name="deposit"
-								type="text"
+								type="number"
 								onChange={this.handleChange}
 								value={this.state.deposit}
 							/>
