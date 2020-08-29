@@ -323,7 +323,7 @@ module.exports = {
             user.rentPaid.tokenAmmountPaid.onDate = checkInDate
             await user.save()
             await foundPayment[0].save()
-            res.status(201).json(foundPayment)
+            res.status(201).json({foundPayment, data : user, token : user.accessToken})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -353,7 +353,7 @@ module.exports = {
             user.rentPaid.depositMoney.onDate = DepositPaidDate
             await user.save()
             await foundPayment[0].save()
-            res.status(201).json(foundPayment)
+            res.status(201).json({foundPayment, data : user, token : user.accessToken})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -384,7 +384,7 @@ module.exports = {
             user.rentPaid.monthlyPayment.push({ value : (amount / 100), onDate: RentPaidDate})
             await user.save()
             await foundPayment[0].save()
-            res.status(201).json(foundPayment)
+            res.status(201).json({foundPayment, data : user, token : user.accessToken})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -443,10 +443,10 @@ module.exports = {
 
     async createOwnerRequests (req, res){
         try {
-            const { request, description, homeId : home } = req.body
+            const { request, description, homeId : listing } = req.body
             const accessToken = req.headers.authorization
             const token = await verify(accessToken, privatekey)
-            const newRequest = await ownerRequest.create({request, description, home, user : token.id})
+            const newRequest = await ownerRequest.create({request, description, listing, user : token.id})
             const founduser= await User.findOneAndUpdate({_id : token.id}, { $push : { ownerRequests : newRequest._id}}, { new : true })
             res.status(200).json({ token, data : founduser })
         } catch (error) {

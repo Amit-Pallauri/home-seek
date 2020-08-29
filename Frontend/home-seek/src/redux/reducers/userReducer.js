@@ -14,7 +14,7 @@ import {
     NORMAL_REQUEST,
     UPDATE_BANK_DETAILS
 } from '../actionTypes/userActionTypes';
-import { TOGGLE_GET_STATE } from '../actionTypes/paymentActionTypes';
+import { TOGGLE_GET_STATE, PAYMENT_SUCCESS } from '../actionTypes/paymentActionTypes';
 import { GET_MY_HOME } from '../actionTypes/postsActions'
 
 const initialState = {
@@ -140,6 +140,12 @@ const userReducer = (state = initialState, action) => {
             // const homeData = JSON.stringify(payload);
             // localStorage.setItem('user', homeData);
             return {...state, myHome : payload }
+
+        case PAYMENT_SUCCESS :
+                const paymentSuccess = JSON.stringify(payload);
+                localStorage.setItem('user', paymentSuccess);
+            return {...state, user : payload}
+
         default:
             return state;
     }

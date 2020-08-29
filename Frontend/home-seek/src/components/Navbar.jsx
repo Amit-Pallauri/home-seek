@@ -70,12 +70,21 @@ class Navbar extends Component {
 							<Menu.Item key="4" icon={<UploadOutlined />}>
 								<Link to="/homes">Search Home</Link>
 							</Menu.Item>
-							<Menu.Item key="5" icon={<UploadOutlined />}>
-								<Link to="/requests">requests</Link>
-							</Menu.Item>
-							<Menu.Item key="6" icon={<UploadOutlined />}>
-								<Link to="/myHome">my Home</Link>
-							</Menu.Item>
+							{
+								((this.props.user) && (this.props.user.data) && (this.props.user.data.listings.length > 0)) ? 
+									<Menu.Item key="5" icon={<UploadOutlined />}>
+										<Link to="/requests">requests</Link>
+									</Menu.Item>
+								: null
+							} 
+							{
+								((this.props.user) && (this.props.user.data) && (this.props.user.data.home)) ? 
+									<Menu.Item key="6" icon={<UploadOutlined />}>
+										<Link to="/myHome">my Home</Link>
+									</Menu.Item>							
+							 : null
+							} 
+							
 						</Menu>
 					</Sider>
 					<Layout className="site-layout" style={{ marginLeft: !this.state.collapsed ? 200 : 70 }}>

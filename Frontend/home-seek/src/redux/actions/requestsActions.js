@@ -20,7 +20,7 @@ export const getRequestedPosts = () => async dispatch => {
     } catch (error) {
         dispatch({
             type : ERROR,
-            dispatch : error.response.data.message
+            dispatch : error
         })
     }
 }

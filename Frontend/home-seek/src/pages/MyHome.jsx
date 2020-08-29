@@ -10,12 +10,12 @@ class MyHome extends Component {
         return (
             <div>
                 <Tabs tabPosition={'top'}>
-                    <TabPane tab="services" key="2">
-                        <UserServices/>
-                    </TabPane>
                     <TabPane tab="My home" key="1">
                         <UserHome/>
                     </TabPane> 
+                    <TabPane tab="services" key="2">
+                        <UserServices/>
+                    </TabPane>
                 </Tabs>
             </div>
         )
