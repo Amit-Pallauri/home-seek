@@ -126,7 +126,7 @@ router.get('/admin/ownerrequests', verifyAdmin, getOwnerRequests);
 
 router.delete('/admin/delete/ownerrequests/:requestId', verifyAdmin, deleteOwnerRequests);
 
-router.get('/getAllUsersWithHome', async (req, res) => {
+router.get('/getAllUsersWithHome', verifyAdmin, async (req, res) => {
     try {
         var foundUsers = []
         const allUsers = await User.find({}).populate('home')
