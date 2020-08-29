@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { profile } from '../store/adminReducer';
+import { Card, Avatar } from 'antd';
 
 class ProfilePage extends Component {
 	componentDidMount() {
@@ -11,9 +12,16 @@ class ProfilePage extends Component {
 		if (!this.props.admin) return <Redirect to="/" />;
 		return this.props.adminDetails ? (
 			<div>
-				<h1>Name: {this.props.adminDetails.adminProfile.name}</h1>
-				<p>Email: {this.props.adminDetails.adminProfile.email} </p>
-				<p>Role: {this.props.adminDetails.adminProfile.role} </p>
+				<Card
+					style={{ width: 300 }}
+				>
+					<Meta
+						avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+						title={`Name: ${this.props.adminDetails.adminProfile.name}`}
+						description={`Email: ${this.props.adminDetails.adminProfile.email}`}
+					/>
+					<p>Role: {this.props.adminDetails.adminProfile.role} </p>
+				</Card>
 			</div>
 		) : null;
 	}

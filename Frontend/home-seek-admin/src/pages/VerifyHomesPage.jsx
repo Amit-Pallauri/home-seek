@@ -43,7 +43,7 @@ class VerifyHomesPage extends Component {
 		fileList: [],
 		rent: 0,
 		type: '',
-		deposit: '',
+		deposit: 0,
 		bedrooms: 0,
 		bathRooms: 0,
 		sofa: false,
@@ -424,7 +424,7 @@ class VerifyHomesPage extends Component {
 								}
 							]}
 						>
-							<Input name="deposit" onChange={this.handleChange} value={this.state.deposit} />
+							<Input name="deposit" type="number" onChange={this.handleChange} value={this.state.deposit} />
 						</Form.Item>
 
 						<Form.Item
