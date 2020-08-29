@@ -20,7 +20,6 @@ class UserRequestList extends Component {
 					<TabPane tab="UserRequests" key="1">
 						{this.props.userRequests ? (
 							<div>
-								<h1>User Requests</h1>
 								{this.props.userRequests.map((requests) => {
 									return  (
 										<div key={requests._id}>
@@ -41,7 +40,6 @@ class UserRequestList extends Component {
 					<TabPane tab="OwnerRequests" key="2">
 						{this.props.ownerRequests ? (
 							<div>
-								<h1>Owner Requests</h1>
 								{this.props.ownerRequests.map((requests) => {
 									return requests.user.owner === true ? (
 										<div key={requests._id} >

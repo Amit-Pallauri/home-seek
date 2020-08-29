@@ -13,10 +13,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    left: 25%;
-    top: 35%;
-    width: 60%;
+    height: 75vh;
+    padding-top: 200px;
 }
 
 .home-page-logo p{

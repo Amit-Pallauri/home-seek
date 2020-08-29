@@ -314,7 +314,7 @@ class DetailPage extends Component {
 									<Input
 										type="tel"
 										name="phoneNumber"
-										onChange={this.handleChange}
+										onChange={this.handleChange3}
 										value={this.state.phoneNumber}
 										placeholder="Enter phoneNumber"
 										addonBefore="+91"
@@ -325,7 +325,7 @@ class DetailPage extends Component {
 									<Input
 										type="tel"
 										name="confirmPhoneNumber"
-										onChange={this.handleChange}
+										onChange={this.handleChange3}
 										value={this.state.confirmPhoneNumber}
 										placeholder="Enter confirmPhoneNumber"
 										addonBefore="+91"
