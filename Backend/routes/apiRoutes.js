@@ -23,7 +23,9 @@ const {
     userSpecificPosts,
     createOwnerRequests,
     verifyDepositAmountPayment,
-    verifyRentAmountPayment
+    verifyRentAmountPayment,
+    getOwnerRequests,
+    deleteOwnerRequests
 } = require("../controllers/apiControllers");
 const {
     verifyAdmin, verifyToken
@@ -118,6 +120,10 @@ router.get('/getAllPostedListings', verifyToken, async (req, res) =>{
     }
 })
 
-router.post('/createOwnerRequests', verifyToken, createOwnerRequests)
+router.post('/createOwnerRequests', verifyToken, createOwnerRequests);
+
+router.get('/admin/ownerrequests', verifyAdmin, getOwnerRequests);
+
+router.delete('/admin/delete/ownerrequests/:requestId', verifyAdmin, deleteOwnerRequests);
 
 module.exports = router

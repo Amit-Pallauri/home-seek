@@ -340,7 +340,6 @@ class UpdateHome extends Component {
 		))
 	);
 	render() {
-        console.log(this.state.fileList)
 		const { previewVisible, previewImage, fileList, previewTitle } = this.state;
 		const uploadButton = (
 			<div>

@@ -64,12 +64,45 @@ export const deleteNormalRequests = createAsyncThunk('admin/deleteNormalRequests
     }
 })
 
+export const getOwnerRequests = createAsyncThunk('admin/getOwnerRequests', async(_,{getState}) => {
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
+    //console.log(accessToken)
+    try {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': accessToken
+        }
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/ownerrequests`, {headers: headers})
+        return response.data
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+export const deleteOwnerRequests = createAsyncThunk('admin/deleteOwnerRequests', async(requestId,{getState}) => {
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
+    //console.log(accessToken)
+    try {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': accessToken
+        }
+        const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/delete/ownerrequests/${requestId}`, {headers: headers})
+        message.success("Deleted Successfully")
+        return response.data
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 const slice = createSlice({
     name: "requestReducer",
     initialState: {
         userRequests:  null,
         normalRequests: null,
-        isFetching: false
+        ownerRequests: null,
+        isFetching: false,
+        deleteRequests: null
     },
     reducers:{},
     extraReducers: {
@@ -88,6 +121,7 @@ const slice = createSlice({
             state.isFetching = true
         },
         [deleteUserRequests.fulfilled]: (state, action) => {
+            state.userRequests = action.payload;
             state.isFetching = false;
         },
         [deleteUserRequests.rejected]: (state, action) => {
@@ -108,9 +142,31 @@ const slice = createSlice({
             state.isFetching = true
         },
         [deleteNormalRequests.fulfilled]: (state, action) => {
+            state.normalRequests = action.payload;
             state.isFetching = false;
         },
         [deleteNormalRequests.rejected]: (state, action) => {
+            state.isFetching = false;
+        },
+        [getOwnerRequests.pending] : (state, action) => {
+            state.isFetching = true
+        },
+        [getOwnerRequests.fulfilled]: (state, action) => {
+            state.ownerRequests = action.payload;
+            state.isFetching = false;
+        },
+        [getOwnerRequests.rejected]: (state, action) => {
+            state.ownerRequests = null
+            state.isFetching = false;
+        },
+        [deleteOwnerRequests.pending] : (state, action) => {
+            state.isFetching = true
+        },
+        [deleteOwnerRequests.fulfilled]: (state, action) => {
+            state.ownerRequests = action.payload;
+            state.isFetching = false;
+        },
+        [deleteOwnerRequests.rejected]: (state, action) => {
             state.isFetching = false;
         },
     }

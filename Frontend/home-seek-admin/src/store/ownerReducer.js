@@ -159,6 +159,7 @@ const slice = createSlice({
             state.isFetching = true
         },
         [deletePosts.fulfilled]: (state, action) => {
+            state.homes = action.payload;
             state.isFetching = false;
         },
         [deletePosts.rejected]: (state, action) => {

@@ -16,10 +16,15 @@ class NormalRequestList extends Component {
 						{this.props.requests.map((requests) => {
 							return requests  ? (
 								<div key={requests._id}>
-									<h1>{requests.request}</h1>
-									<p>{requests.user.firstName}</p>
-									<p>{requests.user.email}</p>
-									<p>{requests.user.phoneNumber}</p>
+									<h3>Request: {requests.request}</h3>
+									<p>HouseSocietyName: {requests.home.societyName}</p>
+									<p>HouseLocation: {requests.home.details.location.formattedAddress}</p>
+									<p>Rent: {requests.home.details.rent} Rs</p>
+									<p>VisiterName: {requests.user.firstName}</p>
+									<p>VisiterEmail: {requests.user.email}</p>
+									<p>VisiterphoneNumber: {requests.user.phoneNumber}</p>
+									<p>OwnerName: {requests.home.name}</p>
+									<p>OwnerPhoneNumber: {requests.home.phoneNumber}</p>
 									<Button type="primary" onClick={() => this.handleClick(requests._id)} danger>
 										Delete Request
 									</Button>
