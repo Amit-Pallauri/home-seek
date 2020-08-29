@@ -15,13 +15,15 @@ const {
     filterSearch,
     amountpaycreate,
     createOTP,
-    verifyAmountPayment,
+    verifyTokenAmountPayment,
     verifyOTP,
     GetParticularPost,
     postAndDetailsDelete,
     GetAllPosts, 
     userSpecificPosts,
-    createOwnerRequests
+    createOwnerRequests,
+    verifyDepositAmountPayment,
+    verifyRentAmountPayment
 } = require("../controllers/apiControllers");
 const {
     verifyAdmin, verifyToken
@@ -58,7 +60,11 @@ router.get('/filter',verifyToken, filterSearch)
 
 router.post('/user/pay', verifyAdmin, amountpaycreate);
 
-router.post('/user/pay/verify', verifyAdmin, verifyAmountPayment);
+router.post('/user/tokenpay/verify', verifyAdmin, verifyTokenAmountPayment);
+
+router.post('/user/depositpay/verify', verifyAdmin, verifyDepositAmountPayment);
+
+router.post('/user/rentpay/verify', verifyAdmin, verifyRentAmountPayment);
 
 router.post('/owner/listing', verifyAdmin, createOTP);
 

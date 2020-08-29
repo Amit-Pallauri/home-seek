@@ -300,7 +300,7 @@ module.exports = {
         }
     },
 
-    async verifyAmountPayment (req, res) {
+    async verifyTokenAmountPayment (req, res) {
         const user = req.user
         const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature,postId,checkInDate} = req.body;
         try {
@@ -321,6 +321,67 @@ module.exports = {
             user.home = postId
             user.rentPaid.tokenAmmountPaid.value = (amount / 100)
             user.rentPaid.tokenAmmountPaid.onDate = checkInDate
+            await user.save()
+            await foundPayment[0].save()
+            res.status(201).json(foundPayment)
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
+
+    async verifyDepositAmountPayment (req, res) {
+        const user = req.user
+        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature,DepositPaidDate} = req.body;
+        try {
+            const createdSignature = createSignature(razorpay_order_id, razorpay_payment_id);
+            if(createdSignature !== razorpay_signature) {
+                return res.status(401).send({ message: "Invalid payment request"})
+            }
+            const captureResponse = await instance.payments.capture(razorpay_payment_id, amount, currency)
+            const foundPayment = await AmountPay.find({razorpayOrderId: razorpay_order_id})
+            //const foundPost = await Posts.findByIdAndUpdate({_id: postId}, {vacant: false})
+            if(!foundPayment) {
+                return res.status(401).send({ message: "Invalid payment request"})
+            }
+            foundPayment[0].razorpayTransactionId = razorpay_payment_id
+            foundPayment[0].razorpaySignature = razorpay_signature
+            foundPayment[0].isPending = false
+            //user.dateOfCheckIn = checkInDate
+            //user.home = postId
+            user.rentPaid.depositMoney.value = (amount / 100)
+            user.rentPaid.depositMoney.onDate = DepositPaidDate
+            await user.save()
+            await foundPayment[0].save()
+            res.status(201).json(foundPayment)
+        } catch (err) {
+            console.error(err)
+            res.status(400).json({err : err.message})
+        }
+    },
+
+    async verifyRentAmountPayment (req, res) {
+        const user = req.user
+        const {amount,currency,razorpay_order_id,razorpay_payment_id,razorpay_signature,RentPaidDate} = req.body;
+        try {
+            const createdSignature = createSignature(razorpay_order_id, razorpay_payment_id);
+            if(createdSignature !== razorpay_signature) {
+                return res.status(401).send({ message: "Invalid payment request"})
+            }
+            const captureResponse = await instance.payments.capture(razorpay_payment_id, amount, currency)
+            const foundPayment = await AmountPay.find({razorpayOrderId: razorpay_order_id})
+            //const foundPost = await Posts.findByIdAndUpdate({_id: postId}, {vacant: false})
+            if(!foundPayment) {
+                return res.status(401).send({ message: "Invalid payment request"})
+            }
+            foundPayment[0].razorpayTransactionId = razorpay_payment_id
+            foundPayment[0].razorpaySignature = razorpay_signature
+            foundPayment[0].isPending = false
+            //user.dateOfCheckIn = checkInDate
+            //user.home = postId
+            //user.rentPaid.monthlyPayment.value = (amount / 100)
+            //user.rentPaid.monthlyPayment.onDate = RentPaidDate
+            user.rentPaid.monthlyPayment.push({ value : (amount / 100), onDate: RentPaidDate})
             await user.save()
             await foundPayment[0].save()
             res.status(201).json(foundPayment)

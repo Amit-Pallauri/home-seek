@@ -1,8 +1,9 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+import { message } from 'antd'
 
 export const getUserRequests = createAsyncThunk('admin/getUserRequests', async(_,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     //console.log(accessToken)
     try {
         const headers = {
@@ -17,7 +18,7 @@ export const getUserRequests = createAsyncThunk('admin/getUserRequests', async(_
 })
 
 export const deleteUserRequests = createAsyncThunk('admin/deleteUserRequests', async(requestId,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     //console.log(accessToken)
     try {
         const headers = {
@@ -25,7 +26,7 @@ export const deleteUserRequests = createAsyncThunk('admin/deleteUserRequests', a
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/delete/userrequests/${requestId}`, {headers: headers})
-        alert("Deleted Successfully")
+        message.success("Deleted Successfully")
         return response.data
     } catch (err) {
         console.log(err)
@@ -33,7 +34,7 @@ export const deleteUserRequests = createAsyncThunk('admin/deleteUserRequests', a
 })
 
 export const getNormalRequests = createAsyncThunk('admin/getNormalRequests', async(_,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     //console.log(accessToken)
     try {
         const headers = {
@@ -48,7 +49,7 @@ export const getNormalRequests = createAsyncThunk('admin/getNormalRequests', asy
 })
 
 export const deleteNormalRequests = createAsyncThunk('admin/deleteNormalRequests', async(requestId,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     //console.log(accessToken)
     try {
         const headers = {
@@ -56,7 +57,7 @@ export const deleteNormalRequests = createAsyncThunk('admin/deleteNormalRequests
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/delete/normalrequests/${requestId}`, {headers: headers})
-        alert("Deleted Successfully")
+        message.success("Deleted Successfully")
         return response.data
     } catch (err) {
         console.log(err)

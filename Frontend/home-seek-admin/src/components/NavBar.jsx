@@ -61,10 +61,10 @@ class NavBar extends Component {
                                 <Link to="/ownerhouses">Owner homes</Link>
 							</Menu.Item>
 							<Menu.Item key="3" icon={<UploadOutlined />}>
-                                <Link to="/userrequests">User Request</Link>
+                                <Link to="/servicerequests">Service Request</Link>
 							</Menu.Item>
 							<Menu.Item key="4" icon={<UploadOutlined />}>
-                                <Link to="/normalrequests">Normal Request</Link>
+                                <Link to="/visitrequests">Visit Request</Link>
 							</Menu.Item>
 							<Menu.Item key="5" icon={<UploadOutlined />}>
                                 <Link to="/profile">Profile</Link>
@@ -106,9 +106,9 @@ class NavBar extends Component {
 								<Route exact path="/login" component={LoginPage} />
                                 <Route exact path="/ownerhouses" component={UnVerifiedHomesPage} />
                                 <Route exact path="/ownerhouses/create/:homeId" component={VerifyHomesPage} />
-                                <Route exact path="/userrequests" component={UserRequestPage} />
+                                <Route exact path="/servicerequests" component={UserRequestPage} />
 								<Route exact path="/ownerhouses/update/:homeId" component={UpdateHome}/>
-								<Route exact path="/normalrequests" component={NormalRequestPage} />
+								<Route exact path="/visitrequests" component={NormalRequestPage} />
 								<Route exact path="/profile" component={ProfilePage} />
                                 <Redirect to="/" />
 							</Switch>

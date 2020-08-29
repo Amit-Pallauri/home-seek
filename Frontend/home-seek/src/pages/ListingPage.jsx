@@ -5,6 +5,7 @@ import { listingHouse, createOTP, verifyOTP } from '../redux/actions/listingActi
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import Geocode from 'react-geocode';
 import Autocomplete from 'react-google-autocomplete';
+import { API_KEY } from '../config'
 import '../styles/listing-styles.css';
 import {
 	Form,
@@ -16,9 +17,8 @@ import {
 import '../styles/listing-styles.css'
 const { Title } = Typography;
 
-const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
-
-Geocode.setApiKey(apiKey);
+Geocode.setApiKey(API_KEY);
+Geocode.enableDebug();
 
 class ListingPage extends Component {
 	state = {
@@ -170,6 +170,8 @@ class ListingPage extends Component {
 		this.props.verifyOTP(data);
 	};
 
+	onInfoWindowClose = (event) => {};
+
 	onMarkerDragEnd = (event) => {
 		let newLat = event.latLng.lat(),
 			newLng = event.latLng.lng();
@@ -227,24 +229,39 @@ class ListingPage extends Component {
 		});
 	};
 	MapWithAMarker = withScriptjs(
-		withGoogleMap((props) => (
-			<GoogleMap
-				defaultZoom={this.state.zoom}
-				defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-			>
-				<Marker
-					draggable={true}
-					onDragEnd={this.onMarkerDragEnd}
-					position={{ lat: this.state.markerPosition.lat + 0.0018, lng: this.state.markerPosition.lng }}
-				>
-					<InfoWindow>
-						<div>
-							<span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
-						</div>
-					</InfoWindow>
-				</Marker>
-			</GoogleMap>
-		))
+        withGoogleMap((props) => (
+            <GoogleMap
+                defaultZoom={this.state.zoom}
+                defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+            >
+                <Marker
+                    google={this.props.google}
+                    draggable={true}
+                    onDragEnd={this.onMarkerDragEnd}
+                    position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+                />
+                <InfoWindow
+                    onClose={this.onInfoWindowClose}
+                    position={{ lat: this.state.markerPosition.lat + 0.0018, lng: this.state.markerPosition.lng }}
+                >
+                    <div>
+                        <span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
+                    </div>
+                </InfoWindow>
+                <Marker />
+                <Autocomplete
+                    style={{
+                        width: '100%',
+                        height: '40px',
+                        paddingLeft: '16px',
+                        marginTop: '2px',
+                        marginBottom: '2rem'
+                    }}
+                    onPlaceSelected={this.onPlaceSelected}
+                    types={[ '(regions)' ]}
+                />
+            </GoogleMap>
+        ))
 	);
 
 	onFormLayoutChange = ({ size }) => {
@@ -313,22 +330,12 @@ class ListingPage extends Component {
 					</Form.Item>
 					<div className="geoLocation" style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
 						<this.MapWithAMarker
-							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.exp&libraries=geometry,drawing,places`}
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
 							loadingElement={<div style={{ height: `100%` }} />}
 							containerElement={<div style={{ height: `400px` }} />}
 							mapElement={<div style={{ height: `100%` }} />}
 						/>
-						<Autocomplete
-							style={{
-								width: '100%',
-								height: '40px',
-								paddingLeft: '16px',
-								marginTop: '2px',
-								marginBottom: '2rem'
-							}}
-							onPlaceSelected={this.onPlaceSelected}
-							types={[ '(regions)' ]}
-						/>
+						<br/><br/><br/>
 						<Form.Item label="city">
 							<Input
 								type="text"

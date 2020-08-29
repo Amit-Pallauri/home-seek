@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createPayment, verifyPayments } from '../redux/actions/paymentActions';
+import { createPayment, verifytokenPayments } from '../redux/actions/paymentActions';
 import { createOTP, verifyOTP, particularHome } from '../redux/actions/listingActions';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -86,7 +86,12 @@ class DetailPage extends Component {
             alert("pick correct date")
         }
     }
-    
+	
+
+	handleChange3 = (e) => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
     handleGetOTP = () => {
 		if(this.state.phoneNumber === this.state.confirmPhoneNumber) {
 			const data = {
@@ -138,7 +143,7 @@ class DetailPage extends Component {
 					postId: homeId,
 					checkInDate: this.state.checkInDate
 				};
-				this.props.verifyPayments(details);
+				this.props.verifytokenPayments(details);
 			}
 		};
 		const razorpay = new window.Razorpay(checkoutObject);
@@ -163,7 +168,7 @@ class DetailPage extends Component {
 				<div style={{ display: 'flex', marginLeft: 700 }}>
 					<Title level={3}>{`₹${this.props.home.particuarPost.details.rent}`}</Title>
 					<Title level={3} style={{ marginLeft: 20, marginTop: -1 }}>{`Just ${this.props.home.particuarPost
-						.details.deposit} months rent`}</Title>
+						.details.deposit}`}</Title>
 				</div>
 				<Divider />
 				<span>{this.props.home.particuarPost.name}</span>
@@ -382,7 +387,7 @@ class DetailPage extends Component {
 								<Input
 									type="tel"
 									name="confirmPhoneNumber"
-									onChange={this.handleChange}
+									onChange={this.handleChange3}
 									value={this.state.confirmPhoneNumber}
 									placeholder="Enter confirmPhoneNumber"
 									addonBefore="+91"
@@ -400,7 +405,7 @@ class DetailPage extends Component {
 										type="number"
 										name="code"
 										placeholder="Enter OTP"
-										onChange={this.handleChange}
+										onChange={this.handleChange3}
 										value={this.state.code}
 									/>
 								</Form.Item>
@@ -434,4 +439,4 @@ const mapStateToProps = (storeState) => {
 	};
 };
 
-export default connect(mapStateToProps, { createPayment, verifyPayments, particularHome,createOTP, verifyOTP, addNormalRequest })(DetailPage);
+export default connect(mapStateToProps, { createPayment, verifytokenPayments, particularHome,createOTP, verifyOTP, addNormalRequest })(DetailPage);
