@@ -129,9 +129,10 @@ module.exports = {
     async postDelete (req, res) {
         try {
             const id = req.params.postId
-            const foundPost = await Posts.findByIdAndDelete({ _id: id })
-            console.log(foundPost)
-            return res.status(200).json({ message: "the post deleted Successfully"})            
+            const foundPost = await Posts.findByIdAndDelete({ _id: id }).populate('user')
+            await Users.findByIdAndUpdate({_id: foundPost.user._id},{ $pull : { listings: foundPost._id}})
+            const posts = await Posts.find({verified: false});
+            res.status(200).json({ listings: posts})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -143,7 +144,8 @@ module.exports = {
             const id = req.params.homeId
             const foundPost = await Posts.findByIdAndDelete({ _id: id })
             const updateHouse = await Details.deleteOne({_id: foundPost.details})
-            return res.status(200).json({ message: "the post and details deleted Successfully"})            
+            await Users.findByIdAndUpdate({_id: foundPost.user._id},{ $pull : { listings: foundPost._id}})
+            return res.status(200).json({ message: "the post and details deleted Successfully", post: ''})            
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message})
@@ -182,15 +184,13 @@ module.exports = {
     async deleteUserRequests (req, res) {
         try {
             const id = req.params.requestId;
-            const foundRequest = await UserRequests.findById({_id: id})
-            //console.log(foundRequest)
-            const foundUser = await Users.find({userRequests : foundRequest._id})
-            //console.log(foundUser)
-            foundUser[0].userRequests.splice(foundRequest._id, 1)
-            await foundRequest.deleteOne({_id: id})
-            await foundUser.save()
-            await foundRequest.save()
-            return res.status(200).json({ message: "deleted Successfully"})            
+            const foundRequest = await UserRequests.findByIdAndDelete({_id: id}).populate('user')
+            await Users.findByIdAndUpdate({_id: foundRequest.user._id},{ $pull : {userRequests : foundRequest._id}})
+            const requests = await UserRequests.find({}).populate({ path: 'user', model: 'user', populate: {
+                path: 'listings',
+                model: 'posts'
+            }});
+            res.status(200).json({UserRequests: requests})
         } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message}) 
@@ -214,7 +214,10 @@ module.exports = {
 
     async getNormalRequests (req, res) {
         try {
-            const requests = await NormalRequests.find({}).populate('user')
+            const requests = await NormalRequests.find({}).populate('user').populate({ path: 'home', model: 'posts', populate: {
+                path: 'details',
+                model: 'details'
+            }})
             res.status(200).json({NormalRequests: requests})
         } catch (err) {
             console.error(err)
@@ -225,14 +228,14 @@ module.exports = {
     async deleteNormalRequests (req, res) {
         try {
             const id = req.params.requestId;
-            const foundRequest = await NormalRequests.findById({_id: id})
-            const foundUser = await Users.find({ normalRequests: foundRequest._id})
-            foundUser[0].normalRequests.splice(foundRequest._id, 1)
-            await foundRequest.deleteOne({_id: id})
-            foundUser.save()
-            await foundRequest.save()
-            return res.status(200).json({ message: "deleted Successfully"})            
-        } catch (err) {
+            const foundRequest = await NormalRequests.findByIdAndDelete({_id: id}).populate('user')
+            await Users.findByIdAndUpdate({_id: foundRequest.user._id},{ $pull : { normalRequests: foundRequest._id}})
+            const requests = await NormalRequests.find({}).populate('user').populate({ path: 'home', model: 'posts', populate: {
+                path: 'details',
+                model: 'details'
+            }})
+            res.status(200).json({NormalRequests: requests})
+            } catch (err) {
             console.error(err)
             res.status(400).json({err : err.message}) 
         }
@@ -449,6 +452,39 @@ module.exports = {
             const newRequest = await ownerRequest.create({request, description, listing, user : token.id})
             const founduser= await User.findOneAndUpdate({_id : token.id}, { $push : { ownerRequests : newRequest._id}}, { new : true })
             res.status(200).json({ token, data : founduser })
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                error : error
+            })
+        }
+    },
+
+    async getOwnerRequests (req, res) {
+        try {
+            const requests= await ownerRequest.find({}).populate('user').populate({ path: 'listing', model: 'posts', populate: {
+                path: 'details',
+                model: 'details'
+            }})
+            res.status(200).json({OwnerRequests : requests})  
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                error : error
+            })
+        }
+    },
+
+    async deleteOwnerRequests (req, res) {
+        try {
+            const id = req.params.requestId;
+            const foundRequest = await ownerRequest.findByIdAndDelete({_id: id}).populate('user')
+            await Users.findByIdAndUpdate({_id: foundRequest.user._id}, { $pull : { ownerRequests: foundRequest._id}})
+            const requests= await ownerRequest.find({}).populate('user').populate({ path: 'listing', model: 'posts', populate: {
+                path: 'details',
+                model: 'details'
+            }})
+            res.status(200).json({OwnerRequests : requests}) 
         } catch (error) {
             console.log(error)
             res.status(400).json({
