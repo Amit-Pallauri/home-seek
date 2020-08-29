@@ -35,7 +35,7 @@ const ForgotPassword = (props) => {
                     {
                         data.error 
                         ? <p style={{ margin: 0, color: 'red' }}>{data.error}</p> 
-                        : <p style={{ margin: 0, color: 'lightgreen' }}>{data.message}</p>
+                        : null
                     }
                 </div>
             </form>

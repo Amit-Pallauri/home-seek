@@ -99,6 +99,7 @@ export const loginViaThirdParty = details => async dispatch => {
             type : LOGIN_VIA_THIRDPARTY,
             payload : data
         })
+        message.success('logged in successfully')
     } catch (error) {
        dispatch({
            type : ERROR,
@@ -117,8 +118,10 @@ export const forgotPassword = email => async dispatch => {
             type : FORGOT_PASS,
             payload : data
         })
+        message.info('kindly check your mail')
     } catch (error) {
         console.log(error)
+        message.warning('Error')
     }
 }
 
@@ -138,8 +141,10 @@ export const revivePassword = (token, passwordData) => async dispatch => {
             type : REVIVE_PASS,
             payload : data
         })
+        message.success('password revived successfully')
     } catch (error) {
         console.log(error)
+        message.warning('Error')
     }
 }
 

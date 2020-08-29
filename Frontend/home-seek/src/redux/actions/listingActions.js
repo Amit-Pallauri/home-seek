@@ -37,7 +37,7 @@ export const createOTP = (data2) => async (dispatch, getState) => {
         }
         const { data } = await axios.post(`${SERVER_BASE_URL}/owner/listing`, data2, {headers: headers})
         //console.log(data)
-        alert("OTP is sent successfully")
+        message.success("OTP has sent successfully")
     } catch (err) {
         console.error(err.message);
     }
@@ -56,7 +56,7 @@ export const verifyOTP = (data1) => async (dispatch, getState) => {
             payload: data
         })
         //console.log(data)
-        alert("verification successfull")
+        message.success("verification successfull")
     } catch (err) {
         console.error(err.message);
     }

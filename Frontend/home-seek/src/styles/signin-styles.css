@@ -4,13 +4,14 @@
     /* top: 30%; */
     /* margin-left: 8em; */
     margin: auto;
-    /* height: 400px; */
     /* width: 300px; */
     /* border: 2px solid rgba(163, 204, 14, 0.199); */
     /* border-radius: 10px; */
     /* background: rgba(79, 148, 9, 0.39); */
     display: flex;
     justify-content: space-around;
+    height: 75vh;
+
 }
 
 .login-form{
@@ -19,7 +20,8 @@
     background: rgba(79, 148, 9, 0.39);
     border-radius: 10px;
     flex-direction: column;
-    margin: 10px;
+    margin-top: 100px;
+    height: 350px;
 }
 
 .login-form h1{
