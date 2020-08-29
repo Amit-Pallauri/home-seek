@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ListingRequest from './ListingRequest';
 import { Button } from 'antd';
 import { connect } from 'react-redux';
-import { deleteUserRequests } from '../store/userRequest';
+import { getOwnerRequests } from '../store/userRequest';
 import { Tabs } from 'antd';
 
 const { TabPane } = Tabs;
@@ -10,49 +10,47 @@ const { TabPane } = Tabs;
 function callback(key) {
 	console.log(key);
 }
-
 class UserRequestList extends Component {
-	handleClick = (requestId) => {
-		this.props.deleteUserRequests(requestId);
-	};
+
 	render() {
+		//console.log(this.props.userRequests)
 		return (
 			<div>
 				<Tabs defaultActiveKey="1" onChange={callback}>
 					<TabPane tab="UserRequests" key="1">
-						{this.props.requests ? (
+						{this.props.userRequests ? (
 							<div>
 								<h1>User Requests</h1>
-								{this.props.requests.map((requests) => {
-									return requests.user.owner === false ? (
+								{this.props.userRequests.map((requests) => {
+									return  (
 										<div key={requests._id}>
-											<h1>{requests.requests}</h1>
+											<h1>{requests.request}</h1>
 											<Button
 												type="primary"
-												onClick={() => this.handleClick(requests._id)}
+												onClick={() => this.props.onDelete1(requests._id)}
 												danger
 											>
 												Delete Request
 											</Button>{' '}
 										</div>
-									) : null;
+									);
 								})}
 							</div>
 						) : null}
 					</TabPane>
 					<TabPane tab="OwnerRequests" key="2">
-						{this.props.requests ? (
+						{this.props.ownerRequests ? (
 							<div>
 								<h1>Owner Requests</h1>
-								{this.props.requests.map((requests) => {
+								{this.props.ownerRequests.map((requests) => {
 									return requests.user.owner === true ? (
-										<div key={requests._id}>
+										<div key={requests._id} >
 											<h1>{requests.request}</h1>
 											<h2>{requests.description}</h2>
-											<ListingRequest listing={requests.user.listings} />
+											<ListingRequest listing={requests.listing} />
 											<Button
 												type="primary"
-												onClick={() => this.handleClick(requests._id)}
+												onClick={() => this.props.onDelete(requests._id)}
 												danger
 											>
 												Delete Request
@@ -71,4 +69,4 @@ class UserRequestList extends Component {
 	}
 }
 
-export default connect(null, { deleteUserRequests })(UserRequestList);
+export default connect(null, { getOwnerRequests })(UserRequestList);

@@ -7,6 +7,12 @@ import { List, Avatar, Button } from 'antd';
 
 class ListingRequest extends Component {
 
+	state = {
+		listDate : [this.props.listing]
+	}
+
+	
+
     handleClick = (homeId) => {
         this.props.deleteHomes(homeId)
     }
@@ -22,7 +28,7 @@ class ListingRequest extends Component {
 						},
 						pageSize: 3
 					}}
-					dataSource={this.props.listing}
+					dataSource={this.state.listDate}
 					renderItem={(item) => (
 						<List.Item key={item._id} actions={[<Link to={`/ownerhouses/update/${item._id}`}><Button type="primary" >Update Home</Button></Link>, <Button type="primary" onClick={() => this.handleClick(item._id)} danger>Delete Listing</Button>]}>
 							<List.Item.Meta
