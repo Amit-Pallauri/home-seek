@@ -139,7 +139,7 @@ router.get('/getAllUsersWithHome', verifyAdmin, async (req, res) => {
     }
 })
 
-router.get('/getUserWithHome', async (req, res) =>{
+router.get('/getUserWithHome', verifyAdmin ,async (req, res) =>{
     try {
         const userId = req.body.userId
         const foundUser = await User.findOne({ _id : userId}).populate('home')
