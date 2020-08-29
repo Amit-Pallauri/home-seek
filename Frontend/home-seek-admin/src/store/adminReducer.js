@@ -33,7 +33,7 @@ export const logIn = createAsyncThunk('admin/logIn', async(data) => {
 })
 
 export const logOut = createAsyncThunk('admin/logOut', async(_,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const logOut = createAsyncThunk('admin/logOut', async(_,{getState}) => {
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/admin/logOut`, {headers: headers})
         //console.log(response.data)
-        alert("LogOut Successfull")
+        message.success("LogOut Successfull")
         return response.data
     } catch (err) {
         console.log(err)
@@ -49,7 +49,7 @@ export const logOut = createAsyncThunk('admin/logOut', async(_,{getState}) => {
 })
 
 export const profile = createAsyncThunk('admin/profile', async(_,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json',

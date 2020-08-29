@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { List, Button, Form, Drawer, Dropdown, Input, Menu, Select, InputNumber} from 'antd';
-import { getAllSortedPosts, getFilteredData } from '../redux/actions/listingActions'
+import { getAllSortedPosts, getFilteredData } from '../redux/actions/listingActions';
+import { API_KEY } from '../config'
 import '../styles/listing-styles.css'
-
-const apiKey = 'AIzaSyC0rTgUMIqtPBfwM7oFkvQZ3ZAskgTX0F4';
 
 class HomeListItem extends Component {
 	constructor(props) {
@@ -176,7 +175,7 @@ class HomeListItem extends Component {
 				{this.state.active ? (
 					<div className="geoLocation" style={{ width: '50%' }}>
 						<this.MapWithAMarker
-							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.exp&libraries=geometry,drawing,places`}
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
 							loadingElement={<div style={{ height: `100%` }} />}
 							containerElement={<div style={{ height: `100%` }} />}
 							mapElement={<div style={{ height: `100%` }} />}

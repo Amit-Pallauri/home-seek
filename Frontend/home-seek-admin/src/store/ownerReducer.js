@@ -1,8 +1,9 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+import { message } from 'antd'
 
 export const verifyHomes = createAsyncThunk('admin/verifyHomes', async(_,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     //console.log(accessToken)
     try {
         const headers = {
@@ -18,7 +19,7 @@ export const verifyHomes = createAsyncThunk('admin/verifyHomes', async(_,{getSta
 })
 
 export const createHomes = createAsyncThunk('admin/createHomes', async({homeId, data},{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
@@ -26,7 +27,7 @@ export const createHomes = createAsyncThunk('admin/createHomes', async({homeId, 
         }
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/owner/listing/home/${homeId}`, data , {headers: headers})
         //console.log(response.data)
-        alert("Home Updated Successfully")
+        message.success("Home Updated Successfully")
         return response.data
     } catch (err) {
         console.log(err)
@@ -34,14 +35,14 @@ export const createHomes = createAsyncThunk('admin/createHomes', async({homeId, 
 })
 
 export const deleteHomes = createAsyncThunk('admin/deleteHomes', async(homeId,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/owner/listing/home/delete/${homeId}`, {headers: headers})
-        alert("Deleted Successfully")
+        message.success("Deleted Successfully")
         //console.log(response.data)
         return response.data
     } catch (err) {
@@ -50,7 +51,7 @@ export const deleteHomes = createAsyncThunk('admin/deleteHomes', async(homeId,{g
 })
 
 export const deletePosts = createAsyncThunk('admin/deletePosts', async(postId,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
@@ -58,7 +59,7 @@ export const deletePosts = createAsyncThunk('admin/deletePosts', async(postId,{g
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/owner/listing/delete/${postId}`, {headers: headers})
         //console.log(response.data)
-        alert("Deleted Successfully")
+        message.success("Deleted Successfully")
         return response.data
     } catch (err) {
         console.log(err)
@@ -66,7 +67,7 @@ export const deletePosts = createAsyncThunk('admin/deletePosts', async(postId,{g
 })
 
 export const particularHome = createAsyncThunk('admin/particularHome', async(homeId,{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
@@ -81,7 +82,7 @@ export const particularHome = createAsyncThunk('admin/particularHome', async(hom
 })
 
 export const updateHomes = createAsyncThunk('admin/updateHomes', async({homeId, data},{getState}) => {
-    const accessToken = getState().features.admin.admin
+    const accessToken = JSON.parse(localStorage.getItem("admin"))
     try {
         const headers = {
             'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
