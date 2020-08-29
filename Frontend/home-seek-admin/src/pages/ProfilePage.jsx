@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { profile } from '../store/adminReducer';
 import { Card, Avatar } from 'antd';
+const { Meta } = Card;
 
 class ProfilePage extends Component {
 	componentDidMount() {
@@ -13,7 +14,9 @@ class ProfilePage extends Component {
 		return this.props.adminDetails ? (
 			<div>
 				<Card
-					style={{ width: 300 }}
+					style={{
+						 width: 300 
+					}}
 				>
 					<Meta
 						avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
