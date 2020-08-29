@@ -21,6 +21,7 @@ import UpdateHome from './UpdateHome';
 import {logOut} from '../store/adminReducer';
 import NormalRequestPage from '../pages/NormalRequestPage';
 import ProfilePage from '../pages/ProfilePage';
+import UserStayHistory from '../pages/UserStayHistory';
 
 const { Header, Sider, Content } = Layout;
 class NavBar extends Component {
@@ -69,6 +70,9 @@ class NavBar extends Component {
 							<Menu.Item key="5" icon={<UploadOutlined />}>
                                 <Link to="/profile">Profile</Link>
 							</Menu.Item>
+							<Menu.Item key="6" icon={<UploadOutlined />}>
+                                <Link to="/userstay">userstay</Link>
+							</Menu.Item>
 						</Menu>
 					</Sider>
 					<Layout className="site-layout" style={{ marginLeft: !this.state.collapsed ? 200 : 70 }}>
@@ -110,6 +114,7 @@ class NavBar extends Component {
 								<Route exact path="/ownerhouses/update/:homeId" component={UpdateHome}/>
 								<Route exact path="/visitrequests" component={NormalRequestPage} />
 								<Route exact path="/profile" component={ProfilePage} />
+								<Route exact path="/userstay" component={UserStayHistory}/>
                                 <Redirect to="/" />
 							</Switch>
 						</Content>
