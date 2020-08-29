@@ -3,7 +3,7 @@ import React from 'react'
 const Homepage = () => {
     return (
         <div className='home-page-logo'>
-            <p>WelcometohomeseeK</p>
+            <p>Home SeeK</p>
         </div>
     )
 }
