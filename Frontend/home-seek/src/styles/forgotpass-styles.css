@@ -7,11 +7,12 @@
     font-weight: 600;
 }
 .forgot-pass-container{
-    position: absolute;
-    left: 30%;
-    top: 30%;
+    /* position: absolute; */
+    /* left: 30%;
+    top: 30%; */
     width: 600px;
-    height: 350px;
+    height: 75vh;
+    margin-left: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +21,7 @@
 
 .forgot-pass-form  input[type='email']{
     border: none;
-    height: 30px;
+    height: 46px;
     width: 200px;
     padding: 5px 10px;
 } 

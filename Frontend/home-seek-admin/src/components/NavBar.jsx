@@ -84,7 +84,7 @@ class NavBar extends Component {
 							{!this.props.admin ? (
 								<>
 									<Link to="/register">
-										<Button style={{ marginLeft: 1350, marginRight: 15 }}>Register</Button>
+										<Button style={{ marginLeft : !this.state.collapsed ? 1050 : 1200 }}>Register</Button>
 									</Link>
 									<Link to="/login">
 										<Button style={{ marginLeft: 25 }}>Login</Button>
@@ -92,7 +92,7 @@ class NavBar extends Component {
 								</>
 							) : (
 								<>
-								<Button style={{ marginLeft: 1350, marginRight: 15 }} onClick={this.handleClick} >Logout</Button>
+								<Button style={{ marginLeft: !this.state.collapsed ? 1050 : 1200, marginRight: 15 }} onClick={this.handleClick} >Logout</Button>
 								</>
 							)}
 						</Header>

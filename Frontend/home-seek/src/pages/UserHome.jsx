@@ -22,7 +22,7 @@ class UserHome extends Component {
 		const rent = this.props.myHome.data.home.details.rent;
 		const deposit = this.props.myHome.data.home.details.deposit;
 		const payment = {
-			amountInPaise: (rent * 2)* 100,
+			amountInPaise: (rent * deposit)* 100,
 			currency: 'INR'
 		};
 		this.props.createPayment(payment);
@@ -45,7 +45,7 @@ class UserHome extends Component {
 		const deposit = this.props.myHome.data.home.details.deposit;
 		const checkoutObject = {
 			key: 'rzp_test_ZwkXJNBqm8UDM9',
-			amount: rent * 2 * 100,
+			amount: (rent * deposit) * 100,
 			currency: 'INR',
 			name: 'Tejas',
 			order_id: this.props.order.orderId,

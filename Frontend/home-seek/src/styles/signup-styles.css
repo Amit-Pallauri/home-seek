@@ -9,6 +9,7 @@
     margin: auto;
     display: flex;
     justify-content: space-around;
+    height: 75vh;
 }
 .register-form{
     display: flex;
@@ -16,7 +17,9 @@
     border-radius: 10px;
     background: rgba(79, 148, 9, 0.39);
     flex-direction: column;
-    margin: 10px;
+    height: 400px;
+    margin-top: 80px;
+    /* margin: 10px; */
 }
 .register-form h1{
     font-size: 25px;

@@ -6,8 +6,11 @@ import {
 	MenuUnfoldOutlined,
 	MenuFoldOutlined,
 	UserOutlined,
-	VideoCameraOutlined,
-	UploadOutlined
+	UploadOutlined,
+	FileWordTwoTone,
+	SearchOutlined, 
+	ProfileFilled,
+	SmileFilled
 } from '@ant-design/icons';
 import protectedRoute from '../HOC/protectedRoute'
 import '../styles/navbar.css';
@@ -61,13 +64,13 @@ class Navbar extends Component {
 							<Menu.Item key="1" icon={<UserOutlined />}>
 								<Link to="/">Home</Link>
 							</Menu.Item>
-							<Menu.Item key="2" icon={<UploadOutlined />}>
+							<Menu.Item key="2" icon={<ProfileFilled />}>
 								<Link to="/profile">Profile</Link>
 							</Menu.Item>
-							<Menu.Item key="3" icon={<VideoCameraOutlined />}>
+							<Menu.Item key="3" icon={<FileWordTwoTone />}>
 								<Link to="/owner/listing/create">Listings</Link>
 							</Menu.Item>
-							<Menu.Item key="4" icon={<UploadOutlined />}>
+							<Menu.Item key="4" icon={<SearchOutlined />}>
 								<Link to="/homes">Search Home</Link>
 							</Menu.Item>
 							{
@@ -79,7 +82,7 @@ class Navbar extends Component {
 							} 
 							{
 								((this.props.user) && (this.props.user.data) && (this.props.user.data.home)) ? 
-									<Menu.Item key="6" icon={<UploadOutlined />}>
+									<Menu.Item key="6" icon={<SmileFilled />}>
 										<Link to="/myHome">my Home</Link>
 									</Menu.Item>							
 							 : null

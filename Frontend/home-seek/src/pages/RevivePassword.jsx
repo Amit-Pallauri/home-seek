@@ -33,7 +33,8 @@ const RevivePassword = (props) => {
                 <input type="password" value={password.confirmPassword} name="confirmPassword" onChange={handleChange}  placeholder='confirm password'/>
                 <input type="submit" value="submit"/>
                 {
-                    password.error ? <p style ={{ color : 'orangered', padding : 0, margin : 0}} >{password.error}</p> : <p style ={{ color : 'lightgreen', padding : 0, margin : 0}} >{password.message}</p>
+                    password.error ? <p style ={{ color : 'orangered', padding : 0, margin : 0}} >{password.error}</p>
+                    : null
                 }
             </form>
         </div>

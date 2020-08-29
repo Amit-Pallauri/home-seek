@@ -1,23 +1,32 @@
+.revive-pass-container{
+    width: 70%;
+    height: 75vh;
+    background: rgb(47, 79, 79);
+    margin-left: 20vh;
+}
 .revive-pass-form {
-display: flex;
-flex-direction: column;
-justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 180px;
 }
 .revive-pass-form input[type='password']{ 
-padding: 8px;
-width: 200px;
-margin: 5px;
-border: none;
-border-bottom: 1px solid black;
-background: none;
-outline: none;
+    padding: 8px;
+    width: 200px;
+    margin: 5px;
+    border: none;
+    border-bottom: 1px solid black;
+    background: none;
+    outline: none;
 }
 .revive-pass-form input[type='password']::placeholder {
 color: white
 }
 
 .revive-pass-form input[type='submit']{ 
-margin-top: 15px;
-border: none;
-padding: 8px 10px;
+    margin-top: 15px;
+    border: none;
+    padding: 8px 10px;
+    width: 200px;
 }

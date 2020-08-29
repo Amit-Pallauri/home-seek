@@ -62,7 +62,7 @@ class Loginpage extends Component{
 	render(){
 		return (
 			<>
-				<div className='login-form-container' style={{height: '350px'}}>
+				<div className='login-form-container'>
 					<form className='login-form' onSubmit={this.handleSubmit}>
 						<h1>Sign In</h1>
 						<input
