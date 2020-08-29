@@ -131,9 +131,19 @@ router.get('/getAllUsersWithHome', verifyAdmin, async (req, res) => {
         var foundUsers = []
         const allUsers = await User.find({}).populate('home')
         for( var i= 0; i < allUsers.length; i++){
-            allUsers[i].home ? foundUsers.push(allUsers[i]) : foundUsers = null
+            allUsers[i].home ? foundUsers.push(allUsers[i]) : null
         }
         res.status(200).json({ foundUsers })
+    } catch (error) {
+        res.status(400).json({error})
+    }
+})
+
+router.get('/getUserWithHome', async (req, res) =>{
+    try {
+        const userId = req.body.userId
+        const foundUser = await User.findOne({ _id : userId}).populate('home')
+        res.status(200).json({ foundUser})
     } catch (error) {
         res.status(400).json({error})
     }
