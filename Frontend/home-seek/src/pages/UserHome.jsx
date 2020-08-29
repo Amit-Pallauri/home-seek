@@ -4,18 +4,21 @@ import { Descriptions, message, Button } from 'antd';
 import { createPayment, verifyDepositPayments, verifyRentPayments } from '../redux/actions/paymentActions';
 import '../styles/loading.css';
 import { connect } from 'react-redux';
+import Timer from '../components/Timer'
 
 class UserHome extends Component {
 	state = {
 		book: false
 	};
+
 	componentDidMount() {
 		this.props.getMyHome();
 	}
+	
 
 	handleDepositBook = (e) => {
 		e.preventDefault();
-		this.setState({ book: true });
+		this.setState({ book: true,  });
 		const rent = this.props.myHome.data.home.details.rent;
 		const deposit = this.props.myHome.data.home.details.deposit;
 		const payment = {
@@ -60,7 +63,7 @@ class UserHome extends Component {
 		};
 		const razorpay = new window.Razorpay(checkoutObject);
 		razorpay.open();
-		this.setState({ book: false });
+		this.setState({ book: false, });
 	};
 
 	handleMonthlyPayment = (e) => {
@@ -89,6 +92,7 @@ class UserHome extends Component {
 		this.setState({ book: false });
 	};
 
+	
 	render() {
 		return this.props.myHome ? this.props.myHome.data && this.props.myHome.data.home ? (
 			<div>
@@ -114,7 +118,7 @@ class UserHome extends Component {
 						<Descriptions.Item label="One time payment paid ">
 							{this.props.myHome.data.rentPaid.tokenAmmountPaid.value}
 						</Descriptions.Item>
-						<Descriptions.Item label="Paid Date ">
+						<Descriptions.Item label="checkIn Date ">
 							{this.props.myHome.data.rentPaid.tokenAmmountPaid.onDate}
 						</Descriptions.Item>
 						{this.props.myHome.data.rentPaid.depositMoney ? (
@@ -130,12 +134,13 @@ class UserHome extends Component {
 					</Descriptions>
 				</div>
 				<div className="monthly-payment-container">
-					<Descriptions title="Monthly Payment Info : ">
+					<Descriptions style={{ overflow : 'auto'}} title="Monthly Payment Info : ">
 						{this.props.myHome.data.rentPaid.monthlyPayment.length !== 0 ? (
 							this.props.myHome.data.rentPaid.monthlyPayment.map((el) => (
 								<>
-									<Descriptions.Item label="monthly payment">{el.value}</Descriptions.Item>
+									<Descriptions.Item label="Paid">{el.value}</Descriptions.Item>
 									<Descriptions.Item label="Date">{el.onDate}</Descriptions.Item>
+									<br/>
 								</>
 							))
 						) : (
@@ -146,35 +151,41 @@ class UserHome extends Component {
 							</Descriptions.Item>
 						)}
 					</Descriptions>
-					{// this.state.book
-					// ?
-					this.props.myHome.data.rentPaid.depositMoney ? (
-						<>
-							{this.state.book ? (
-								<Button onClick={this.handleMonthlyPayment} type="primary">
-									pay your rent
-								</Button>
-							) : (
-								<Button onClick={this.handleRentBook}>Payment status</Button>
-							)}
-						</>
-					) : (
-						<>
-							{this.state.book ? (
-								<Button onClick={this.handleDepositPayment} type="primary">
-									Deposit your security money
-								</Button>
-							) : (
-								<Button onClick={this.handleDepositBook}>Payment status</Button>
-							)}
-						</>
-					)
-					//:
+					{
+						this.props.myHome.data.rentPaid.depositMoney ? (
+							<>
+								{this.state.book ? (
+									<Button onClick={this.handleMonthlyPayment} type="primary">
+										pay your rent
+									</Button>
+								) : (
+									<Button onClick={this.handleRentBook}>Payment status</Button>
+								)}
+							</>
+						) : (
+							<>
+								{this.state.book ? (
+									<Button onClick={this.handleDepositPayment} type="primary">
+										Deposit your security money
+									</Button>
+								) : (
+									<Button onClick={this.handleDepositBook}>Payment status</Button>
+								)}
+							</>
+						)
 					}
 				</div>
+				{/* {
+					this.state.dueDate 
+						?
+						<div>
+							<Timer timeTillDate={`${this.state.dueDate}, 6:00 am`} timeFormat="MM DD YYYY, hh:mm:ss a" />
+						</div>
+					: null
+				} */}
 			</div>
 		) : (
-			message.warning('you havent picked your home')
+			null
 		) : (
 			<div className="container">
 				<div className="box" />

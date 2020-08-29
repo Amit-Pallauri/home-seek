@@ -120,4 +120,17 @@ router.get('/getAllPostedListings', verifyToken, async (req, res) =>{
 
 router.post('/createOwnerRequests', verifyToken, createOwnerRequests)
 
+router.get('/getAllUsersWithHome', async (req, res) => {
+    try {
+        var foundUsers = []
+        const allUsers = await User.find({}).populate('home')
+        for( var i= 0; i < allUsers.length; i++){
+            allUsers[i].home ? foundUsers.push(allUsers[i]) : foundUsers = null
+        }
+        res.status(200).json({ foundUsers })
+    } catch (error) {
+        res.status(400).json({error})
+    }
+})
+
 module.exports = router
