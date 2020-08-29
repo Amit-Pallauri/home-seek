@@ -58,7 +58,7 @@ export const deletePosts = createAsyncThunk('admin/deletePosts', async(postId,{g
             'Authorization': accessToken
         }
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/owner/listing/delete/${postId}`, {headers: headers})
-        //console.log(response.data)
+        console.log(response.data)
         message.success("Deleted Successfully")
         return response.data
     } catch (err) {
@@ -119,7 +119,7 @@ export const findUserWithHome = createAsyncThunk('admin/findUserWithHome', async
             'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something',
             'Authorization': accessToken
         }
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getUserWithHome`, userId, {headers: headers})
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getUserWithHome`, {headers: headers, params : { userId }})
         //console.log(response.data)
         return response.data
     } catch (err) {

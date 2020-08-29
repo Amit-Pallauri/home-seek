@@ -141,7 +141,8 @@ router.get('/getAllUsersWithHome', verifyAdmin, async (req, res) => {
 
 router.get('/getUserWithHome', verifyAdmin ,async (req, res) =>{
     try {
-        const userId = req.body.userId
+        const userId = req.query.userId
+        console.log(req.query)
         const foundUser = await User.findOne({ _id : userId}).populate('home')
         res.status(200).json({ foundUser})
     } catch (error) {

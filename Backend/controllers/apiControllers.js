@@ -129,8 +129,8 @@ module.exports = {
     async postDelete (req, res) {
         try {
             const id = req.params.postId
-            const foundPost = await Posts.findByIdAndDelete({ _id: id }).populate('user')
-            await Users.findByIdAndUpdate({_id: foundPost.user._id},{ $pull : { listings: foundPost._id}})
+            const foundPost = await Posts.findByIdAndDelete({ _id: id }).populate('owner')
+            await Users.findByIdAndUpdate({_id: foundPost.owner._id},{ $pull : { listings: foundPost._id}})
             const posts = await Posts.find({verified: false});
             res.status(200).json({ listings: posts})
         } catch (err) {
@@ -142,9 +142,9 @@ module.exports = {
     async postAndDetailsDelete (req, res) {
         try {
             const id = req.params.homeId
-            const foundPost = await Posts.findByIdAndDelete({ _id: id })
+            const foundPost = await Posts.findByIdAndDelete({ _id: id }).populate('owner')
             const updateHouse = await Details.deleteOne({_id: foundPost.details})
-            await Users.findByIdAndUpdate({_id: foundPost.user._id},{ $pull : { listings: foundPost._id}})
+            await Users.findByIdAndUpdate({_id: foundPost.owner._id},{ $pull : { listings: foundPost._id}})
             return res.status(200).json({ message: "the post and details deleted Successfully", post: ''})            
         } catch (err) {
             console.error(err)
@@ -253,8 +253,9 @@ module.exports = {
                     })
                 console.log(locationWise)
                 for( var i= 0; i<locationWise.length; i++){
-                    const foundPosts = await Posts.find({ details : locationWise[i]._id }).populate('details')
-                    filteredData.push(foundPosts[0])
+                    const foundPosts = await Posts.find({ details : locationWise[i]._id, vacant : true }).populate('details')
+                    console.log(foundPosts[0])
+                    ((foundPosts[0] === null) && (foundPosts[0] === undefined))? null : filteredData.push(foundPosts[0])
                 }
             }else if(req.query.location && req.query.type){
                 console.log(req.query.location)
@@ -264,8 +265,9 @@ module.exports = {
                     })
                 console.log(locationWise)
                 for( var i= 0; i<locationWise.length; i++){
-                    const foundPosts = await Posts.find({ details : locationWise[i]._id }).populate('details')
-                    filteredData.push(foundPosts[0])
+                    const foundPosts = await Posts.find({ details : locationWise[i]._id, vacant : true }).populate('details')
+                    console.log(foundPosts[0])
+                    ((foundPosts[0] === null) && (foundPosts[0] === undefined))? null : filteredData.push(foundPosts[0])
                 }
             }else if(req.query.location){
                 console.log(req.query.location)
@@ -274,8 +276,9 @@ module.exports = {
                     })
                 console.log(locationWise)
                 for( var i= 0; i<locationWise.length; i++){
-                    const foundPosts = await Posts.find({ details : locationWise[i]._id }).populate('details')
-                    filteredData.push(foundPosts[0])
+                    const foundPosts = await Posts.find({ details : locationWise[i]._id, vacant : true }).populate('details')
+                    console.log(foundPosts[0])
+                    ((foundPosts[0] === null) && (foundPosts[0] === undefined))? null : filteredData.push(foundPosts[0])
                 }
             }
             res.status(200).json({listings : filteredData})
