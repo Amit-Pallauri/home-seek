@@ -14,7 +14,8 @@ class DetailPage extends Component {
          phoneNumber: '',
          confirmPhoneNumber: '',
 		 date: '',
-		 checkInDate: ''
+		 checkInDate: '',
+		 code: ''
         };
 
 	showModal = () => {
@@ -343,7 +344,7 @@ class DetailPage extends Component {
 											type="number"
 											name="code"
 											placeholder="Enter OTP"
-											onChange={this.handleChange}
+											onChange={this.handleChange3}
 											value={this.state.code}
 										/>
 									</Form.Item>
@@ -418,7 +419,7 @@ class DetailPage extends Component {
 						</Form>
 						)}
 						{this.state.checkInDate === '' ? null :
-							<Button type="primary" onClick={this.handlePayment} size="large" >{`pay ₹3000 the rent`}</Button>
+							<Button type="primary" onClick={this.handlePayment} size="large" >{`pay ₹3000 the token amount`}</Button>
 						}
 					</div>
 				) : null}
