@@ -7,6 +7,8 @@ import Autocomplete from 'react-google-autocomplete';
 import { Upload, Modal, Input, Button, Typography, Checkbox, Descriptions } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
+import '../styles/loading.css'
+
 const { Title } = Typography;
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
@@ -350,7 +352,9 @@ class UpdateHome extends Component {
 		return (
 			<div>
 				{!this.props.home ? (
-					<h1>Loading...</h1>
+					<div className="container">
+						<div className="box" />
+					</div>
 				) : (
 					<div>
 						<Title>Update the house</Title>

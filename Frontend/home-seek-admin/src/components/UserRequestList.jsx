@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ListingRequest from './ListingRequest';
-import { Button } from 'antd';
+import { Button, Descriptions } from 'antd';
 import { connect } from 'react-redux';
 import { getOwnerRequests } from '../store/userRequest';
 import { Tabs } from 'antd';
@@ -23,14 +23,25 @@ class UserRequestList extends Component {
 								{this.props.userRequests.map((requests) => {
 									return  (
 										<div key={requests._id}>
-											<h1>{requests.request}</h1>
-											<Button
-												type="primary"
-												onClick={() => this.props.onDelete1(requests._id)}
-												danger
-											>
-												Delete Request
-											</Button>{' '}
+											<Descriptions title={requests.request} layout="horizontal">
+											<Descriptions.Item label="UserName">{requests.user.firstName}</Descriptions.Item>
+											<Descriptions.Item label="Telephone">{requests.user.phoneNumber}</Descriptions.Item>
+											<Descriptions.Item label="Society Name">{requests.user.home.societyName}</Descriptions.Item>
+											<Descriptions.Item label="Home Address">
+												{requests.user.home.location.formattedAddress}
+											</Descriptions.Item>
+											<Descriptions.Item label="Owner name">{requests.user.home.name}</Descriptions.Item>
+												<div>
+													<Button
+														type="primary"
+														onClick={() => this.props.onDelete1(requests._id)}
+														danger
+													>
+														Delete Request
+													</Button>{' '}
+												</div>
+											</Descriptions>
+											
 										</div>
 									);
 								})}
@@ -43,8 +54,10 @@ class UserRequestList extends Component {
 								{this.props.ownerRequests.map((requests) => {
 									return requests.user.owner === true ? (
 										<div key={requests._id} >
-											<h1>{requests.request}</h1>
-											<h2>{requests.description}</h2>
+											<div style={{ borderBottom : '1px solid lightgrey', width : '35%', padding : '20px'}}>
+												<h3>Request: {requests.request}</h3>
+												<p>Description : {requests.description}</p>
+											</div>
 											<ListingRequest listing={requests.listing} />
 											<Button
 												type="primary"
@@ -53,8 +66,7 @@ class UserRequestList extends Component {
 											>
 												Delete Request
 											</Button>
-											<br />
-											<br />
+											<hr />
 										</div>
 									) : null;
 								})}

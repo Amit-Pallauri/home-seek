@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { addProfilepic, updateProfile, updateBankDetails } from '../redux/actions/userActions'
 import { Input, Form, Button, Select, Card, Avatar, Descriptions, message } from 'antd';
 import '../styles/profile-page.css'
+import '../styles/loading.css'
 const { Option } = Select;
 const { Meta } = Card;
 
@@ -312,7 +313,10 @@ class ProfilePage extends Component {
             }
           </div>
           </>
-          : <h1>Loading...</h1>
+          : 
+            <div className="container">
+              <div className="box" />
+            </div>
         );
     }
 }
