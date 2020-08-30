@@ -20,9 +20,19 @@ export const listingHouse = (details) => async (dispatch, getState) => {
             type: LISTING_HOUSE,
             payload: data
         })
-        
+		notification.success({
+            message: 'Request received',
+            description:
+              'your request has been added successfully. Home seek team will reach out to you soon. Thank you!!',
+            duration : 3
+        });  
     } catch (err) {
         dispatch({ type: ERROR, payload: err})
+        notification.warning({
+            message: 'Error',
+            description :'ERROR while creating your request!!',
+            duration : 3
+        })
     } finally {
         dispatch({ type: TOGGLE_CREATE_STATE})
     }

@@ -148,7 +148,6 @@ class ListingPage extends Component {
 			phoneNumber: this.state.phoneNumber !== '' ? this.state.phoneNumber : user.data.phoneNumber
 		};
 		this.props.listingHouse(data);
-		message.success('your property has been listed. please go to the request tab to see the status. Thank you!')
 	};
 
 	handleGetOTP = () => {
