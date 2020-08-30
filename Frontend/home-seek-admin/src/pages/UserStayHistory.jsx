@@ -50,7 +50,7 @@ class UserStayHistory extends Component {
                                             <Descriptions.Item label="Telephone">{this.props.findUserWithHomeData.foundUser.phoneNumber}</Descriptions.Item>
                                             <Descriptions.Item label="email">{this.props.findUserWithHomeData.foundUser.email}</Descriptions.Item>
                                             <Descriptions.Item label="Address" >
-                                                {this.props.findUserWithHomeData.foundUser.Address.city + "," + this.props.findUserWithHomeData.foundUser.Address.district + "," + this.props.findUserWithHomeData.foundUser.Address.state}
+                                                {this.props.findUserWithHomeData.foundUser.Address.city + ", " + this.props.findUserWithHomeData.foundUser.Address.district + ", " + this.props.findUserWithHomeData.foundUser.Address.state}
                                             </Descriptions.Item>
                                         </Descriptions>
                                     
